@@ -1,0 +1,35 @@
+server:
+  port: 8081
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  jpa:
+    open-in-view: false
+  auto:
+    openurl: true
+
+  datasource: #设置数据源
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/yingping?characterEncoding=UTF-8&useSSL=false
+    hikari:
+      minimum-idle: 5
+      idle-timeout: 600000
+      maximum-pool-size: 10
+      auto-commit: true
+      pool-name: MyHikariCP
+      max-lifetime: 600000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+
+  devtools:
+    restart:
+      enabled: true
+      additional-exclude: resources
+      additional-paths: src/main/java
+
+mybatis:
+  type-aliases-package: com.chen.pojo
+  mapper-locations: classpath:mapper/*.xml

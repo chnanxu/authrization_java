@@ -1,9 +1,9 @@
 package com.chen.pojo;
 
 
-import org.springframework.stereotype.Component;
+import lombok.Data;
 
-@Component
+@Data
 public class Movies {
     private int cid;
     private String name;

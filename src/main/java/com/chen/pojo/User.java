@@ -1,36 +1,33 @@
 package com.chen.pojo;
 
 
+
 import lombok.Data;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 
-@Entity(name="users")
 @Data
 public class User implements UserDetails {
 
-    @Id
-    private String id;
+    private Long id;
     private String username;
     private String password;
     private boolean enabled;
+    @Transient
+    private List<GrantedAuthority> authorities;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -46,10 +43,7 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
+
 
     @Override
     public String getUsername(){

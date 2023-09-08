@@ -1,13 +1,22 @@
 package com.chen.service;
 
 
+import com.chen.mapper.PermMapper;
 import com.chen.mapper.UserMapper;
+import com.chen.pojo.Authorities;
 import com.chen.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -15,6 +24,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private PermMapper permMapper;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -37,6 +49,15 @@ public class UserServiceImpl implements UserService {
         if(user==null){
             throw new UsernameNotFoundException("用户未找到");
         }
+
+        //根据用户名查找权限
+        List<Authorities> permissions=permMapper.getAuthority(username);
+
+        //权限列表
+        List<String> permList=permissions.stream().map(Authorities::getAuthority).collect(Collectors.toList());
+
+        //为用户赋予权限标识
+        user.setAuthorities(AuthorityUtils.createAuthorityList(permList));
 
         return user;
     }

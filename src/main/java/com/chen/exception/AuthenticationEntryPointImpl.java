@@ -6,19 +6,21 @@ import com.chen.utils.result.ResponseResult;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class LoginSuccessHandler implements AuthenticationSuccessHandler {
+@Component
+public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         response.setContentType("application/json,charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
-        ResponseResult result=new ResponseResult(CommonCode.SUCCESS,authentication);
+        System.out.println(authException);
+        ResponseResult result=new ResponseResult(CommonCode.FAIL,authException);
         PrintWriter writer=response.getWriter();
         writer.write(JSONUtil.toJsonStr(result));
     }

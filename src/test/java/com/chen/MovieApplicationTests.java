@@ -6,15 +6,19 @@ import com.chen.service.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @SpringBootTest
 class MovieApplicationTests {
 
     @Autowired
+    UserServiceImpl userService;
+    @Autowired
     PermService permService;
     @Test
     public void test(){
-        System.out.println(permService.getAuthority("cx12345"));
+        UserDetails user=userService.loadUserByUsername("cx12345");
+
     }
 }

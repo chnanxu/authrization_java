@@ -27,11 +27,5 @@ public class MoviesController {
         return new ResponseResult(CommonCode.SUCCESS,movies);
     }
 
-    @RequestMapping("/test")
-    @ResponseBody
-    public String test(){
-        return "aaaa";
-    }
-
 
 }

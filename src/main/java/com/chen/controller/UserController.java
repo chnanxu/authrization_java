@@ -24,4 +24,9 @@ public class UserController {
             return new ResponseResult(CommonCode.SUCCESS,"注册成功");
         }
     }
+
+    @RequestMapping("/user/home")
+    public ResponseResult<String> userTest(){
+        return new ResponseResult(CommonCode.SUCCESS,"测试");
+    }
 }

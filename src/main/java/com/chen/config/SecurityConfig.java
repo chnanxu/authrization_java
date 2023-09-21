@@ -3,6 +3,7 @@ package com.chen.config;
 
 import com.chen.exception.LoginFailureHandler;
 import com.chen.exception.LoginSuccessHandler;
+import com.chen.filter.JwtAuthenticationTokenFilter;
 import com.chen.filter.LoginFilter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -73,11 +74,14 @@ public class SecurityConfig{
 
         //配置自定义登录过滤器
         //将UsernamePasswordAuthenticationFilter替换掉
-        http.addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(loginFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        //配置异常处理器
 
-        http.exceptionHandling(e->e.accessDeniedHandler(accessDeniedHandler).authenticationEntryPoint(authenticationEntryPoint));
+        //登录之前获取token并且校验
+        http.addFilterBefore(new JwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
+
+
 
         //loginPage:登录页面
         //loginProcessingUrl:登录接口过滤器

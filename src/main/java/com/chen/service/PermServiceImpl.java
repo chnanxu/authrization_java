@@ -1,7 +1,7 @@
 package com.chen.service;
 
 import com.chen.mapper.PermMapper;
-import com.chen.pojo.Authorities;
+import com.chen.pojo.Permissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ public class PermServiceImpl implements PermService{
     @Autowired
     PermMapper permMapper;
     @Override
-    public List<Authorities> getAuthority(String username) {
+    public List<Permissions> getAuthority(String username) {
         return permMapper.getAuthority(username);
     }
 }

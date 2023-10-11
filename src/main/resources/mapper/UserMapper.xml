@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.chen.mapper.UserMapper">
     <select id="findByName" resultType="User">
         select * from users where username=#{username}
@@ -10,12 +11,22 @@
         select * from users where username=#{username} and password=#{password}
     </select>
 
+<!--    <resultMap id="UserMap" type="com.chen.pojo.User">-->
+<!--        <result property="uid" column="uid"/>-->
+<!--        <result property="username" column="username"/>-->
+<!--        <result property="password" column="password"/>-->
+<!--        <result property="enabled" column="enabled"/>-->
+<!--        <association property="authorities">-->
+<!--            <id property="username" column="username"/>-->
+<!--            <result property="authority" column="authority"/>-->
+<!--        </association>-->
+<!--    </resultMap>-->
     <select id="findAll" resultType="User">
-        select * from users
+        select uid,s.username,password,enabled,authority from users s left join authorities a on s.username=a.username
     </select>
 
     <select id="regist" parameterType="User" resultType="User">
-        insert into users values (#{id},#{username},#{password},1)
+        insert into users values (#{uid},#{username},#{password},1)
     </select>
 
 

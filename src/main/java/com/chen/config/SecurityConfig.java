@@ -1,49 +1,50 @@
 package com.chen.config;
 
 
-import com.chen.exception.LoginFailureHandler;
-import com.chen.exception.LoginSuccessHandler;
+import com.chen.exception.*;
 import com.chen.filter.JwtAuthenticationTokenFilter;
+
 import com.chen.filter.LoginFilter;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import com.chen.service.UserDetailServiceImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.access.AccessDeniedException;
+
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
+
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.AccessDeniedHandler;
+
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-
-
-import java.io.IOException;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 //开启SpringSecurity  默认会注册大量的过滤器 servlet filter
 //过滤器链【责任链模式】
 @Configuration
-@EnableWebSecurity //标识为spring security的配置类
+@EnableWebSecurity//标识为spring security的配置类
 public class SecurityConfig{
 
     @Autowired
-    private AccessDeniedHandler accessDeniedHandler;
+    private AccessDeniedHandlerImpl accessDeniedHandler;
     @Autowired
-    private AuthenticationEntryPoint authenticationEntryPoint;
+    private AuthenticationEntryPointImpl authenticationEntryPoint;
+    @Autowired
+    private LogoutSuccessHandlerImpl logoutSuccessHandler;
+    @Autowired
+    private UserDetailServiceImpl userDetailService;
 
     @Bean
-    @Order(1)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         //authorizeHttpRequests:针对http请求进行授权配置
@@ -53,42 +54,42 @@ public class SecurityConfig{
         //authenticated：认证
         http.authorizeHttpRequests(authorizeHttpRequests->
                 authorizeHttpRequests
-                        .requestMatchers(HttpMethod.GET, "/", "/*.html", "/*/*.html", "/*/*.css", "/*/*.js", "/profile/**").permitAll()
+                        .requestMatchers( "/","/index","/reg","/login","/logout", "/*.html", "/*/*.html", "/*/*.css", "/*/*.js", "/profile/**").permitAll()
+
+                        .requestMatchers("/user/**").hasAnyAuthority("system:user","system:admin","system:root")
+
+                        .requestMatchers("/admin/**").hasAnyAuthority("system:admin","system:root")
+
+                        .requestMatchers("/root/**").hasAnyAuthority("system:root")
 
                         .requestMatchers("/captcha/**").permitAll()
 
-                        .requestMatchers("/login","/","/index","/reg").permitAll()
+        );
 
-                        .requestMatchers("/user/**").hasAnyAuthority("user","admin","root")
-
-
-                        .requestMatchers("/admin/**").hasAnyAuthority("admin","root")
-
-
-                        .requestMatchers("/root/**").hasAuthority("root")
-
-
-
-        );//http后面可以一直.内容   太多反而不美观
-
+//
+//        http.formLogin((formlogin)->formlogin
+//                .permitAll()
+//                .successHandler(new LoginSuccessHandler())
+//                .failureHandler(new LoginFailureHandler())
+//        );
 
         //配置自定义登录过滤器
-        //将UsernamePasswordAuthenticationFilter替换掉
         http.addFilterBefore(loginFilter(), UsernamePasswordAuthenticationFilter.class);
 
-
         //登录之前获取token并且校验
-        http.addFilterBefore(new JwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        //添加异常处理器
+        http.exceptionHandling(e->e
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .accessDeniedHandler(accessDeniedHandler)
+        );
 
 
-
-
-        //loginPage:登录页面
-        //loginProcessingUrl:登录接口过滤器
 
 
         //退出功能
-        http.logout(logout->logout.invalidateHttpSession(true));
+        http.logout(logout->logout.invalidateHttpSession(true).logoutSuccessHandler(logoutSuccessHandler));
 
 
         ;
@@ -97,7 +98,7 @@ public class SecurityConfig{
         //http.csrf(Customizer.withDefaults());//跨域漏洞防御:关闭
         //http.csrf(e->e.disable());
         //http.csrf(csrf->csrf.disable());//相当于http.csrf(Customizer.withDefaults());
-        http.csrf(e->e.disable());
+        http.csrf().disable().httpBasic();
         http.cors(withDefaults());
 
 
@@ -105,20 +106,43 @@ public class SecurityConfig{
 
     }
 
-    @Autowired
-    AuthenticationConfiguration authenticationConfiguration;
+
+
 
     @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        // 提供自定义loadUserByUsername
+        authProvider.setUserDetailsService(userDetailService);
+        // 指定密码编辑器
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
+
+    @Autowired
+    private AuthenticationConfiguration authenticationConfiguration;
+
+    @Bean
+    public LoginSuccessHandler loginSuccessHandler(){
+        return new LoginSuccessHandler();
+    }
+
     public LoginFilter loginFilter() throws Exception{
         LoginFilter loginFilter=new LoginFilter();
         loginFilter.setAuthenticationSuccessHandler(new LoginSuccessHandler());
         loginFilter.setAuthenticationFailureHandler(new LoginFailureHandler());
+
         loginFilter.setAuthenticationManager(authenticationConfiguration.getAuthenticationManager());
+        loginFilter.setFilterProcessesUrl("/login");
+        loginFilter.setSecurityContextRepository(new HttpSessionSecurityContextRepository());
         return loginFilter;
     }
 
 
-
+    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter(){
+        JwtAuthenticationTokenFilter jwtFilter=new JwtAuthenticationTokenFilter();
+        return jwtFilter;
+    }
 
 
     /**
@@ -129,6 +153,8 @@ public class SecurityConfig{
     @Bean
     public PasswordEncoder passwordEncoder(){return new BCryptPasswordEncoder();
     }
+
+
 
 
 

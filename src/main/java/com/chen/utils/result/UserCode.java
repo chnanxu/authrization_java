@@ -1,9 +1,14 @@
 package com.chen.utils.result;
 
-public enum Code implements ResultCode{
+public enum UserCode implements ResultCode{
 
-    //密码错误
-    PASSWORDFILE(true,11,"密码错误");
+
+    REGISTSUCCESS(true,0,"注册成功"),
+    LOGINSUCCESS(true,0,"登录成功"),
+    USEREXIST(true,21,"账号已存在"),
+    NOLOGIN(true,22,"没有登录!"),
+    PASSWORDFILE(true,23,"用户名或密码错误");
+
 
     //
 
@@ -13,7 +18,7 @@ public enum Code implements ResultCode{
     int code;
     String message;
 
-    Code(boolean success,int code,String message){
+    UserCode(boolean success, int code, String message){
         this.success=success;
         this.code=code;
         this.message=message;

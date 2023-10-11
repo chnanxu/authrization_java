@@ -34,15 +34,32 @@ public class JwtAuthentication implements Authentication {
         return principal;
     }
 
+    public void setAuthorities(Collection<SimpleGrantedAuthority> authorities) {
+        this.authorities = authorities;
+    }
+
+    public void setDetails(Object details) {
+        this.details = details;
+    }
+
+    public void setPrincipal(Object principal) {
+        this.principal = principal;
+    }
+
+    public void setCredentials(Object credentials) {
+        this.credentials = credentials;
+    }
+
+    public void setAuthenticated(boolean authenticated){
+        this.authenticated=authenticated;
+    }
+
     @Override
     public boolean isAuthenticated() {
         return authenticated;
     }
 
-    @Override
-    public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-        this.credentials=credentials;
-    }
+
 
     @Override
     public String getName() {

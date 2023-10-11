@@ -3,6 +3,7 @@ package com.chen.exception;
 import cn.hutool.json.JSONUtil;
 import com.chen.utils.result.CommonCode;
 import com.chen.utils.result.ResponseResult;
+import com.chen.utils.result.UserCode;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,8 +20,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         response.setContentType("application/json,charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
-        System.out.println(authException);
-        ResponseResult result=new ResponseResult(CommonCode.FAIL,authException);
+        ResponseResult result=new ResponseResult(UserCode.NOLOGIN,authException);
         PrintWriter writer=response.getWriter();
         writer.write(JSONUtil.toJsonStr(result));
     }

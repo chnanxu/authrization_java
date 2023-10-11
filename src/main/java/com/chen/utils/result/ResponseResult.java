@@ -19,12 +19,12 @@ public class ResponseResult<T> implements Serializable {
 
     public ResponseResult() {}
 
-    public ResponseResult(CommonCode resultCode) {
+    public ResponseResult(ResultCode resultCode) {
         this.code = resultCode.code();
         this.message = resultCode.message();
     }
 
-    public ResponseResult(CommonCode resultCode, T data) {
+    public ResponseResult(ResultCode resultCode, T data) {
         this.code = resultCode.code();
         this.message = resultCode.message();
         this.data = data;
@@ -40,12 +40,12 @@ public class ResponseResult<T> implements Serializable {
         return result;
     }
 
-    public static ResponseResult failure(CommonCode resultCode) {
+    public static ResponseResult failure(ResultCode resultCode) {
         ResponseResult result = new ResponseResult(resultCode);
         return result;
     }
 
-    public static ResponseResult failure(CommonCode resultCode, Object data) {
+    public static ResponseResult failure(ResultCode resultCode, Object data) {
         ResponseResult result = new ResponseResult(resultCode,data);
         result.setData(data);
         return result;

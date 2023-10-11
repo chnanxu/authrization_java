@@ -2,6 +2,7 @@ package com.chen.filter;
 
 import cn.hutool.json.JSONUtil;
 import com.chen.pojo.User;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
@@ -16,8 +17,6 @@ import java.io.IOException;
 
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
-
-
     @SneakyThrows
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -27,9 +26,10 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         User user=obtainUser(request);
 
-        UsernamePasswordAuthenticationToken authRequest=UsernamePasswordAuthenticationToken.unauthenticated(user.getUsername(),user.getPassword());
+        UsernamePasswordAuthenticationToken authenticationToken=new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword());
 
-        return this.getAuthenticationManager().authenticate(authRequest);
+        return this.getAuthenticationManager().authenticate(authenticationToken);
+
     }
 
 

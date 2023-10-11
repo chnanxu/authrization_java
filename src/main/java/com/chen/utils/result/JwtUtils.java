@@ -1,16 +1,18 @@
 package com.chen.utils.result;
 
+
 import com.alibaba.fastjson.JSON;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+
 
 
 import java.util.Date;
+public class JwtUtils{
 
-public class JwtUtils {
     private static final String secret="111111";
 
     /**生成JWT token */
@@ -30,20 +32,13 @@ public class JwtUtils {
                 .withAudience(JSON.toJSONString(authentication))
                 .sign(Algorithm.HMAC256(secret));
     }
+
     /** 验证token合法性 */
     public static void tokenVerify(String token){
         JWTVerifier jwtVerifier=JWT.require(Algorithm.HMAC256(secret)).build();
         jwtVerifier.verify(token);
-
         JWT.decode(token).getExpiresAt();
-        String json=JWT.decode(token).getAudience().get(0);
-
-        System.out.println(json);
-
-        JwtAuthentication jwtAuthentication=JSON.parseObject(json, JwtAuthentication.class);
-        SecurityContextHolder.getContext().setAuthentication(jwtAuthentication);
     }
-
 
 
 

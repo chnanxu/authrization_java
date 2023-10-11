@@ -3,6 +3,7 @@ package com.chen.exception;
 import cn.hutool.json.JSONUtil;
 import com.chen.utils.result.CommonCode;
 import com.chen.utils.result.ResponseResult;
+import com.chen.utils.result.UserCode;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,7 +19,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         response.setContentType("application/json,charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
-        ResponseResult result=new ResponseResult(CommonCode.FAIL,exception);
+        ResponseResult result=new ResponseResult(UserCode.PASSWORDFILE,exception);
         PrintWriter writer=response.getWriter();
         writer.write(JSONUtil.toJsonStr(result));
     }

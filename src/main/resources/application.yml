@@ -29,6 +29,10 @@ spring:
       enabled: true
       additional-exclude: resources
       additional-paths: src/main/java
+  data:
+    redis:
+      port: 6379
+      host: 127.0.0.1
 
 mybatis:
   type-aliases-package: com.chen.pojo

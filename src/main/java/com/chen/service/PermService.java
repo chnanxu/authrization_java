@@ -1,7 +1,7 @@
 package com.chen.service;
 
 
-import com.chen.pojo.Authorities;
+import com.chen.pojo.Permissions;
 import org.springframework.stereotype.Service;
 
 
@@ -9,5 +9,5 @@ import java.util.List;
 
 @Service
 public interface PermService {
-    List<Authorities> getAuthority(String username);
+    List<Permissions> getAuthority(String username);
 }

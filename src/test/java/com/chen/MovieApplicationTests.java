@@ -2,23 +2,23 @@ package com.chen;
 
 import com.chen.pojo.User;
 import com.chen.service.PermService;
+import com.chen.service.UserService;
 import com.chen.service.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootTest
 class MovieApplicationTests {
 
     @Autowired
-    UserServiceImpl userService;
-    @Autowired
-    PermService permService;
+    UserService userService;
+
     @Test
     public void test(){
-        UserDetails user=userService.loadUserByUsername("cx12345");
-
+        System.out.println(userService.findAll());
     }
 }

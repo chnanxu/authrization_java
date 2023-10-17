@@ -7,22 +7,26 @@
         select * from users where username=#{username}
     </select>
 
+    <select id="findUserInfo" resultType="UserInfo">
+        select * from user_info where uid=#{uid}
+    </select>
+
     <select id="findByUnameAndPwd" parameterType="java.lang.String" resultType="User">
         select * from users where username=#{username} and password=#{password}
     </select>
 
-<!--    <resultMap id="UserMap" type="com.chen.pojo.User">-->
-<!--        <result property="uid" column="uid"/>-->
-<!--        <result property="username" column="username"/>-->
-<!--        <result property="password" column="password"/>-->
-<!--        <result property="enabled" column="enabled"/>-->
-<!--        <association property="authorities">-->
-<!--            <id property="username" column="username"/>-->
-<!--            <result property="authority" column="authority"/>-->
-<!--        </association>-->
-<!--    </resultMap>-->
-    <select id="findAll" resultType="User">
-        select uid,s.username,password,enabled,authority from users s left join authorities a on s.username=a.username
+
+    <select id="findAll" resultType="QueryUserResult">
+        SELECT
+            s.uid,
+            s.username,
+            s.password,
+            enabled,
+            r.role
+        FROM
+            users s
+                LEFT JOIN user_role ur ON s.uid = ur.user_uid
+                LEFT JOIN role r ON ur.role_id=r.role_id
     </select>
 
     <select id="regist" parameterType="User" resultType="User">

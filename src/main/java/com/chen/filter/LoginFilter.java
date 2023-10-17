@@ -28,7 +28,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         UsernamePasswordAuthenticationToken authenticationToken=new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword());
 
-        return this.getAuthenticationManager().authenticate(authenticationToken);
+        return this.getAuthenticationManager(). authenticate(authenticationToken);
 
     }
 

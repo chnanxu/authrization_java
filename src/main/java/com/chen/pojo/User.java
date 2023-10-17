@@ -31,6 +31,4 @@ public class User {
 
     private boolean enabled;
 
-    @Transient
-    private String authority;
 }

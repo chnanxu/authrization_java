@@ -9,5 +9,5 @@ import java.util.List;
 
 @Service
 public interface PermService {
-    List<Permissions> getAuthority(String username);
+    List<Permissions> getAuthority(String uid);
 }

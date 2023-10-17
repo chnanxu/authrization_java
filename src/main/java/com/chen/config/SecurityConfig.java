@@ -7,6 +7,7 @@ import com.chen.filter.JwtAuthenticationTokenFilter;
 import com.chen.filter.LoginFilter;
 import com.chen.service.UserDetailServiceImpl;
 
+import com.chen.utils.result.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,6 +38,7 @@ public class SecurityConfig{
 
     @Autowired
     private AccessDeniedHandlerImpl accessDeniedHandler;
+
     @Autowired
     private AuthenticationEntryPointImpl authenticationEntryPoint;
     @Autowired
@@ -54,7 +56,7 @@ public class SecurityConfig{
         //authenticated：认证
         http.authorizeHttpRequests(authorizeHttpRequests->
                 authorizeHttpRequests
-                        .requestMatchers( "/","/index","/reg","/login","/logout", "/*.html", "/*/*.html", "/*/*.css", "/*/*.js", "/profile/**").permitAll()
+                        .requestMatchers( "/","/index","/*","/reg","/login","/logout", "/*.html", "/*/*.html", "/*/*.css", "/*/*.js", "/profile/**").permitAll()
 
                         .requestMatchers("/user/**").hasAnyAuthority("system:user","system:admin","system:root")
 
@@ -122,14 +124,10 @@ public class SecurityConfig{
     @Autowired
     private AuthenticationConfiguration authenticationConfiguration;
 
-    @Bean
-    public LoginSuccessHandler loginSuccessHandler(){
-        return new LoginSuccessHandler();
-    }
 
     public LoginFilter loginFilter() throws Exception{
         LoginFilter loginFilter=new LoginFilter();
-        loginFilter.setAuthenticationSuccessHandler(new LoginSuccessHandler());
+        loginFilter.setAuthenticationSuccessHandler(new LoginSuccessHandler(redisCache()));
         loginFilter.setAuthenticationFailureHandler(new LoginFailureHandler());
 
         loginFilter.setAuthenticationManager(authenticationConfiguration.getAuthenticationManager());
@@ -144,6 +142,13 @@ public class SecurityConfig{
         return jwtFilter;
     }
 
+
+
+
+    @Bean
+    public RedisCache redisCache(){
+        return new RedisCache();
+    }
 
     /**
      * 明文加密

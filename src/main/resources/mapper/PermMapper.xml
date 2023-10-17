@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chen.mapper.PermMapper">
     <select id="getAuthority" resultType="Permissions">
-        select * from authorities where role=(select role from user_role where uid=#{uid})
+        SELECT DISTINCT authority FROM authorities WHERE auth_id in ( SELECT auth_id FROM role_authorities WHERE role_id in ( SELECT role_id FROM user_role WHERE user_uid = #{uid} ))
     </select>
 
 </mapper>

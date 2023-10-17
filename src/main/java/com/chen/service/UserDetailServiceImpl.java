@@ -22,9 +22,6 @@ public class UserDetailServiceImpl implements UserDetailService{
     @Autowired
     private PermMapper permMapper;
 
-    @Autowired
-    private RedisCache  redisCache;
-
     //返回认证用户信息对象
 
     @Override
@@ -40,7 +37,7 @@ public class UserDetailServiceImpl implements UserDetailService{
         //权限列表
         List<String> permList=permissions.stream().map(Permissions::getAuthority).collect(Collectors.toList());
 
-        redisCache.setCacheObject("login:"+user.getUid(),new LoginUser(user,permList));
+
 
         //为用户赋予权限标识
         return new LoginUser(user,permList);

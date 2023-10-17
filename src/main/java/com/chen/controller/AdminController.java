@@ -23,6 +23,7 @@ public class AdminController {
     public ResponseResult getUser(){
 
         List<User> userData=userMapper.findAll();
+
         return new ResponseResult(CommonCode.SUCCESS,userData);
     }
 }

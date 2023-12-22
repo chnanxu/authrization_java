@@ -53,22 +53,22 @@ public class LoginUser implements UserDetails {
     }
 
 
-    //账户是否过期
+    //账户是否过期  true为可用  false为过期不可用
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
-    //账户是否锁定
+    //账户是否锁定  true为可用  false为锁定不可用
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
-    //凭证是否过期，认证后的密码
+    //凭证是否过期，认证后的密码   true为可用  false为凭证过期不可用
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
-    //用户是否可用
+    //用户是否可用  true为可用  false为不可用
     @Override
     public boolean isEnabled() {
         return true;

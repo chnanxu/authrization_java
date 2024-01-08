@@ -3,8 +3,10 @@ package com.chen.pojo;
 
 import lombok.Data;
 
+
+
 @Data
-public class Movies {
+public class Index {
     private int cid;
     private String name;
     private String typeId;

@@ -5,6 +5,7 @@ import com.chen.mapper.UserMapper;
 import com.chen.pojo.User;
 
 import com.chen.pojo.user.UserInfo;
+import com.chen.pojo.user.UserItem;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,6 +29,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByName(String username){
         return userMapper.findByName(username);
+    }
+
+    @Override
+    public List<String> findUserItem() {
+        return userMapper.findUserItem();
     }
 
     public UserInfo findUserInfo(String uid){

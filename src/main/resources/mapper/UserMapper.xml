@@ -3,6 +3,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.chen.mapper.UserMapper">
+
+    <select id="findUserItem" resultType="UserItem">
+        select * from user_item
+    </select>
+
     <select id="findByName" resultType="User">
         select * from users where username=#{username}
     </select>
@@ -15,6 +20,9 @@
         select * from users where username=#{username} and password=#{password}
     </select>
 
+    <update id="updateUserImg" parameterType="java.lang.String" >
+        update user_info set user_img=#{user_img} where uid=#{uid}
+    </update>
 
     <select id="findAll" resultType="QueryUserResult">
         SELECT

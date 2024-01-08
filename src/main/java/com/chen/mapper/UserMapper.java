@@ -3,6 +3,7 @@ package com.chen.mapper;
 
 import com.chen.pojo.User;
 import com.chen.pojo.user.UserInfo;
+import com.chen.pojo.user.UserItem;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +19,9 @@ public interface UserMapper {
 
     UserInfo findUserInfo(String uid);
 
-    User findByUnameAndPwd(String username,String password);
+    List<String> findUserItem();
+
+    String updateUserImg(String uid,String user_img);
+
     List<User> findAll();
 }

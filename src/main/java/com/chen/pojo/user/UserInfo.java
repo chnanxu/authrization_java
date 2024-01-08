@@ -16,5 +16,5 @@ public class UserInfo {
     private char sex;
     private String email;
     private Date sign_time;
-    private Blob user_img;
+    private String user_img;
 }

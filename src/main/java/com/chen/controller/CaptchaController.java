@@ -24,7 +24,7 @@ public class CaptchaController {
     private Producer producer;
 
     @SneakyThrows
-    @GetMapping("/captcha.jpg")
+    @GetMapping("/captcha")
     public void getCaptcha(HttpServletRequest request, HttpServletResponse response){
         response.setContentType("image/jpeg");
         String capText=producer.createText();

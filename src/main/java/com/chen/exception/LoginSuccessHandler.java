@@ -38,6 +38,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         response.addHeader("token",token);
         Map<String,Object> tokenInfo=new HashMap<>();
         tokenInfo.put("token",token);
+        tokenInfo.put("uid",user.getUid());
         ResponseResult result=new ResponseResult(UserCode.LOGINSUCCESS,tokenInfo);
         response.getWriter().write(JSON.toJSONString(result));
     }

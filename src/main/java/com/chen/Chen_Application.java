@@ -9,10 +9,10 @@ import org.springframework.cache.annotation.EnableCaching;
 @SpringBootApplication
 @MapperScan("com.chen.mapper")
 @EnableCaching
-public class MovieApplication {
+public class Chen_Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(MovieApplication.class, args);
+        SpringApplication.run(Chen_Application.class, args);
     }
 
 

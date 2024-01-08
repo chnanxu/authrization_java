@@ -2,6 +2,7 @@ package com.chen.service;
 
 
 import com.chen.pojo.User;
+import com.chen.pojo.user.UserItem;
 import com.chen.utils.result.ResponseResult;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,7 +17,7 @@ public interface UserService {
 
     User findByName(String username);
 
-
+    List<String> findUserItem();
 
     List<User> findAll();
 

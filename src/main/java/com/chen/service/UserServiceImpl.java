@@ -5,18 +5,13 @@ import com.chen.mapper.UserMapper;
 import com.chen.pojo.User;
 
 import com.chen.pojo.user.UserInfo;
-import com.chen.pojo.user.UserItem;
-import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 
 @Service
@@ -67,6 +62,12 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userMapper.regist(user);
     }
+
+    @Override
+    public int regInfo(String uid, String name, int sex, String email, String user_img, Date signDate) {
+        return userMapper.regInfo(uid,name,sex, email,user_img,signDate);
+    }
+
 
     @Override
     public List<User> findAll() {

@@ -13,6 +13,7 @@ public class Group {
     private int gid;
     private String gname;
     private String type;
+    private String href;
     private int times;
 
 }

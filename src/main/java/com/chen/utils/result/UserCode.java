@@ -3,6 +3,7 @@ package com.chen.utils.result;
 public enum UserCode implements ResultCode{
 
 
+    REGCHECKFAILURE(true,0,"验证码错误"),
     REGISTSUCCESS(true,0,"注册成功"),
     LOGINSUCCESS(true,0,"登录成功"),
     USEREXIST(true,21,"账号已存在"),

@@ -13,7 +13,7 @@ import java.util.Date;
 public class UserInfo {
     private String uid;
     private String name;
-    private char sex;
+    private byte sex;
     private String email;
     private Date sign_time;
     private String user_img;

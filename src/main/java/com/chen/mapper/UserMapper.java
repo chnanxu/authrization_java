@@ -3,25 +3,32 @@ package com.chen.mapper;
 
 import com.chen.pojo.User;
 import com.chen.pojo.user.UserInfo;
-import com.chen.pojo.user.UserItem;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Mapper
 @Repository
 public interface UserMapper {
 
-    int regist(User user);
+    int regist(User user);  //注册用户
 
-    User findByName(String username);
+    int regInfo(String uid, String name, int sex, String email, String user_img, Date signDate);  //注册用户信息
+
+
+
+    User findByName(String username);  //
 
     UserInfo findUserInfo(String uid);
 
     List<String> findUserItem();
 
-    int updateUserImg(String uid,String user_img);
+    int updateUserImg(String uid,String user_img);  //更新头像
+
+    int updateUserInfo(UserInfo userInfo);
+
 
     List<User> findAll();
 }

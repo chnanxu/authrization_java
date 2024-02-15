@@ -5,14 +5,18 @@ import com.chen.service.UserDetailServiceImpl;
 import com.chen.service.UserService;
 
 import com.chen.utils.result.CommonCode;
+import com.chen.utils.result.RedisCache;
 import com.chen.utils.result.ResponseResult;
 import com.chen.utils.result.UserCode;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.Objects;
 
 @RestController
@@ -22,15 +26,26 @@ public class LoginController {
 
     @Autowired
     private UserDetailServiceImpl userDetailService;
-
+    @Autowired
+    private RedisCache redisCache;
     @PostMapping("/reg")
     @ResponseBody
     public ResponseResult regist(@RequestBody User user){
+        String sysCheck=redisCache.getCacheObject("captcha");
+        String regCheck=user.getUserCheck();
+
+
+        if(!Objects.equals(sysCheck,regCheck)){
+            return new ResponseResult(UserCode.REGCHECKFAILURE);  //验证码错误
+        }
+
+
         if(userService.findByName(user.getUsername())!=null){
-            return new ResponseResult(UserCode.USEREXIST);
+            return new ResponseResult(UserCode.USEREXIST);   //用户已存在
         }else{
             userService.regist(user);
-            return new ResponseResult(UserCode.REGISTSUCCESS);
+            userService.regInfo(user.getUid(),"",1,user.getEmail(),"",new Date());
+            return new ResponseResult(UserCode.REGISTSUCCESS);  //注册成功
         }
     }
 

@@ -74,7 +74,7 @@ public class UserController {
             f.mkdirs();
         }
 
-        String url="http://localhost:80/user_data/"+uid+"/"+newFileName;
+        String url="http://localhost:9999/user_data/"+uid+"/"+newFileName;
 
         userMapper.updateUserImg(uid,"images/user_data/"+uid+"/"+newFileName);
 
@@ -90,4 +90,13 @@ public class UserController {
 
     }
 
+
+    @PreAuthorize("hasAuthority('system:user')")
+    @RequestMapping("/updateUserInfo")  //更新用户个人信息
+    @ResponseBody
+    public ResponseResult updateUserInfo(@RequestBody UserInfo userInfo){
+
+        userMapper.updateUserInfo(userInfo);
+        return new ResponseResult(CommonCode.SUCCESS,userInfo);
+    }
 }

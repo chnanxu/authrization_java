@@ -1,5 +1,6 @@
 package com.chen.controller;
 
+import com.chen.utils.result.RedisCache;
 import com.google.code.kaptcha.Producer;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,6 +21,8 @@ public class CaptchaController {
     @Autowired
     private Producer producer;
 
+    @Autowired
+    private RedisCache redisCache;
     @SneakyThrows
     @RequestMapping ("/captcha")
     public void getCaptcha(HttpServletRequest request, HttpServletResponse response){
@@ -30,6 +33,8 @@ public class CaptchaController {
         request.getSession().setAttribute("captcha",capText);
         BufferedImage image=producer.createImage(capText);
         OutputStream out=response.getOutputStream();
+
+        redisCache.setCacheObject("captcha",capText);
 
         ImageIO.write(image,"jpg",out);
     }

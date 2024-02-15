@@ -24,6 +24,10 @@
         update user_info set user_img=#{user_img} where uid=#{uid}
     </update>
 
+    <update id="updateUserInfo" parameterType="UserInfo">
+        update user_info set name=#{name},sex=#{sex},email=#{email} where uid=#{uid}
+    </update>
+
     <select id="findAll" resultType="QueryUserResult">
         SELECT
             s.uid,
@@ -40,8 +44,8 @@
         insert into users values (#{uid},#{username},#{password},1);
     </insert>
 
-    <insert id="registInfo" parameterType="User">
-        insert into user_info values (#{uid},#{name},#{sex},#{email})
+    <insert id="regInfo" parameterType="User">
+        insert into user_info values (#{uid},#{name},#{sex},#{email},#{user_img})
     </insert>
 
 

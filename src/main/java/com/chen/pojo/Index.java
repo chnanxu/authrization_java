@@ -14,9 +14,7 @@ public class Index {
 
     private String text;
     private String img;
-    private float rate;
-    private String director;
-
+    private String href;
     @Override
     public String toString() {
         return "Movies{" +
@@ -26,8 +24,7 @@ public class Index {
                 ", typename='" + typename + '\'' +
                 ", text='" + text + '\'' +
                 ", img='" + img + '\'' +
-                ", rate=" + rate +
-                ", director='" + director + '\'' +
+
                 '}';
     }
 }

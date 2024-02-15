@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface PageMapper {
     List<String> getHeaderItem();
+
+    List<String> getGroup();
 }

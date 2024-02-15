@@ -28,18 +28,21 @@
         SELECT
             s.uid,
             s.username,
-            s.password,
             enabled,
             r.role
         FROM
             users s
-                LEFT JOIN user_role ur ON s.uid = ur.user_uid
+                LEFT JOIN user_role ur ON s.uid = ur.uid
                 LEFT JOIN role r ON ur.role_id=r.role_id
     </select>
 
-    <select id="regist" parameterType="User" resultType="User">
-        insert into users values (#{uid},#{username},#{password},1)
-    </select>
+    <insert id="regist" parameterType="User" >
+        insert into users values (#{uid},#{username},#{password},1);
+    </insert>
+
+    <insert id="registInfo" parameterType="User">
+        insert into user_info values (#{uid},#{name},#{sex},#{email})
+    </insert>
 
 
 </mapper>

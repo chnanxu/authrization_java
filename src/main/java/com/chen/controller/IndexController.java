@@ -4,6 +4,7 @@ import com.chen.pojo.Index;
 import com.chen.service.IndexServiceImpl;
 
 import com.chen.utils.result.CommonCode;
+import com.chen.utils.result.RedisCache;
 import com.chen.utils.result.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,15 +18,23 @@ import java.util.List;
 @RestController
 public class IndexController {
 
+    @Autowired
+    private RedisCache redisCache;
 
     @Autowired
     private IndexServiceImpl indexService;
+
+
     @RequestMapping({"/","/index"})
     @ResponseBody
     public ResponseResult<Index> load(){
-        List<Index> movies=indexService.getMovies();
 
-        return new ResponseResult(CommonCode.SUCCESS,movies);
+
+                List<Index> movies=indexService.getMovies(0,10);
+
+            return new ResponseResult(CommonCode.SUCCESS,movies);
+
+
     }
 
 

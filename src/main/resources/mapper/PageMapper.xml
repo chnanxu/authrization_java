@@ -5,4 +5,8 @@
     <select id="getHeaderItem" resultType="HeaderItem">
         select * from headeritem
     </select>
+
+    <select id="getGroup" resultType="Group">
+        select * from community;
+    </select>
 </mapper>

@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 @Repository
 public interface IndexMapper {
-    List<Index> findMovies();
+    List<Index> findMovies(int start,int end);
 
     List<Blob> getImg();
 }

@@ -5,7 +5,8 @@ import com.chen.mapper.UserMapper;
 import com.chen.pojo.Permissions;
 import com.chen.pojo.LoginUser;
 import com.chen.pojo.User;
-import com.chen.utils.result.RedisCache;
+import com.chen.pojo.user.UserInfo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,6 +28,7 @@ public class UserDetailServiceImpl implements UserDetailService{
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user=userMapper.findByName(username);
+        UserInfo userInfo=userMapper.findUserInfo(user.getUid());
         if(user==null){
             throw new UsernameNotFoundException("用户未找到");
         }
@@ -37,9 +39,7 @@ public class UserDetailServiceImpl implements UserDetailService{
         //权限列表
         List<String> permList=permissions.stream().map(Permissions::getAuthority).collect(Collectors.toList());
 
-
-
         //为用户赋予权限标识
-        return new LoginUser(user,permList);
+        return new LoginUser(user,userInfo,permList);
     }
 }

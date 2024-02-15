@@ -13,7 +13,9 @@ import java.util.List;
 
 @Service
 public interface UserService {
-    User regist(User user);
+    int regist(User user);
+
+//    User login(User user);
 
     User findByName(String username);
 

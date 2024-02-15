@@ -20,4 +20,7 @@ public class PageServiceImpl implements PageService{
     public List<String> getHeaderItem() {
         return pageMapper.getHeaderItem();
     }
+
+    @Override
+    public List<String> getGroup(){return pageMapper.getGroup();}
 }

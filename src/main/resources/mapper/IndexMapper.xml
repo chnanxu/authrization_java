@@ -14,11 +14,11 @@
 <!--    </resultMap>-->
     
 
-    <select id="findMovies" resultType= "Index">
-        select * from movies
+    <select id="findMovies" parameterType="int" resultType= "Index">
+        select * from item_card limit #{start},#{end}
     </select>
 
     <select id="getImg" resultType="Index">
-        select img from movies
+        select img from item_card
     </select>
 </mapper>

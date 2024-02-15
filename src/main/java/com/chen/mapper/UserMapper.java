@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface UserMapper {
 
-    User regist(User user);
+    int regist(User user);
 
     User findByName(String username);
 
@@ -21,7 +21,7 @@ public interface UserMapper {
 
     List<String> findUserItem();
 
-    String updateUserImg(String uid,String user_img);
+    int updateUserImg(String uid,String user_img);
 
     List<User> findAll();
 }

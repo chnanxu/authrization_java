@@ -26,4 +26,11 @@ public class PageController {
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
 
+    @GetMapping("/getGroup")
+    public ResponseResult getGroup(){
+
+        List<String> result=pageService.getGroup();
+        return new ResponseResult(CommonCode.SUCCESS,result);
+    }
+
 }

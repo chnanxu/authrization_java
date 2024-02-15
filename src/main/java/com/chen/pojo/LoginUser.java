@@ -2,6 +2,7 @@ package com.chen.pojo;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+import com.chen.pojo.user.UserInfo;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,12 +20,13 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class LoginUser implements UserDetails {
     private User user;
-
+    private UserInfo userInfo;
     private List<String> permissions;
 
 
-    public LoginUser(User user, List<String> permissions) {
+    public LoginUser(User user ,UserInfo userInfo, List<String> permissions) {
         this.user=user;
+        this.userInfo=userInfo;
         this.permissions=permissions;
     }
 

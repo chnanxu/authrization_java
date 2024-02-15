@@ -1,7 +1,6 @@
 package com.chen.utils.result;
 
 import jakarta.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundSetOperations;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -109,8 +108,8 @@ public class RedisCache {
      * @param key 缓存的键值
      * @return 缓存键值对应的数据
      */
-    public <T> List<T> getCacheList(final String key) {
-        return redisTemplate.opsForList().range(key, 0, -1);
+    public <T> List<T> getCacheList(final String key,final int start,final int end) {
+        return redisTemplate.opsForList().range(key, start, end);
     }
 
     /**

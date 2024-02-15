@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 
 public class UserItem {
-    private int index;
-    private String name;
+    private int item_id;
+    private String item_name;
     private String href;
 }

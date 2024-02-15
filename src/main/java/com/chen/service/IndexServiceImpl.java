@@ -12,9 +12,11 @@ import java.util.List;
 public class IndexServiceImpl implements IndexService {
     @Autowired
     IndexMapper indexMapper;
-    public List<Index> getMovies(){
-        return indexMapper.findMovies();
+    public List<Index> getMovies(int start,int end){
+        return indexMapper.findMovies(start,end);
     }
+
+
 
     public List<Blob> getImg(){
         return indexMapper.getImg();

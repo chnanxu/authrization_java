@@ -1,11 +1,9 @@
 package com.chen.controller;
 
-
-import com.auth0.jwt.JWT;
 import com.chen.mapper.UserMapper;
 import com.chen.pojo.User;
 import com.chen.pojo.user.UserInfo;
-import com.chen.pojo.user.UserItem;
+
 import com.chen.utils.result.CommonCode;
 import com.chen.utils.result.RedisCache;
 import com.chen.utils.result.ResponseResult;
@@ -13,7 +11,7 @@ import com.chen.utils.result.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 
-import org.springframework.security.core.Authentication;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,7 +21,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/user")   //用户接口
 public class UserController {
 
     @Autowired
@@ -37,7 +35,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('system:user')")
-    @RequestMapping("/home")
+    @RequestMapping("/home")   //个人信息主页接口
     public ResponseResult<String> userTest(@RequestHeader String token){
 
         User user=redisCache.getCacheObject("user:"+token);
@@ -46,7 +44,7 @@ public class UserController {
     }
 
 
-    @RequestMapping("/item")
+    @RequestMapping("/item")  //用户主页列表项接口
     public ResponseResult<String> userItem(){
         List<String> userItem=userMapper.findUserItem();
 
@@ -55,9 +53,9 @@ public class UserController {
 
 
     @PreAuthorize("hasAuthority('system:user')")
-    @RequestMapping("/upload/userImg")
+    @RequestMapping("/upload/userImg")  //更新头像接口
     @ResponseBody
-    public ResponseResult upload(MultipartFile file,@RequestHeader String token){
+    public ResponseResult upload(@RequestParam("file") MultipartFile file,@RequestHeader String token) throws Exception{
 
         String fileName=file.getOriginalFilename();
 
@@ -73,14 +71,12 @@ public class UserController {
         File f=new File(path);
 
         if(!f.exists()){
-
             f.mkdirs();
-
         }
 
         String url="http://localhost:80/user_data/"+uid+"/"+newFileName;
 
-        userMapper.updateUserImg(uid,"images/user_data/"+newFileName);
+        userMapper.updateUserImg(uid,"images/user_data/"+uid+"/"+newFileName);
 
         try {
             file.transferTo(new File(path+"\\"+newFileName));

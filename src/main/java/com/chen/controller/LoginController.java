@@ -4,11 +4,16 @@ import com.chen.pojo.User;
 import com.chen.service.UserDetailServiceImpl;
 import com.chen.service.UserService;
 
+import com.chen.utils.result.CommonCode;
 import com.chen.utils.result.ResponseResult;
 import com.chen.utils.result.UserCode;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 
 @RestController
 public class LoginController {
@@ -33,18 +38,11 @@ public class LoginController {
 
 //    @PostMapping("/login")
 //    @ResponseBody
-//    public ResponseResult login(User user){
-//        //AuthenticationManager authenticate() 进行用户认证
-//        UsernamePasswordAuthenticationToken authenticationToken=new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword());
-//        Authentication authenticate = authenticationManager.authenticate(authenticationToken);
-//
-//        //如果认证没通过 则返回提示
-//        if(Objects.isNull(authenticate)){
-//            throw new RuntimeException("登录失败");
-//        }
+//    public ResponseResult login(@RequestBody User user){
+//        userService.login(user);
 //
 //        //认证通过  通过userid生成jwt
 //        return new ResponseResult(CommonCode.SUCCESS,"登陆成功");
 //    }
-
+//
 }

@@ -7,7 +7,7 @@ public enum UserCode implements ResultCode{
     LOGINSUCCESS(true,0,"登录成功"),
     USEREXIST(true,21,"账号已存在"),
     NOLOGIN(true,22,"没有登录!"),
-    PASSWORDFILE(true,23,"用户名或密码错误"),
+    PASSWORDFAILURE(true,23,"账号信息错误"),
 
     NOPERMISSION(false,403,"没有权限");
     //

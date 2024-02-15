@@ -8,7 +8,8 @@ import java.util.List;
 
 @Service
 public interface IndexService {
-    List<Index> getMovies();
+    List<Index> getMovies(int start,int end);
+
 
     List<Blob> getImg();
 }

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class QueryUserResult {
     private String uid;
     private String username;
-    private String password;
+
     private boolean enabled;
     private String role;
 

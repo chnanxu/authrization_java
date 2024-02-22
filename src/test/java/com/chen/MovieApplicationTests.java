@@ -19,14 +19,5 @@ import java.util.List;
 @SpringBootTest
 class MovieApplicationTests {
 
-    @Autowired
-    IndexService indexService;
 
-
-    @Test
-    public void test(){
-        List<Blob> blob;
-        blob=indexService.getImg();
-        System.out.println(blob);
-    }
 }

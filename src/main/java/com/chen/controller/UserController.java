@@ -59,7 +59,6 @@ public class UserController {
 
         String fileName=file.getOriginalFilename();
 
-        String newFileName=System.currentTimeMillis()+fileName.substring(fileName.lastIndexOf("."));
 
         User user=redisCache.getCacheObject("user:"+token);
 
@@ -67,6 +66,7 @@ public class UserController {
 
         String path="D:\\Workspace\\img\\user_data\\"+uid;
 
+        String newFileName="user_headImg"+fileName.substring(fileName.lastIndexOf("."));
 
         File f=new File(path);
 

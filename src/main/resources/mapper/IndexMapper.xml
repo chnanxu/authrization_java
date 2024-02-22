@@ -14,11 +14,9 @@
 <!--    </resultMap>-->
     
 
-    <select id="findMovies" parameterType="int" resultType= "Index">
-        select * from item_card limit #{start},#{end}
+    <select id="findIndex" parameterType="int" resultType= "Item_Details">
+        select uid,pid,typename,title,img,href,readTimes,likeSize,commentsSize,favorites,dayTimes from item_details
     </select>
 
-    <select id="getImg" resultType="Index">
-        select img from item_card
-    </select>
+
 </mapper>

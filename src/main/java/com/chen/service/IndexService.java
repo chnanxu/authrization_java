@@ -1,6 +1,7 @@
 package com.chen.service;
 
-import com.chen.pojo.Index;
+
+import com.chen.pojo.page.Item_Details;
 import org.springframework.stereotype.Service;
 
 import java.sql.Blob;
@@ -8,8 +9,7 @@ import java.util.List;
 
 @Service
 public interface IndexService {
-    List<Index> getMovies(int start,int end);
+    List<Item_Details> getIndex();
 
 
-    List<Blob> getImg();
 }

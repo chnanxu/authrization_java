@@ -45,7 +45,7 @@
     </insert>
 
     <insert id="regInfo" parameterType="User">
-        insert into user_info values (#{uid},#{name},#{sex},#{email},#{user_img})
+        insert into user_info values (#{uid},#{name},#{sex},#{email},#{user_img},#{signDate})
     </insert>
 
 

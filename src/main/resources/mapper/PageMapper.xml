@@ -9,4 +9,8 @@
     <select id="getGroup" resultType="Group">
         select * from community;
     </select>
+
+    <select id="getPageDetails" resultType="Item_Details">
+        select * from item_details where pid=#{pid}
+    </select>
 </mapper>

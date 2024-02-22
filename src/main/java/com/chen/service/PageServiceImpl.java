@@ -2,6 +2,7 @@ package com.chen.service;
 
 
 import com.chen.mapper.PageMapper;
+import com.chen.pojo.page.Item_Details;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,4 +24,9 @@ public class PageServiceImpl implements PageService{
 
     @Override
     public List<String> getGroup(){return pageMapper.getGroup();}
+
+    @Override
+    public Item_Details getPageDetails(String pid) {
+        return pageMapper.getPageDetails(pid);
+    }
 }

@@ -1,6 +1,7 @@
 package com.chen.controller;
 
-import com.chen.pojo.Index;
+
+import com.chen.pojo.page.Item_Details;
 import com.chen.service.IndexServiceImpl;
 
 import com.chen.utils.result.CommonCode;
@@ -27,12 +28,11 @@ public class IndexController {
 
     @RequestMapping({"/","/index"})
     @ResponseBody
-    public ResponseResult<Index> load(){
+    public ResponseResult<Item_Details> load(){
 
+                List<Item_Details> result=indexService.getIndex();
 
-                List<Index> movies=indexService.getMovies(0,10);
-
-            return new ResponseResult(CommonCode.SUCCESS,movies);
+            return new ResponseResult(CommonCode.SUCCESS,result);
 
 
     }

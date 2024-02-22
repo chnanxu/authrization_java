@@ -1,6 +1,7 @@
 package com.chen.mapper;
 
-import com.chen.pojo.Index;
+
+import com.chen.pojo.page.Item_Details;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -10,7 +11,7 @@ import java.util.List;
 @Mapper
 @Repository
 public interface IndexMapper {
-    List<Index> findMovies(int start,int end);
+    List<Item_Details> findIndex();
 
-    List<Blob> getImg();
+
 }

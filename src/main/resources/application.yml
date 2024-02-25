@@ -1,7 +1,11 @@
+#开发环境配置
 server:
   port: 8081
 
 spring:
+  config:
+    activate:
+      on-profile: dev
   main:
     allow-bean-definition-overriding: true
   jpa:
@@ -37,3 +41,25 @@ spring:
 mybatis:
   type-aliases-package: com.chen.pojo
   mapper-locations: classpath:mapper/*.xml
+
+---  #生存环境配置
+server:
+  port: 8082
+
+spring:
+  config:
+    activate:
+      on-profile: product
+
+
+
+
+---  #测试环境配置
+server:
+  port: 8083
+
+
+spring:
+  config:
+    activate:
+      on-profile: test

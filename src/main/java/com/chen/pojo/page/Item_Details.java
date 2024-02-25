@@ -10,16 +10,16 @@ import lombok.NoArgsConstructor;
 public class Item_Details {
     private String uid;
     private String uname;
-    private int pid;
+    private long pid;
     private String typeId;
     private String typename;
     private String title;
     private String content;
     private String img;
     private String href;
-    private int readTimes;
-    private int likeSize;
-    private int commentsSize;
-    private int favorites;
-    private int dayTimes;
+    private long readTimes;
+    private long likeSize;
+    private long commentsSize;
+    private long favorites;
+    private long dayTimes;
 }

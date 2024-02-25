@@ -25,7 +25,9 @@
     </update>
 
     <update id="updateUserInfo" parameterType="UserInfo">
-        update user_info set name=#{name},sex=#{sex},email=#{email} where uid=#{uid}
+        update user_info set uname=#{uname},sex=#{sex},email=#{email} where uid=#{uid};
+        update item_comments set uname=#{uname} where uid=#{uid};
+        update item_details set uname=#{uname} where uid=#{uid}
     </update>
 
     <select id="findAll" resultType="QueryUserResult">
@@ -45,7 +47,11 @@
     </insert>
 
     <insert id="regInfo" parameterType="User">
-        insert into user_info values (#{uid},#{name},#{sex},#{email},#{user_img},#{signDate})
+        insert into user_info values (#{uid},#{uname},#{sex},#{email},#{user_img},#{signDate})
+    </insert>
+
+    <insert id="addUserComment" parameterType="UserLikeComment">
+        insert into user_likecomments values (#{uid},#{pid},#{comment_id})
     </insert>
 
 

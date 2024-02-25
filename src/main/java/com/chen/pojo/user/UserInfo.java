@@ -12,7 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class UserInfo {
     private String uid;
-    private String name;
+    private String uname;
     private byte sex;
     private String email;
     private Date sign_time;

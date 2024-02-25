@@ -10,7 +10,37 @@
         select * from community;
     </select>
 
+    <update id="addReadTimes">
+        update item_details set readTimes=readTimes+1 where pid=#{pid}
+    </update>
+
     <select id="getPageDetails" resultType="Item_Details">
         select * from item_details where pid=#{pid}
     </select>
+
+    <select id="getPageDetailsComments" resultType="Item_Comments">
+        select A.comment_id,A.content,A.createTime,A.likeTimes,A.uid,A.uname,A.isDelete,A.updateTime,count(B.comment_id)-3 as sonCommentCount
+        from item_comments A left join item_comments B
+        on A.comment_id=B.root_commentID
+        where A.root_commentID=0 and A.pid=#{pid}
+        group by A.comment_id,A.content,A.createTime,A.likeTimes,A.uid,A.uname,A.isDelete,A.updateTime
+    </select>
+
+
+    <select id="getSonComments" resultType="Item_Comments">
+        select comment_id,content,createTime,likeTimes,uid,uname,isDelete,updateTime
+        from item_comments
+        where root_commentID=#{comment_id}
+        order by updateTime desc
+        OFFSET 0 ROWS
+        FETCH NEXT 3 ROWS ONLY
+    </select>
+
+    <insert id="submitComment" >
+        insert into item_comments values(#{content},#{createTime},0,#{uid},#{uname},0,#{pid},#{root_commentID},#{to_commentID},#{updateTime})
+    </insert>
+
+    <update id="onLikeAdd">
+        update item_comments set likeTimes=likeTimes+1 where comment_id=#{comment_id}
+    </update>
 </mapper>

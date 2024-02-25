@@ -97,6 +97,7 @@ public class UserController {
     public ResponseResult updateUserInfo(@RequestBody UserInfo userInfo){
 
         userMapper.updateUserInfo(userInfo);
+
         return new ResponseResult(CommonCode.SUCCESS,userInfo);
     }
 }

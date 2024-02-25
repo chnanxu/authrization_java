@@ -27,8 +27,11 @@ public interface UserMapper {
 
     int updateUserImg(String uid,String user_img);  //更新头像
 
-    int updateUserInfo(UserInfo userInfo);
+    int updateUserInfo(UserInfo userInfo);   //更新用户信息
 
 
+    int addUserComment(String uid,long pid,long comment_id);
     List<User> findAll();
+
+
 }

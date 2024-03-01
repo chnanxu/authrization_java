@@ -1,6 +1,7 @@
 package com.chen.controller;
 
 
+import com.chen.pojo.page.All_Type;
 import com.chen.pojo.page.Item_Comments;
 import com.chen.pojo.page.Item_Details;
 import com.chen.pojo.user.UserLikeComment;
@@ -21,10 +22,26 @@ public class PageController {
     private PageService pageService;
 
 
-    @GetMapping("/getHeaderItem")
+
+    @GetMapping("/getHeaderItem")  //导航栏
     public ResponseResult getHeaderItem(){
 
         List<String> result=pageService.getHeaderItem();
+        return new ResponseResult(CommonCode.SUCCESS,result);
+    }
+
+    @GetMapping("/getTypeList")
+    public ResponseResult getTypeList(){
+
+        List<All_Type> result=pageService.getTypeList();
+        return new ResponseResult(CommonCode.SUCCESS,result);
+    }
+
+    @GetMapping("/getLeftNavbar") //左侧边栏
+    public ResponseResult getLeftNavbar(){
+
+        List<String> result=pageService.getLeftNavbar();
+
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
 
@@ -36,7 +53,7 @@ public class PageController {
     }
 
     @PostMapping("/getPageDetails")  //详细页面数据接口
-    public ResponseResult getPageDetails(@RequestBody String pid){
+    public ResponseResult getPageDetails(@RequestBody long pid){
 
 
         Item_Details result=pageService.getPageDetails(pid);
@@ -44,10 +61,26 @@ public class PageController {
     }
 
     @PostMapping("/getPageDetailsComments")  //评论数据接口
-    public ResponseResult getPageDetailsComments(@RequestBody String pid){
+    public ResponseResult getPageDetailsComments(@RequestBody long pid){
 
         List<Item_Comments> result=pageService.getPageDetailsComments(pid);
 
+        return new ResponseResult(CommonCode.SUCCESS,result);
+    }
+
+//    @PreAuthorize("hasAuthority('system:user')")
+//    @PostMapping("/getUserLikeComments")
+//    public ResponseResult getUserLikeComments(@RequestBody UserLikeComment userLikeComment){
+//        boolean isLike=pageService.getUserLikeComments(userLikeComment);
+//
+//        return new ResponseResult(CommonCode.SUCCESS,isLike);
+//
+//    }
+
+
+    @PostMapping("/getReCommentUname")
+    public ResponseResult getReCommentUname(@RequestBody long to_commentID){
+        String result= pageService.getReCommentUname(to_commentID);
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
 
@@ -60,6 +93,24 @@ public class PageController {
         return new ResponseResult(CommonCode.SUCCESS,"1");
     }
 
+    @PreAuthorize("hasAuthority('system:user')")
+    @PostMapping("/submitReComment")  //回复评论
+    public ResponseResult submitReComment(@RequestBody Item_Comments commentData){
+
+        pageService.submitReComment(commentData);
+
+        return new ResponseResult(CommonCode.SUCCESS,"");
+    }
+
+    @PreAuthorize("hasAuthority('system:user')")
+    @PostMapping("/deleteComment")
+    public ResponseResult deleteComment(@RequestBody long comment_id){
+
+        pageService.deleteComment(comment_id);
+
+        return new ResponseResult(CommonCode.SUCCESS,"删除评论");
+    }
+
 
     @PreAuthorize("hasAuthority('system:user')")
     @PostMapping("/onLikeAdd")   //点赞
@@ -69,5 +120,7 @@ public class PageController {
 
         return new ResponseResult(CommonCode.SUCCESS);
     }
+
+
 
 }

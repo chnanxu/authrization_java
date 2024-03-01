@@ -34,12 +34,17 @@
         SELECT
             s.uid,
             s.username,
+            ui.uname,
+            ui.sex,
+            ui.email,
+            ui.signDate,
             enabled,
             r.role
         FROM
             users s
                 LEFT JOIN user_role ur ON s.uid = ur.uid
                 LEFT JOIN role r ON ur.role_id=r.role_id
+                LEFT JOIN user_info ui ON s.uid=ui.uid
     </select>
 
     <insert id="regist" parameterType="User" >
@@ -50,9 +55,13 @@
         insert into user_info values (#{uid},#{uname},#{sex},#{email},#{user_img},#{signDate})
     </insert>
 
-    <insert id="addUserComment" parameterType="UserLikeComment">
+    <insert id="addUserLikeComment" parameterType="UserLikeComment">
         insert into user_likecomments values (#{uid},#{pid},#{comment_id})
     </insert>
+
+    <delete id="deleteUserLikeComment" parameterType="UserLikeComment">
+        delete from user_likecomments where uid=#{uid} and pid=#{pid} and comment_id=#{comment_id}
+    </delete>
 
 
 </mapper>

@@ -50,9 +50,40 @@ spring:
   config:
     activate:
       on-profile: product
+  main:
+    allow-bean-definition-overriding: true
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.MySQLDialect
+  auto:
+    openurl: true
+  datasource: #设置数据源
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    username: sa
+    password: woaini1398
+    url: jdbc:sqlserver://localhost:1433;databaseName=reactProject
+
+  devtools:
+    restart:
+      enabled: true
+      additional-exclude: resources
+      additional-paths: src/main/java
+  data:
+    redis:
+      port: 6379
+      host: 127.0.0.1
+      connect-timeout: 3000ms
+      lettuce:
+        pool:
+          max-active: 20 #最大连接数，负值表示没有限制，默认为8
+          max-wait: -1   #最大阻塞等待时间，负值表示没有限制，默认-1
+          max-idle: 8    #最大空闲连接数，默认8
+          min-idle: 0    #最小空闲连接数，默认0
 
 
-
+mybatis:
+  type-aliases-package: com.chen.pojo
+  mapper-locations: classpath:mapper/*.xml
 
 ---  #测试环境配置
 server:
@@ -63,3 +94,37 @@ spring:
   config:
     activate:
       on-profile: test
+  main:
+    allow-bean-definition-overriding: true
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.MySQLDialect
+  auto:
+    openurl: true
+  datasource: #设置数据源
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    username: sa
+    password: woaini1398
+    url: jdbc:sqlserver://localhost:1433;databaseName=reactProject
+
+  devtools:
+    restart:
+      enabled: true
+      additional-exclude: resources
+      additional-paths: src/main/java
+  data:
+    redis:
+      port: 6379
+      host: 127.0.0.1
+      connect-timeout: 3000ms
+      lettuce:
+        pool:
+          max-active: 20 #最大连接数，负值表示没有限制，默认为8
+          max-wait: -1   #最大阻塞等待时间，负值表示没有限制，默认-1
+          max-idle: 8    #最大空闲连接数，默认8
+          min-idle: 0    #最小空闲连接数，默认0
+
+
+mybatis:
+  type-aliases-package: com.chen.pojo
+  mapper-locations: classpath:mapper/*.xml

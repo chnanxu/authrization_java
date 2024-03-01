@@ -15,7 +15,7 @@
     
 
     <select id="findIndex" parameterType="int" resultType= "Item_Details">
-        select uid,pid,typename,title,img,href,readTimes,likeSize,commentsSize,favorites,dayTimes from item_details
+        select uid,pid,typename,title,content,img,href,readTimes,likeSize,commentsSize,favorites,dayTimes from item_details
     </select>
 
 

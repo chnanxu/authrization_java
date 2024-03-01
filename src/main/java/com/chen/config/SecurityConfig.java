@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 
@@ -20,6 +21,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -53,8 +55,10 @@ public class SecurityConfig{
         //permitAll：具有所有权限 也就是可以匿名访问
         //anyRequest：任何请求 所有请求
         //authenticated：认证
-        http.authorizeHttpRequests(authorizeHttpRequests->
-                authorizeHttpRequests
+        http.authorizeHttpRequests(authorizeRequests->
+                authorizeRequests
+
+                        .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                         .requestMatchers( "/","/index","/*","/reg","/login","/logout", "/*.html", "/*/*.html", "/*/*.css", "/*/*.js", "/profile/**").permitAll()
 
                         .requestMatchers("/user/**").hasAnyAuthority("system:user","system:admin","system:root")
@@ -74,18 +78,21 @@ public class SecurityConfig{
 //                .failureHandler(new LoginFailureHandler())
 //        );
 
+        http.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
         //配置自定义登录过滤器
         http.addFilterBefore(loginFilter(), UsernamePasswordAuthenticationFilter.class);
 
         //登录之前获取token并且校验
         http.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
+        http.authenticationProvider(authenticationProvider());
+
         //添加异常处理器
         http.exceptionHandling(e->e
                 .authenticationEntryPoint(authenticationEntryPoint)
                 .accessDeniedHandler(accessDeniedHandler)
         );
-
 
 
 
@@ -99,8 +106,8 @@ public class SecurityConfig{
         //http.csrf(Customizer.withDefaults());//跨域漏洞防御:关闭
         //http.csrf(e->e.disable());
         //http.csrf(csrf->csrf.disable());//相当于http.csrf(Customizer.withDefaults());
-        http.csrf().disable().httpBasic();
-        http.cors(withDefaults());
+        http.csrf().disable();
+        http.httpBasic().disable();
 
 
         return http.build();
@@ -110,7 +117,7 @@ public class SecurityConfig{
 
 
 
-    @Bean
+
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         // 提供自定义loadUserByUsername

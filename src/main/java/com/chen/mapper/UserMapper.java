@@ -30,7 +30,10 @@ public interface UserMapper {
     int updateUserInfo(UserInfo userInfo);   //更新用户信息
 
 
-    int addUserComment(String uid,long pid,long comment_id);
+    int addUserLikeComment(String uid,long pid,long comment_id);  //点赞
+
+    int deleteUserLikeComment(String uid,long pid,long comment_id);  //取消点赞
+
     List<User> findAll();
 
 

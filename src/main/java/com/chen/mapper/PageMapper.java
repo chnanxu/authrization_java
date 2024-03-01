@@ -1,8 +1,10 @@
 package com.chen.mapper;
 
 
+import com.chen.pojo.page.All_Type;
 import com.chen.pojo.page.Item_Comments;
 import com.chen.pojo.page.Item_Details;
+import com.chen.pojo.user.UserLikeComment;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -15,14 +17,27 @@ public interface PageMapper {
     List<String> getGroup();
 
 
-    void addReadTimes(String pid);
-    Item_Details getPageDetails(String pid);
+    void addReadTimes(long pid);
+    Item_Details getPageDetails(long pid);
 
-    List<Item_Comments> getPageDetailsComments(String pid);
+    List<Item_Comments> getPageDetailsComments(long pid);
 
     List<Item_Comments> getSonComments(long commentId);
+
+    UserLikeComment getUserLikeComments(String uid,long pid,long comment_id);
 
     void submitComment(Item_Comments commentData);
 
     void onLikeAdd(long comment_id);
+    void onLikeDelete(long comment_id);
+
+    List<String> getLeftNavbar();
+
+    String getReCommentUname(long to_commentID);
+
+    void deleteComment(long commentId);
+
+    List<All_Type> getTypeList();
+
+    void updateItemCommentSize(long pid);
 }

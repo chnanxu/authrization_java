@@ -6,6 +6,14 @@
         select * from headeritem
     </select>
 
+    <select id="getTypeList" resultType="All_Type">
+        select * from all_type
+    </select>
+
+    <select id="getLeftNavbar" resultType="Left_NavbarItem">
+        select * from left_navbar_item
+    </select>
+
     <select id="getGroup" resultType="Group">
         select * from community;
     </select>
@@ -22,13 +30,13 @@
         select A.comment_id,A.content,A.createTime,A.likeTimes,A.uid,A.uname,A.isDelete,A.updateTime,count(B.comment_id)-3 as sonCommentCount
         from item_comments A left join item_comments B
         on A.comment_id=B.root_commentID
-        where A.root_commentID=0 and A.pid=#{pid}
+        where A.root_commentID=0 and A.pid=#{pid} and A.isDelete=0
         group by A.comment_id,A.content,A.createTime,A.likeTimes,A.uid,A.uname,A.isDelete,A.updateTime
     </select>
 
 
     <select id="getSonComments" resultType="Item_Comments">
-        select comment_id,content,createTime,likeTimes,uid,uname,isDelete,updateTime
+        select comment_id,content,createTime,likeTimes,uid,uname,isDelete,root_commentID,to_commentID,updateTime
         from item_comments
         where root_commentID=#{comment_id}
         order by updateTime desc
@@ -36,11 +44,31 @@
         FETCH NEXT 3 ROWS ONLY
     </select>
 
+    <select id="getReCommentUname" resultType="java.lang.String">
+        select uname from item_comments where comment_id=#{to_commentID}
+    </select>
+
+    <update id="deleteComment">
+        update item_comments set isDelete=1 where comment_id=#{comment_id}
+    </update>
+
+    <select id="getUserLikeComments" resultType="UserLikeComment">
+        select * from user_likecomments where uid=#{uid} and pid=#{pid} and comment_id=#{comment_id}
+    </select>
+
     <insert id="submitComment" >
         insert into item_comments values(#{content},#{createTime},0,#{uid},#{uname},0,#{pid},#{root_commentID},#{to_commentID},#{updateTime})
     </insert>
 
+    <update id="updateItemCommentSize">
+        update item_details set commentsSize=(select count(*) from item_comments where pid=#{pid} and isDelete=0) where pid=#{pid}
+    </update>
+
     <update id="onLikeAdd">
         update item_comments set likeTimes=likeTimes+1 where comment_id=#{comment_id}
+    </update>
+
+    <update id="onLikeDelete">
+        update item_comments set likeTimes=likeTimes-1 where comment_id=#{comment_id}
     </update>
 </mapper>

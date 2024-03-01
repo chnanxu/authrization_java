@@ -11,7 +11,10 @@ import lombok.NoArgsConstructor;
 public class QueryUserResult {
     private String uid;
     private String username;
-
+    private String uname;
+    private boolean sex;
+    private String email;
+    private String signDate;
     private boolean enabled;
     private String role;
 

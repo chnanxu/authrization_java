@@ -32,5 +32,7 @@ public class Item_Comments {
     @Transient
     private List<Item_Comments> sonList;
 
+    @Transient
+    private boolean isUserLike;
 
 }

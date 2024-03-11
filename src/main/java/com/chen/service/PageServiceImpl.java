@@ -8,7 +8,7 @@ import com.chen.pojo.page.Item_Comments;
 import com.chen.pojo.page.Item_Details;
 import com.chen.pojo.user.UserInfo;
 import com.chen.pojo.user.UserLikeComment;
-import com.chen.utils.result.RedisCache;
+import com.chen.utils.util.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

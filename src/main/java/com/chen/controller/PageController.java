@@ -1,9 +1,11 @@
 package com.chen.controller;
 
 
+import com.chen.mapper.PageMapper;
 import com.chen.pojo.page.All_Type;
 import com.chen.pojo.page.Item_Comments;
 import com.chen.pojo.page.Item_Details;
+import com.chen.pojo.page.Item_Details_Temp;
 import com.chen.pojo.user.UserLikeComment;
 import com.chen.service.PageService;
 import com.chen.utils.result.CommonCode;
@@ -17,6 +19,9 @@ import java.util.List;
 @PreAuthorize("permitAll()")
 @RestController
 public class PageController {
+
+    @Autowired
+    private PageMapper pageMapper;
 
     @Autowired
     private PageService pageService;
@@ -52,16 +57,17 @@ public class PageController {
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
 
-    @PostMapping("/getPageDetails")  //详细页面数据接口
-    public ResponseResult getPageDetails(@RequestBody long pid){
+    @RequestMapping("/getPageDetails/{typeid}/{pid}")  //详细页面数据接口
+    public ResponseResult getPageDetails(@PathVariable int typeid,@PathVariable long pid){
 
+        String tableName="item_details_"+typeid;
 
         Item_Details result=pageService.getPageDetails(pid);
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
 
-    @PostMapping("/getPageDetailsComments")  //评论数据接口
-    public ResponseResult getPageDetailsComments(@RequestBody long pid){
+    @PostMapping("/getPageDetailsComments/{typeid}/{pid}")  //评论数据接口
+    public ResponseResult getPageDetailsComments(@PathVariable int typeid,@PathVariable long pid){
 
         List<Item_Comments> result=pageService.getPageDetailsComments(pid);
 
@@ -77,9 +83,18 @@ public class PageController {
 //
 //    }
 
+    @PostMapping("/getAllSonComment")
+    public ResponseResult getAllSonComment(@RequestBody long comment_id){
 
-    @PostMapping("/getReCommentUname")
-    public ResponseResult getReCommentUname(@RequestBody long to_commentID){
+
+        List<Item_Comments> result=pageMapper.getAllSonComment(comment_id);
+        return new ResponseResult(CommonCode.SUCCESS,result);
+    }
+
+
+    @PostMapping("/getReCommentUname/{typeid}/{to_commentID}")  //获取回复用户昵称
+    public ResponseResult getReCommentUname(@PathVariable int typeid,@PathVariable long to_commentID){
+
         String result= pageService.getReCommentUname(to_commentID);
         return new ResponseResult(CommonCode.SUCCESS,result);
     }

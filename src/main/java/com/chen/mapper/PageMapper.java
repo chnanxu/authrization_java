@@ -22,7 +22,7 @@ public interface PageMapper {
 
     List<Item_Comments> getPageDetailsComments(long pid);
 
-    List<Item_Comments> getSonComments(long commentId);
+    List<Item_Comments> getSonComments(long comment_id);
 
     UserLikeComment getUserLikeComments(String uid,long pid,long comment_id);
 
@@ -40,4 +40,6 @@ public interface PageMapper {
     List<All_Type> getTypeList();
 
     void updateItemCommentSize(long pid);
+
+    List<Item_Comments> getAllSonComment(long commentId);
 }

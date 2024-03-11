@@ -11,12 +11,10 @@ import java.util.List;
 public interface UserService {
     int regist(User user);
 
-    int regInfo(String uid, String name, int sex, String email, String user_img, Date signDate);
+    int regInfo(String uid, String uname, int sex, String email, String user_img, Date signDate);
 //    User login(User user);
 
     User findByName(String username);
-
-    List<String> findUserItem();
 
     List<User> findAll();
 

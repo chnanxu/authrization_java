@@ -7,16 +7,16 @@ import com.chen.filter.JwtAuthenticationTokenFilter;
 import com.chen.filter.LoginFilter;
 import com.chen.service.UserDetailServiceImpl;
 
-import com.chen.utils.result.RedisCache;
+import com.chen.utils.util.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
@@ -29,12 +29,11 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 //开启SpringSecurity  默认会注册大量的过滤器 servlet filter
 //过滤器链【责任链模式】
 @Configuration
 @EnableWebSecurity//标识为spring security的配置类
+@EnableMethodSecurity(securedEnabled = true,jsr250Enabled = true)  //开启注解权限控制
 public class SecurityConfig{
 
     @Autowired
@@ -55,21 +54,21 @@ public class SecurityConfig{
         //permitAll：具有所有权限 也就是可以匿名访问
         //anyRequest：任何请求 所有请求
         //authenticated：认证
-        http.authorizeHttpRequests(authorizeRequests->
-                authorizeRequests
-
-                        .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-                        .requestMatchers( "/","/index","/*","/reg","/login","/logout", "/*.html", "/*/*.html", "/*/*.css", "/*/*.js", "/profile/**").permitAll()
-
-                        .requestMatchers("/user/**").hasAnyAuthority("system:user","system:admin","system:root")
-
-                        .requestMatchers("/admin/**").hasAnyAuthority("system:admin","system:root")
-
-                        .requestMatchers("/root/**").hasAnyAuthority("system:root")
-
-                        .requestMatchers("/captcha/**").permitAll()
-
-        );
+//        http.authorizeHttpRequests(authorizeRequests->
+//                authorizeRequests
+//
+//                        .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+//                        .requestMatchers( "/","/index","/*","/reg","/login","/logout", "/*.html", "/*/*.html", "/*/*.css", "/*/*.js", "/profile/**").permitAll()
+//
+//                        .requestMatchers("/user/**").hasAnyAuthority("system:user","system:admin","system:root")
+//
+//                        .requestMatchers("/admin/**").hasAnyAuthority("system:admin","system:root")
+//
+//                        .requestMatchers("/root/**").hasAnyAuthority("system:root")
+//
+//                        .requestMatchers("/captcha/**").permitAll()
+//
+//        );
 
 //
 //        http.formLogin((formlogin)->formlogin

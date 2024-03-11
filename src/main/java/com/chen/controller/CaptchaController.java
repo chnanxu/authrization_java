@@ -1,6 +1,6 @@
 package com.chen.controller;
 
-import com.chen.utils.result.RedisCache;
+import com.chen.utils.util.RedisCache;
 import com.google.code.kaptcha.Producer;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

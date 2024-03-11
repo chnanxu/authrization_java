@@ -12,10 +12,16 @@
 <!--        <result property="rate" column="rate"  jdbcType="float"/>-->
 <!--        <result property="director" column="director" jdbcType="varchar"/>-->
 <!--    </resultMap>-->
-    
+    <select id="findUserItem" resultType="UserItem">
+        select * from user_item
+    </select>  <!--用户列表项-->
+
+    <select id="findCreateLeftItem" resultType="CreateLeftItem">
+        select * from create_item
+    </select>
 
     <select id="findIndex" parameterType="int" resultType= "Item_Details">
-        select uid,pid,typename,title,content,img,href,readTimes,likeSize,commentsSize,favorites,dayTimes from item_details
+        select uid,pid,type_name,title,content,cover_img,href,read_times,like_times,comments_times,favorites,day_times from item_details
     </select>
 
 

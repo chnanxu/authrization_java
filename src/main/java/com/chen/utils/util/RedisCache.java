@@ -1,4 +1,4 @@
-package com.chen.utils.result;
+package com.chen.utils.util;
 
 import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.BoundSetOperations;
@@ -79,6 +79,7 @@ public class RedisCache {
     public boolean deleteObject(final String key) {
         return redisTemplate.delete(key);
     }
+
 
     /**
      * 删除集合对象

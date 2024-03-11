@@ -1,11 +1,11 @@
 package com.chen.exception;
 
 import com.alibaba.fastjson.JSON;
-import com.chen.mapper.UserMapper;
 import com.chen.pojo.LoginUser;
 import com.chen.pojo.User;
 import com.chen.pojo.user.UserInfo;
 import com.chen.utils.result.*;
+import com.chen.utils.util.RedisCache;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,7 +21,6 @@ import java.util.Map;
 @Component
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     private final RedisCache redisCache;
-
 
     @Autowired
     public LoginSuccessHandler(RedisCache redisCache){

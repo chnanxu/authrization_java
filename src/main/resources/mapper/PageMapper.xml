@@ -19,11 +19,11 @@
     </select>
 
     <update id="addReadTimes">
-        update item_details set readTimes=readTimes+1 where pid=#{pid}
+        update item_details set read_times=read_times+1 where pid=#{pid}
     </update>
 
     <select id="getPageDetails" resultType="Item_Details">
-        select * from item_details where pid=#{pid}
+        select * from item_details where pid=${pid}
     </select>
 
     <select id="getPageDetailsComments" resultType="Item_Comments">
@@ -34,14 +34,24 @@
         group by A.comment_id,A.content,A.createTime,A.likeTimes,A.uid,A.uname,A.isDelete,A.updateTime
     </select>
 
+    
 
     <select id="getSonComments" resultType="Item_Comments">
         select comment_id,content,createTime,likeTimes,uid,uname,isDelete,root_commentID,to_commentID,updateTime
         from item_comments
-        where root_commentID=#{comment_id}
+        where root_commentID=#{comment_id} and isDelete=0
         order by updateTime desc
         OFFSET 0 ROWS
         FETCH NEXT 3 ROWS ONLY
+    </select>
+    
+    <select id="getAllSonComment" resultType="Item_Comments">
+        select comment_id,content,createTime,likeTimes,uid,uname,isDelete,root_commentID,to_commentID,updateTime
+        from item_comments
+        where root_commentID=#{comment_id} and isDelete=0
+        order by updateTime desc
+        OFFSET 3 ROWS
+
     </select>
 
     <select id="getReCommentUname" resultType="java.lang.String">
@@ -61,7 +71,7 @@
     </insert>
 
     <update id="updateItemCommentSize">
-        update item_details set commentsSize=(select count(*) from item_comments where pid=#{pid} and isDelete=0) where pid=#{pid}
+        update item_details set comments_times=(select count(*) from item_comments where pid=#{pid} and isDelete=0) where pid=#{pid}
     </update>
 
     <update id="onLikeAdd">

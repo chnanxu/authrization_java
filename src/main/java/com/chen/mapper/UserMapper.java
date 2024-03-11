@@ -2,6 +2,7 @@ package com.chen.mapper;
 
 
 import com.chen.pojo.User;
+import com.chen.pojo.page.Item_Details_Temp;
 import com.chen.pojo.user.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -15,7 +16,7 @@ public interface UserMapper {
 
     int regist(User user);  //注册用户
 
-    int regInfo(String uid, String name, int sex, String email, String user_img, Date signDate);  //注册用户信息
+    int regInfo(String uid, String uname, int sex, String email, String user_img, Date signDate);  //注册用户信息
 
 
 
@@ -23,7 +24,6 @@ public interface UserMapper {
 
     UserInfo findUserInfo(String uid);
 
-    List<String> findUserItem();
 
     int updateUserImg(String uid,String user_img);  //更新头像
 
@@ -36,5 +36,6 @@ public interface UserMapper {
 
     List<User> findAll();
 
+    int createNewProject(Item_Details_Temp temp_item);
 
 }

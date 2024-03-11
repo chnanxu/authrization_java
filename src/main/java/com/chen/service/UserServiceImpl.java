@@ -17,9 +17,6 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-//    @Resource
-//    private AuthenticationManager authenticationManager;
-
     @Autowired
     private UserMapper userMapper;
 
@@ -28,29 +25,13 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
 
-//    @Override
-//    public User login(User user){
-//        UsernamePasswordAuthenticationToken authenticationToken=new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword());
-//        Authentication authenticate=authenticationManager.authenticate((authenticationToken));
-//        if(Objects.isNull(authenticate)){
-//            throw new RuntimeException("登录失败");
-//        }
-//
-//
-//
-//
-//    }
-
 
     @Override
     public User findByName(String username){
         return userMapper.findByName(username);
     }
 
-    @Override
-    public List<String> findUserItem() {
-        return userMapper.findUserItem();
-    }
+
 
     public UserInfo findUserInfo(String uid){
         return userMapper.findUserInfo(uid);
@@ -64,8 +45,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int regInfo(String uid, String name, int sex, String email, String user_img, Date signDate) {
-        return userMapper.regInfo(uid,name,sex, email,user_img,signDate);
+    public int regInfo(String uid, String uname, int sex, String email, String user_img, Date signDate) {
+        return userMapper.regInfo(uid,uname,sex, email,user_img,signDate);
     }
 
 

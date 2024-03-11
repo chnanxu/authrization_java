@@ -6,7 +6,6 @@ import com.chen.pojo.page.Item_Details;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Blob;
 import java.util.List;
 
 @Service
@@ -18,6 +17,14 @@ public class IndexServiceImpl implements IndexService {
     }
 
 
+    @Override
+    public List<String> findUserItem() {
+        return indexMapper.findUserItem();
+    }
 
+    @Override
+    public List<String> finCreateLeftItem() {
+        return indexMapper.findCreateLeftItem();
+    }
 
 }

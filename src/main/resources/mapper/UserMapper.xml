@@ -4,31 +4,27 @@
 
 <mapper namespace="com.chen.mapper.UserMapper">
 
-    <select id="findUserItem" resultType="UserItem">
-        select * from user_item
-    </select>
-
     <select id="findByName" resultType="User">
         select * from users where username=#{username}
-    </select>
+    </select>  <!--根据username查找-->
 
     <select id="findUserInfo" resultType="UserInfo">
         select * from user_info where uid=#{uid}
-    </select>
+    </select>  <!--获取登录用户信息-->
 
     <select id="findByUnameAndPwd" parameterType="java.lang.String" resultType="User">
         select * from users where username=#{username} and password=#{password}
-    </select>
+    </select>  <!--验证账号和密码-->
 
     <update id="updateUserImg" parameterType="java.lang.String" >
         update user_info set user_img=#{user_img} where uid=#{uid}
-    </update>
+    </update>  <!--更新用户头像-->
 
     <update id="updateUserInfo" parameterType="UserInfo">
         update user_info set uname=#{uname},sex=#{sex},email=#{email} where uid=#{uid};
         update item_comments set uname=#{uname} where uid=#{uid};
         update item_details set uname=#{uname} where uid=#{uid}
-    </update>
+    </update>   <!--更新用户信息-->
 
     <select id="findAll" resultType="QueryUserResult">
         SELECT
@@ -45,23 +41,26 @@
                 LEFT JOIN user_role ur ON s.uid = ur.uid
                 LEFT JOIN role r ON ur.role_id=r.role_id
                 LEFT JOIN user_info ui ON s.uid=ui.uid
-    </select>
+    </select>  <!--查询所有用户-->
 
     <insert id="regist" parameterType="User" >
         insert into users values (#{uid},#{username},#{password},1);
-    </insert>
+    </insert>  <!--注册-->
 
     <insert id="regInfo" parameterType="User">
         insert into user_info values (#{uid},#{uname},#{sex},#{email},#{user_img},#{signDate})
-    </insert>
+    </insert>  <!--注册用户信息-->
 
     <insert id="addUserLikeComment" parameterType="UserLikeComment">
         insert into user_likecomments values (#{uid},#{pid},#{comment_id})
-    </insert>
+    </insert>   <!--用户点赞的评论-->
 
     <delete id="deleteUserLikeComment" parameterType="UserLikeComment">
         delete from user_likecomments where uid=#{uid} and pid=#{pid} and comment_id=#{comment_id}
-    </delete>
+    </delete>   <!--用户取消点赞的评论-->
 
+    <insert id="createNewProject" parameterType="Item_Details_Temp">
+        insert into item_details_temp values (#{uid},#{uname},#{pid},#{type_id},#{type_name},#{title},#{content},#{cover_img},#{href})
+    </insert>
 
 </mapper>

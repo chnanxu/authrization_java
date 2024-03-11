@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.mapper.AdminMapper">
+    <select id="getTempProject">
+        select * from item_details_temp
+    </select>
+
+    <select id="getTempProjectById">
+        select * from item_details_temp where uid=#{uid} and pid=#{pid}
+    </select>
+
+    <insert id="setProject" parameterType="Item_Details_Temp">
+        insert into item_details values (#{uid},#{uname},#{pid},#{type_id},#{type_name},#{title},#{content},#{cover_img},#{href},0,0,0,0,0)
+        delete from item_details_temp where uid=#{uid} and pid=#{pid}
+    </insert>
+</mapper>

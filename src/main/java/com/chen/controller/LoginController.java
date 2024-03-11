@@ -4,18 +4,13 @@ import com.chen.pojo.User;
 import com.chen.service.UserDetailServiceImpl;
 import com.chen.service.UserService;
 
-import com.chen.utils.result.CommonCode;
-import com.chen.utils.result.RedisCache;
+import com.chen.utils.util.RedisCache;
 import com.chen.utils.result.ResponseResult;
 import com.chen.utils.result.UserCode;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Objects;
 
@@ -44,7 +39,7 @@ public class LoginController {
             return new ResponseResult(UserCode.USEREXIST);   //用户已存在
         }else{
             userService.regist(user);
-            userService.regInfo(user.getUid(),"",1,user.getEmail(),"",new Date());
+            userService.regInfo(user.getUid(),"新用户",1,user.getEmail(),"",new Date());
             return new ResponseResult(UserCode.REGISTSUCCESS);  //注册成功
         }
     }

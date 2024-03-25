@@ -4,6 +4,7 @@ package com.chen.controller;
 import com.chen.mapper.AdminMapper;
 import com.chen.mapper.UserMapper;
 import com.chen.pojo.User;
+import com.chen.pojo.page.Item_Details;
 import com.chen.pojo.page.Item_Details_Temp;
 import com.chen.utils.result.CommonCode;
 import com.chen.utils.result.ResponseResult;
@@ -51,6 +52,14 @@ public class AdminController {
 
 
         String result="sucess";
+        return new ResponseResult(CommonCode.SUCCESS,result);
+    }
+
+    @GetMapping("/getProject/{pageNum}")
+    public ResponseResult getProject(@PathVariable int pageNum){
+
+        List<Item_Details> result= adminMapper.getProject(pageNum*10-10);
+
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
 }

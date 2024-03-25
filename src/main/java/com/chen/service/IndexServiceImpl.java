@@ -13,7 +13,8 @@ public class IndexServiceImpl implements IndexService {
     @Autowired
     IndexMapper indexMapper;
     public List<Item_Details> getIndex(){
-        return indexMapper.findIndex();
+        List<Item_Details> item=indexMapper.findIndex();
+        return item;
     }
 
 

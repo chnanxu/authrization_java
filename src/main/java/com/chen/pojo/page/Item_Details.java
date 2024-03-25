@@ -14,9 +14,11 @@ public class Item_Details {
     private String type_id;
     private String type_name;
     private String title;
+    private String simple_text;
     private String content;
     private String cover_img;
     private String href;
+    private String create_time;
     private long read_times;
     private long like_times;
     private long comments_times;

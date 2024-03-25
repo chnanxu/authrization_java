@@ -25,7 +25,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     @Autowired
     public LoginSuccessHandler(RedisCache redisCache){
         this.redisCache=redisCache;
-
     }
 
 
@@ -36,7 +35,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         response.setCharacterEncoding("UTF-8");
 
 
-
         //生成token
         String token = JwtUtils.token(authentication);
         //使用token将用户信息存入到redis中
@@ -44,7 +42,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         User user=loginUser.getUser();  //获取用户账号信息
         UserInfo userInfo=loginUser.getUserInfo(); //获取用户个人信息
         redisCache.setCacheObject("user:"+token,user);   //账号信息存入redis
-        redisCache.setCacheObject("userInfo:",userInfo); //个人信息存入redis
+        redisCache.setCacheObject("userInfo:"+token,userInfo); //个人信息存入redis
         response.addHeader("token",token);
 
 

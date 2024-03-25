@@ -15,7 +15,10 @@ public class Item_Details_Temp {
     private int type_id;
     private String type_name;
     private String title;
+    private String simple_text;
     private String content;
     private String cover_img;
     private String href;
+    private int isOK;
+    private String create_time;
 }

@@ -2,9 +2,11 @@ package com.chen.mapper;
 
 
 import com.chen.pojo.page.All_Type;
+import com.chen.pojo.page.Group;
 import com.chen.pojo.page.Item_Comments;
 import com.chen.pojo.page.Item_Details;
 import com.chen.pojo.user.UserLikeComment;
+import com.chen.pojo.user.UserLikeDetails;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +16,7 @@ import java.util.List;
 @Repository
 public interface PageMapper {
     List<String> getHeaderItem();
-    List<String> getGroup();
+    List<Group> getGroup();
 
 
     void addReadTimes(long pid);
@@ -28,8 +30,6 @@ public interface PageMapper {
 
     void submitComment(Item_Comments commentData);
 
-    void onLikeAdd(long comment_id);
-    void onLikeDelete(long comment_id);
 
     List<String> getLeftNavbar();
 
@@ -41,5 +41,7 @@ public interface PageMapper {
 
     void updateItemCommentSize(long pid);
 
-    List<Item_Comments> getAllSonComment(long commentId);
+    List<Item_Comments> getAllSonComment(long comment_id);
+
+
 }

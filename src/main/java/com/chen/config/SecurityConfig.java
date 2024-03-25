@@ -41,8 +41,7 @@ public class SecurityConfig{
 
     @Autowired
     private AuthenticationEntryPointImpl authenticationEntryPoint;
-    @Autowired
-    private LogoutSuccessHandlerImpl logoutSuccessHandler;
+
     @Autowired
     private UserDetailServiceImpl userDetailService;
 
@@ -96,7 +95,7 @@ public class SecurityConfig{
 
 
         //退出功能
-        http.logout(logout->logout.invalidateHttpSession(true).logoutSuccessHandler(logoutSuccessHandler));
+        http.logout(logout->logout.invalidateHttpSession(true).logoutSuccessHandler(new LogoutSuccessHandlerImpl(redisCache())));
 
 
         ;
@@ -134,6 +133,7 @@ public class SecurityConfig{
         LoginFilter loginFilter=new LoginFilter();
         loginFilter.setAuthenticationSuccessHandler(new LoginSuccessHandler(redisCache()));
         loginFilter.setAuthenticationFailureHandler(new LoginFailureHandler());
+
 
         loginFilter.setAuthenticationManager(authenticationConfiguration.getAuthenticationManager());
         loginFilter.setFilterProcessesUrl("/login");

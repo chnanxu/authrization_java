@@ -2,6 +2,7 @@ package com.chen.controller;
 
 import com.chen.mapper.UserMapper;
 import com.chen.pojo.User;
+import com.chen.pojo.page.Item_Details;
 import com.chen.pojo.page.Item_Details_Temp;
 import com.chen.pojo.user.UserInfo;
 
@@ -194,6 +195,30 @@ public class UserController {
 
 
         redisCache.deleteObject(uid+"create_id:");
+
+        return new ResponseResult(CommonCode.SUCCESS,"success");
+    }
+
+    @PostMapping("/create/getMyProject/{uid}")  //获取作品接口
+    public ResponseResult newProject(@PathVariable String uid){
+
+        List<Item_Details> result= userMapper.getMyProject(uid);
+        return new ResponseResult(CommonCode.SUCCESS,result);
+    }
+
+
+    @PostMapping("/likeCommunity/{gid}/{uid}")  //用户关注社区
+    public ResponseResult likeCommunity(@PathVariable long gid,@PathVariable String uid){
+
+        userMapper.addLikeCommunity(uid,gid);
+
+        return new ResponseResult(CommonCode.SUCCESS,"success");
+    }
+
+    @PostMapping("/removeCommunity/{gid}/{uid}")  //用户取消关注社区
+    public ResponseResult removeCommunity(@PathVariable long gid,@PathVariable String uid){
+
+        userMapper.removeCommunity(uid,gid);
 
         return new ResponseResult(CommonCode.SUCCESS,"success");
     }

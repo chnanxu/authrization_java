@@ -50,7 +50,6 @@
         from item_comments
         where root_commentID=#{comment_id} and isDelete=0
         order by updateTime desc
-        OFFSET 3 ROWS
 
     </select>
 
@@ -74,11 +73,6 @@
         update item_details set comments_times=(select count(*) from item_comments where pid=#{pid} and isDelete=0) where pid=#{pid}
     </update>
 
-    <update id="onLikeAdd">
-        update item_comments set likeTimes=likeTimes+1 where comment_id=#{comment_id}
-    </update>
 
-    <update id="onLikeDelete">
-        update item_comments set likeTimes=likeTimes-1 where comment_id=#{comment_id}
-    </update>
+
 </mapper>

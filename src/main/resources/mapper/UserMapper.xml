@@ -53,14 +53,46 @@
 
     <insert id="addUserLikeComment" parameterType="UserLikeComment">
         insert into user_likecomments values (#{uid},#{pid},#{comment_id})
+        update item_comments set likeTimes=likeTimes+1 where comment_id=#{comment_id}
     </insert>   <!--用户点赞的评论-->
 
     <delete id="deleteUserLikeComment" parameterType="UserLikeComment">
         delete from user_likecomments where uid=#{uid} and pid=#{pid} and comment_id=#{comment_id}
+        update item_comments set likeTimes=likeTimes-1 where comment_id=#{comment_id}
     </delete>   <!--用户取消点赞的评论-->
 
     <insert id="createNewProject" parameterType="Item_Details_Temp">
-        insert into item_details_temp values (#{uid},#{uname},#{pid},#{type_id},#{type_name},#{title},#{content},#{cover_img},#{href})
+        insert into item_details_temp values (#{uid},#{uname},#{pid},#{type_id},#{type_name},#{title},#{simple_text},#{content},#{cover_img},#{href},0,#{create_time})
     </insert>
+
+    <select id="getMyProject">
+        select * from item_details where uid=#{uid} order by create_time desc;
+    </select>
+
+    <insert id="addLikeCommunity">
+        insert into user_community values (#{uid},#{gid},null);
+    </insert>
+
+    <select id="getUserLikeCommunity">
+        select * from user_community where uid=#{uid} and gid=#{gid}
+    </select>
+
+    <delete id="removeCommunity">
+        delete from user_community where uid=#{uid} and gid=#{gid}
+    </delete>
+
+    <select id="getUserLikeDetails">
+        select * from user_likedetails where uid=#{uid} and pid=#{pid}
+    </select> <!--获取用户喜欢列表 -->
+    <delete id="deleteUserLikeDetails">
+        delete from user_likedetails where uid=#{uid} and pid=#{pid}
+        update item_details set like_times=like_times-1 where pid=#{pid}
+    </delete>
+    <insert id="addUserLikeDetails">
+        insert into user_likedetails values(#{uid},#{pid},#{like_time})
+        update item_details set like_times=like_times+1 where pid=#{pid}
+    </insert>
+
+
 
 </mapper>

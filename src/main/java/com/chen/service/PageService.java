@@ -1,6 +1,7 @@
 package com.chen.service;
 
 import com.chen.pojo.page.All_Type;
+import com.chen.pojo.page.Group;
 import com.chen.pojo.page.Item_Comments;
 import com.chen.pojo.page.Item_Details;
 import com.chen.pojo.user.UserLikeComment;
@@ -12,15 +13,15 @@ import java.util.List;
 public interface PageService {
     List<String> getHeaderItem();
 
-    List<String> getGroup();
+    List<Group> getGroup(String token);
 
     Item_Details getPageDetails(long pid);
 
-    List<Item_Comments> getPageDetailsComments(long pid);
+    List<Item_Comments> getPageDetailsComments(long pid,String token);
 
     void submitComment(Item_Comments commentData);
 
-    void onLikeAdd(UserLikeComment userLikeComment);
+    void onLikeComment(UserLikeComment userLikeComment);
 
 
     List<String> getLeftNavbar();
@@ -32,4 +33,6 @@ public interface PageService {
     void deleteComment(long commentId);
 
     List<All_Type> getTypeList();
+
+    void onLikeDetails(String uid, long pid);
 }

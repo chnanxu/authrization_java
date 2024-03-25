@@ -10,8 +10,14 @@
         select * from item_details_temp where uid=#{uid} and pid=#{pid}
     </select>
 
+    <select id="getProject">
+        select * from item_details order by create_time desc
+        OFFSET ${pageNum} ROW
+        FETCH NEXT 10 ROWS ONLY
+    </select>
+
     <insert id="setProject" parameterType="Item_Details_Temp">
-        insert into item_details values (#{uid},#{uname},#{pid},#{type_id},#{type_name},#{title},#{content},#{cover_img},#{href},0,0,0,0,0)
+        insert into item_details values (#{uid},#{uname},#{pid},#{type_id},#{type_name},#{title},#{simple_text},#{content},#{cover_img},#{href},#{create_time},0,0,0,0,0)
         delete from item_details_temp where uid=#{uid} and pid=#{pid}
     </insert>
 </mapper>

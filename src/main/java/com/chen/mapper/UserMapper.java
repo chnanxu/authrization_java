@@ -2,8 +2,11 @@ package com.chen.mapper;
 
 
 import com.chen.pojo.User;
+import com.chen.pojo.page.Group;
+import com.chen.pojo.page.Item_Details;
 import com.chen.pojo.page.Item_Details_Temp;
 import com.chen.pojo.user.UserInfo;
+import com.chen.pojo.user.UserLikeDetails;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -37,5 +40,19 @@ public interface UserMapper {
     List<User> findAll();
 
     int createNewProject(Item_Details_Temp temp_item);
+
+    List<Item_Details> getMyProject(String uid);
+
+    void addLikeCommunity(String uid, long gid);
+
+    Group getUserLikeCommunity(String uid, long gid);
+
+    void removeCommunity(String uid, long gid);
+
+    UserLikeDetails getUserLikeDetails(String uid, long pid);
+
+    void deleteUserLikeDetails(String uid, long pid);
+
+    void addUserLikeDetails(String uid, long pid,String like_time);
 
 }

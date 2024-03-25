@@ -4,6 +4,7 @@ package com.chen.service;
 import com.chen.mapper.PageMapper;
 import com.chen.mapper.UserMapper;
 import com.chen.pojo.page.All_Type;
+import com.chen.pojo.page.Group;
 import com.chen.pojo.page.Item_Comments;
 import com.chen.pojo.page.Item_Details;
 import com.chen.pojo.user.UserInfo;
@@ -12,11 +13,14 @@ import com.chen.utils.util.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class PageServiceImpl implements PageService{
 
+    private final SimpleDateFormat systemTime=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private final PageMapper pageMapper;
 
     @Autowired
@@ -39,6 +43,8 @@ public class PageServiceImpl implements PageService{
         return pageMapper.getTypeList();
     }
 
+
+
     @Override
     public List<String> getLeftNavbar() {
         return pageMapper.getLeftNavbar();
@@ -57,7 +63,21 @@ public class PageServiceImpl implements PageService{
 
 
     @Override
-    public List<String> getGroup(){return pageMapper.getGroup();}
+    public List<Group> getGroup(String token){
+
+        List<Group> result=pageMapper.getGroup();
+        if(!token.equals("")){
+            UserInfo userInfo=redisCache.getCacheObject("userInfo:"+token);
+            for (Group item:result
+            ) {
+                if(userMapper.getUserLikeCommunity(userInfo.getUid(),item.getGid())!=null){
+                    item.setUserLike(true);
+                }
+            }
+        }
+
+        return result;
+    }
 
     @Override
     public Item_Details getPageDetails(long pid) {
@@ -65,15 +85,16 @@ public class PageServiceImpl implements PageService{
         pageMapper.addReadTimes(pid);
 
 
+
         return pageMapper.getPageDetails(pid);
     }
 
     @Override
-    public List<Item_Comments> getPageDetailsComments(long pid) {
+    public List<Item_Comments> getPageDetailsComments(long pid,String token) {
 
         List<Item_Comments> rootComments= pageMapper.getPageDetailsComments(pid);   //获取顶级评论列表
 
-        UserInfo userInfo=redisCache.getCacheObject("userInfo:");
+        UserInfo userInfo=redisCache.getCacheObject("userInfo:"+token);
 
 
         for (Item_Comments commentItem:rootComments   //获取顶级评论的前三条子评论列表
@@ -111,16 +132,23 @@ public class PageServiceImpl implements PageService{
 
 
     @Override
-    public void onLikeAdd(UserLikeComment userLikeComment) {
+    public void onLikeComment(UserLikeComment userLikeComment) {
 
         if(pageMapper.getUserLikeComments(userLikeComment.getUid(),userLikeComment.getPid(),userLikeComment.getComment_id())!=null){
             userMapper.deleteUserLikeComment(userLikeComment.getUid(), userLikeComment.getPid(), userLikeComment.getComment_id());
-            pageMapper.onLikeDelete(userLikeComment.getComment_id());
         }else{
             userMapper.addUserLikeComment(userLikeComment.getUid(), userLikeComment.getPid(), userLikeComment.getComment_id());
-            pageMapper.onLikeAdd(userLikeComment.getComment_id());
         }
 
+    }
+
+    @Override
+    public void onLikeDetails(String uid, long pid) {
+        if(userMapper.getUserLikeDetails(uid,pid)!=null){
+            userMapper.deleteUserLikeDetails(uid,pid);
+        }else{
+            userMapper.addUserLikeDetails(uid,pid,systemTime.format(new Date(System.currentTimeMillis())));
+        }
     }
 
 

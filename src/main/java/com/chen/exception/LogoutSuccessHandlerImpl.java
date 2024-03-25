@@ -16,7 +16,11 @@ import java.io.IOException;
 
 @Component
 public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
+    private final RedisCache redisCache;
 
+    public LogoutSuccessHandlerImpl(RedisCache redisCache) {
+        this.redisCache=redisCache;
+    }
 
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -25,6 +29,9 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json;charset=utf-8");
         String token=request.getHeader("token");
+
+        redisCache.deleteObject("user:"+token);
+        redisCache.deleteObject("userInfo:"+token);
 
         ResponseResult result=new ResponseResult(CommonCode.SUCCESS,"退出登录");
         response.getWriter().write(JSON.toJSONString(result));

@@ -2,8 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chen.mapper.AdminMapper">
+
+    <select id="getUser" resultType="QueryUserResult">
+        SELECT
+            s.uid,
+            s.username,
+            s.email,
+            s.phone,
+            s.uname,
+            s.sex,
+            s.user_img,
+            s.sign_time,
+            deleted,
+            enabled,
+            r.role
+        FROM
+            users s
+                LEFT JOIN user_role ur ON s.uid = ur.uid
+                LEFT JOIN role r ON ur.role_id=r.role_id
+        order by s.sign_time asc
+        OFFSET ${pageNum} ROW
+        FETCH NEXT 14 ROWS ONLY
+    </select>  <!--查询所有用户-->
+
     <select id="getTempProject">
-        select * from item_details_temp
+        select * from item_details_temp order by create_time desc
+        OFFSET ${pageNum} ROW
+        FETCH NEXT 10 ROWS ONLY
     </select>
 
     <select id="getTempProjectById">
@@ -20,4 +45,10 @@
         insert into item_details values (#{uid},#{uname},#{pid},#{type_id},#{type_name},#{title},#{simple_text},#{content},#{cover_img},#{href},#{create_time},0,0,0,0,0)
         delete from item_details_temp where uid=#{uid} and pid=#{pid}
     </insert>
+    
+    <select id="getCommunity">
+        select * from community order by create_time desc
+        OFFSET 0 ROW
+        FETCH NEXT 10 ROWS ONLY
+    </select>
 </mapper>

@@ -3,13 +3,15 @@ package com.chen.service;
 
 import com.chen.mapper.PageMapper;
 import com.chen.mapper.UserMapper;
+import com.chen.pojo.User;
 import com.chen.pojo.page.All_Type;
 import com.chen.pojo.page.Group;
 import com.chen.pojo.page.Item_Comments;
 import com.chen.pojo.page.Item_Details;
-import com.chen.pojo.user.UserInfo;
+import com.chen.pojo.user.Oauth2UserinfoResult;
 import com.chen.pojo.user.UserLikeComment;
 import com.chen.utils.util.RedisCache;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,21 +20,18 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PageServiceImpl implements PageService{
 
     private final SimpleDateFormat systemTime=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private final PageMapper pageMapper;
 
-    @Autowired
-    private RedisCache redisCache;
+    private final RedisCache redisCache;
 
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
-    @Autowired
-    public PageServiceImpl(PageMapper pageMapper){
-        this.pageMapper=pageMapper;
-    }
+    private final UserDetailService userDetailService;
+
     @Override
     public List<String> getHeaderItem() {
         return pageMapper.getHeaderItem();
@@ -42,7 +41,6 @@ public class PageServiceImpl implements PageService{
     public List<All_Type> getTypeList() {
         return pageMapper.getTypeList();
     }
-
 
 
     @Override
@@ -63,11 +61,12 @@ public class PageServiceImpl implements PageService{
 
 
     @Override
-    public List<Group> getGroup(String token){
+    public List<Group> getGroup(){
 
         List<Group> result=pageMapper.getGroup();
-        if(!token.equals("")){
-            UserInfo userInfo=redisCache.getCacheObject("userInfo:"+token);
+        Oauth2UserinfoResult userInfo=userDetailService.getLoginUserInfo();
+        if(userInfo!=null){
+
             for (Group item:result
             ) {
                 if(userMapper.getUserLikeCommunity(userInfo.getUid(),item.getGid())!=null){
@@ -94,22 +93,29 @@ public class PageServiceImpl implements PageService{
 
         List<Item_Comments> rootComments= pageMapper.getPageDetailsComments(pid);   //获取顶级评论列表
 
-        UserInfo userInfo=redisCache.getCacheObject("userInfo:"+token);
+        User userInfo=redisCache.getCacheObject("userInfo:"+token);
 
-
-        for (Item_Comments commentItem:rootComments   //获取顶级评论的前三条子评论列表
-        ) {
-            if(pageMapper.getUserLikeComments(userInfo.getUid(),pid,commentItem.getComment_id())!=null){    //用户是否点赞
-                commentItem.setUserLike(true);
+        if(token.equals("")){
+            for (Item_Comments commentItem:rootComments   //获取顶级评论的前三条子评论列表
+            ) {
+                commentItem.setSonList(pageMapper.getSonComments(commentItem.getComment_id()));
             }
-            commentItem.setSonList(pageMapper.getSonComments(commentItem.getComment_id()));
-            for (Item_Comments sonCommentItem:commentItem.getSonList()
-                 ) {
-                if(pageMapper.getUserLikeComments(userInfo.getUid(),pid,sonCommentItem.getComment_id())!=null){  //用户是否点赞
-                    sonCommentItem.setUserLike(true);
+        }else{
+            for (Item_Comments commentItem:rootComments   //获取顶级评论的前三条子评论列表
+            ) {
+                if(pageMapper.getUserLikeComments(userInfo.getUid(),pid,commentItem.getComment_id())!=null){    //用户是否点赞
+                    commentItem.setUserLike(true);
+                }
+                commentItem.setSonList(pageMapper.getSonComments(commentItem.getComment_id()));
+                for (Item_Comments sonCommentItem:commentItem.getSonList()
+                ) {
+                    if(pageMapper.getUserLikeComments(userInfo.getUid(),pid,sonCommentItem.getComment_id())!=null){  //用户是否点赞
+                        sonCommentItem.setUserLike(true);
+                    }
                 }
             }
         }
+
 
         return rootComments;
     }

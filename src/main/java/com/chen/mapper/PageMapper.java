@@ -43,5 +43,7 @@ public interface PageMapper {
 
     List<Item_Comments> getAllSonComment(long comment_id);
 
+    List<Group> getTotalHotCommunity();
+
 
 }

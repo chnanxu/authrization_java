@@ -11,11 +11,15 @@ import lombok.NoArgsConstructor;
 public class QueryUserResult {
     private String uid;
     private String username;
+    private String email;
+    private String phone;
     private String uname;
     private boolean sex;
-    private String email;
-    private String signDate;
+    private String user_img;
+    private String sign_time;
+    private boolean deleted;
     private boolean enabled;
+
     private String role;
 
 }

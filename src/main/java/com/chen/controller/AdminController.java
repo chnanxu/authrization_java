@@ -4,6 +4,7 @@ package com.chen.controller;
 import com.chen.mapper.AdminMapper;
 import com.chen.mapper.UserMapper;
 import com.chen.pojo.User;
+import com.chen.pojo.page.Group;
 import com.chen.pojo.page.Item_Details;
 import com.chen.pojo.page.Item_Details_Temp;
 import com.chen.utils.result.CommonCode;
@@ -19,27 +20,20 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @Autowired
-    private UserMapper userMapper;
 
     @Autowired
     private AdminMapper adminMapper;
 
-    @GetMapping("/getUser")
-    public ResponseResult getUser(){
+    @GetMapping("/getUser/{pageNum}")
+    public ResponseResult getUser(@PathVariable int pageNum){
 
-        List<User> userData=userMapper.findAll();
+        List<User> userData=adminMapper.getUser(pageNum*14-14);
+
+
 
         return new ResponseResult(CommonCode.SUCCESS,userData);
     }
 
-    @GetMapping("/getTempProject")
-    public ResponseResult getTempProject(){
-
-        List<Item_Details_Temp> tempData=adminMapper.getTempProject();
-
-        return new ResponseResult(CommonCode.SUCCESS,tempData);
-    }
 
     @PostMapping("/agreeProject/{uid}/{pid}")
     public ResponseResult agreeProject(@PathVariable String uid,@PathVariable String pid){
@@ -55,10 +49,27 @@ public class AdminController {
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
 
+
+
+    @GetMapping("/getTempProject/{pageNum}")
+    public ResponseResult getTempProject(@PathVariable int pageNum){
+
+        List<Item_Details_Temp> tempData=adminMapper.getTempProject(pageNum*10-10);
+
+        return new ResponseResult(CommonCode.SUCCESS,tempData);
+    }
     @GetMapping("/getProject/{pageNum}")
     public ResponseResult getProject(@PathVariable int pageNum){
 
         List<Item_Details> result= adminMapper.getProject(pageNum*10-10);
+
+        return new ResponseResult(CommonCode.SUCCESS,result);
+    }
+
+    @GetMapping("/getCommunity")
+    public ResponseResult getCommunity(){
+
+        List<Group> result=adminMapper.getCommunity();
 
         return new ResponseResult(CommonCode.SUCCESS,result);
     }

@@ -2,6 +2,7 @@ package com.chen.mapper;
 
 
 import com.chen.pojo.Permissions;
+import com.chen.pojo.SysRoleAuthority;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -10,5 +11,7 @@ import java.util.List;
 @Mapper
 @Repository
 public interface PermMapper {
-    List<Permissions> getAuthority(String uid);
+    List<String> getAuthority(String uid);
+
+    List<SysRoleAuthority> getRole(String uid);
 }

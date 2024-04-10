@@ -1,4 +1,4 @@
-package com.chen.exception;
+package com.chen.exception.handler;
 
 import cn.hutool.json.JSONUtil;
 import com.chen.utils.result.ResponseResult;

@@ -48,9 +48,9 @@ public class PageController {
     }
 
     @GetMapping("/getGroup")  //社区接口
-    public ResponseResult getGroup(@RequestHeader String token){
+    public ResponseResult getGroup(){
 
-        List<Group> result=pageService.getGroup(token);
+        List<Group> result=pageService.getGroup();
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
 
@@ -88,6 +88,22 @@ public class PageController {
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
 
+    @GetMapping("/getTotalHotCommunity")  //获取热门社区
+    public ResponseResult getTotalHotCommunity(){
+
+        List<Group> result=pageMapper.getTotalHotCommunity();
+
+        return new ResponseResult(CommonCode.SUCCESS,result);
+    }
+
+
+
+
+    /**
+     * 用户相关接口
+     * @param commentData
+     * @return
+     */
     @PreAuthorize("hasAuthority('system:user')")
     @PostMapping("/submitComment")    //提交评论
     public ResponseResult submitComment(@RequestBody Item_Comments commentData){
@@ -133,5 +149,7 @@ public class PageController {
 
         return new ResponseResult(CommonCode.SUCCESS);
     }
+
+
 
 }

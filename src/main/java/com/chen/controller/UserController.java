@@ -2,14 +2,17 @@ package com.chen.controller;
 
 import com.chen.mapper.UserMapper;
 import com.chen.pojo.User;
+import com.chen.pojo.page.Group;
 import com.chen.pojo.page.Item_Details;
 import com.chen.pojo.page.Item_Details_Temp;
-import com.chen.pojo.user.UserInfo;
 
+import com.chen.pojo.user.Oauth2UserinfoResult;
+import com.chen.service.UserDetailService;
 import com.chen.utils.result.CommonCode;
 import com.chen.utils.util.RedisCache;
 import com.chen.utils.result.ResponseResult;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -22,31 +25,61 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+
+@RequiredArgsConstructor
 @PreAuthorize("hasAuthority('system:user')")
 @RestController
 @RequestMapping("/user")   //用户接口
 public class UserController {
 
-    @Autowired
-    private UserMapper userMapper;
+
+    private final UserMapper userMapper;
+
+    private final UserDetailService userDetailService;
 
     private final RedisCache redisCache;
 
-    @Autowired
-    public UserController(RedisCache redisCache){
-        this.redisCache=redisCache;
-    }
 
 
     @RequestMapping("/home")   //个人信息主页接口
-    public ResponseResult<String> userTest(@RequestHeader String token){
+    public ResponseResult<String> userTest(){
 
-        User user=redisCache.getCacheObject("user:"+token);
-        UserInfo userInfo=userMapper.findUserInfo(user.getUid());
-        return new ResponseResult(CommonCode.SUCCESS,userInfo);
+        Oauth2UserinfoResult user=userDetailService.getLoginUserInfo();
+
+        return new ResponseResult(CommonCode.SUCCESS,user);
+    }
+
+    @GetMapping("/getUserLikeGroup")   //获取用户关注社区接口
+    public ResponseResult getUserLikeGroup(){
+
+        Oauth2UserinfoResult user=userDetailService.getLoginUserInfo();
+
+        List<Group> result=userMapper.getUserLikeGroup(user.getUid());
+
+        return new ResponseResult(CommonCode.SUCCESS,result);
+
+    }
+
+    @GetMapping("/updateUserSignTime/{id}/{uid}/{sign_time}")
+    public ResponseResult updateUserSignTime(@PathVariable long id,@PathVariable String uid,@PathVariable String sign_time){
+
+        if(userMapper.getUserLookCommunity(uid,id)!=null){
+            userMapper.updateUserSignTime(uid,id,sign_time);
+        }else{
+            userMapper.insertUserLookCommunity(uid,id,sign_time);
+        }
+
+        return new ResponseResult(CommonCode.SUCCESS,"success");
     }
 
 
+    @GetMapping("/getUserRecentLookCommunity/{uid}")  //获取用户最近访问社区接口
+    public ResponseResult getUserRecentLookCommunity(@PathVariable String uid, @RequestHeader String token){
+
+        List<Group> result=userMapper.getUserRecentLookCommunity(uid);
+
+        return new ResponseResult(CommonCode.SUCCESS,result);
+    }
 
 
     @RequestMapping("/upload/userImg")  //更新头像接口
@@ -56,7 +89,7 @@ public class UserController {
         String fileName=file.getOriginalFilename();
 
 
-        User user=redisCache.getCacheObject("user:"+token);
+        User user=redisCache.getCacheObject("userInfo:"+token);
 
         String uid=user.getUid();
 
@@ -91,7 +124,7 @@ public class UserController {
 
     @RequestMapping("/updateUserInfo")  //更新用户个人信息
     @ResponseBody
-    public ResponseResult updateUserInfo(@RequestBody UserInfo userInfo){
+    public ResponseResult updateUserInfo(@RequestBody User userInfo){
 
         userMapper.updateUserInfo(userInfo);
 
@@ -109,7 +142,7 @@ public class UserController {
     @PostMapping("/create/newCoverImg/{create_id}") //封面上传接口
     public ResponseResult newCoverImg(@PathVariable String create_id,@RequestParam("file") MultipartFile file,@RequestHeader String token){
 
-        User user=redisCache.getCacheObject("user:"+token);
+        User user=redisCache.getCacheObject("userInfo:"+token);
 
         String uid=user.getUid();
         String id=redisCache.getCacheObject(uid+"create_id:");
@@ -146,7 +179,7 @@ public class UserController {
     @PostMapping("/create/newProjectImg/{create_id}/{img_id}")  //内容图片上传接口
     public ResponseResult newProjectImg(@PathVariable String create_id,@PathVariable String img_id,@RequestParam("file") MultipartFile file,@RequestHeader String token) throws Exception{
 
-        User user=redisCache.getCacheObject("user:"+token);
+        User user=redisCache.getCacheObject("userInfo:"+token);
 
         String uid=user.getUid();
         String id=redisCache.getCacheObject(uid+"create_id:");
@@ -185,7 +218,7 @@ public class UserController {
     @PostMapping("/create/newProject/{create_id}")  //提交新作品接口
     public ResponseResult newProject(@PathVariable String create_id,@RequestBody Item_Details_Temp temp_item, @RequestHeader String token){
 
-        User user=redisCache.getCacheObject("user:"+token);
+        User user=redisCache.getCacheObject("userInfo:"+token);
         String uid=user.getUid();
 
         String id=redisCache.getCacheObject(uid+"create_id:");

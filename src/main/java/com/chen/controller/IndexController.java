@@ -7,24 +7,30 @@ import com.chen.service.IndexServiceImpl;
 import com.chen.utils.result.CommonCode;
 import com.chen.utils.util.RedisCache;
 import com.chen.utils.result.ResponseResult;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
+import org.springframework.security.oauth2.core.oidc.OidcScopes;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsent;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.security.Principal;
+import java.util.*;
 
 
 @RestController
 public class IndexController {
 
-    @Autowired
-    private RedisCache redisCache;
 
     @Autowired
     private IndexServiceImpl indexService;
+
 
 
     @GetMapping({"/","/index"})

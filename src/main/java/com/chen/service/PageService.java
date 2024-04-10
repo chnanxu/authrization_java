@@ -13,7 +13,7 @@ import java.util.List;
 public interface PageService {
     List<String> getHeaderItem();
 
-    List<Group> getGroup(String token);
+    List<Group> getGroup();
 
     Item_Details getPageDetails(long pid);
 

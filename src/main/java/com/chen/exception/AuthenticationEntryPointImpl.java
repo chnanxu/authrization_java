@@ -1,7 +1,6 @@
 package com.chen.exception;
 
 import cn.hutool.json.JSONUtil;
-import com.chen.utils.result.CommonCode;
 import com.chen.utils.result.ResponseResult;
 import com.chen.utils.result.UserCode;
 import jakarta.servlet.ServletException;

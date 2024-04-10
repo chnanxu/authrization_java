@@ -13,12 +13,23 @@ public class Group {
 
     private int gid;
     private String group_name;
-    private String type;
+    private String type_id;
+    private String type_name;
     private String cover_img;
     private String href;
-    private int total_times;
+    private String create_time;
+    private long total_times;
+    private long day_times;
+    private long week_times;
+    private long month_times;
+    private long threemonth_times;
+    private long sixmonth_times;
+    private long year_times;
 
     @Transient
     private boolean isUserLike;
+
+    @Transient
+    private String last_sign_time;
 
 }

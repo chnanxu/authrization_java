@@ -1,11 +1,11 @@
 package com.chen.mapper;
 
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.chen.pojo.User;
 import com.chen.pojo.page.Group;
 import com.chen.pojo.page.Item_Details;
 import com.chen.pojo.page.Item_Details_Temp;
-import com.chen.pojo.user.UserInfo;
 import com.chen.pojo.user.UserLikeDetails;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -15,29 +15,27 @@ import java.util.List;
 
 @Mapper
 @Repository
-public interface UserMapper {
+public interface UserMapper extends IService<User> {
 
-    int regist(User user);  //注册用户
+    int registByEmail(User user);  //注册用户
 
-    int regInfo(String uid, String uname, int sex, String email, String user_img, Date signDate);  //注册用户信息
-
-
+    int registByPhone(User user);
 
     User findByName(String username);  //
 
-    UserInfo findUserInfo(String uid);
+
 
 
     int updateUserImg(String uid,String user_img);  //更新头像
 
-    int updateUserInfo(UserInfo userInfo);   //更新用户信息
+    int updateUserInfo(User userInfo);   //更新用户信息
 
 
     int addUserLikeComment(String uid,long pid,long comment_id);  //点赞
 
     int deleteUserLikeComment(String uid,long pid,long comment_id);  //取消点赞
 
-    List<User> findAll();
+
 
     int createNewProject(Item_Details_Temp temp_item);
 
@@ -54,5 +52,16 @@ public interface UserMapper {
     void deleteUserLikeDetails(String uid, long pid);
 
     void addUserLikeDetails(String uid, long pid,String like_time);
+
+    List<Group> getUserLikeGroup(String uid);
+
+    List<Group> getUserRecentLookCommunity(String uid);
+
+    Group getUserLookCommunity(String uid,long gid);
+
+    void insertUserLookCommunity(String uid,long gid,String last_sign_time);
+
+    void updateUserSignTime(String uid,long gid,String last_sign_time);
+
 
 }

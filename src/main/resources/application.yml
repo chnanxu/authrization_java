@@ -1,6 +1,10 @@
 #开发环境配置
 server:
   port: 8081
+  servlet:
+    session:
+      cookie:
+        domain: 127.0.0.1
 
 spring:
   config:
@@ -9,16 +13,32 @@ spring:
   main:
     allow-bean-definition-overriding: true
   jpa:
-    open-in-view: false
-    database-platform: org.hibernate.dialect.MySQLDialect
+    database: sql_server
+    open-in-view: true
   auto:
     openurl: true
+
 
   datasource: #设置数据源
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     username: sa
     password: woaini1398
     url: jdbc:sqlserver://localhost:1433;databaseName=reactProject
+
+
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+
+custom:
+  security:
+    ignore-uri-list: assets/**, /webjars/**, /login, /getCaptcha, /getSmsCaptcha, /error, /oauth2/consent/parameters, /test03, /favicon.ico, /qrCode/login/**
+    login-url: http://127.0.0.1:3000/login
+    consent-page-uri: http://127.0.0.1:3000/consent
+    device-activate-uri: http://127.0.0.1:3000/activate
+    device-activated-uri: http://127.0.0.1:3000/activated
+    issuer-url: http://127.0.0.1:8081
 
   devtools:
     restart:
@@ -36,17 +56,14 @@ spring:
           max-wait: -1   #最大阻塞等待时间，负值表示没有限制，默认-1
           max-idle: 8    #最大空闲连接数，默认8
           min-idle: 0    #最小空闲连接数，默认0
-  servlet:
-    multipart:
-      max-file-size: -1
-      max-request-size: -1
+
 
 
 mybatis:
   type-aliases-package: com.chen.pojo
   mapper-locations: classpath:mapper/*.xml
 
----  #生存环境配置
+---  #生产环境配置
 server:
   port: 8082
 

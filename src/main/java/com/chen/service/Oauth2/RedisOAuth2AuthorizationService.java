@@ -1,4 +1,4 @@
-package com.chen.service;
+package com.chen.service.Oauth2;
 
 import com.chen.authorization.SpringAuthorizationServer.Repository.RedisOAuth2AuthorizationRepository;
 import com.chen.pojo.RedisOAuth2Authorization;
@@ -7,7 +7,9 @@ import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataRetrievalFailureException;
+import org.springframework.security.jackson2.CoreJackson2Module;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
+import org.springframework.security.oauth2.client.jackson2.OAuth2ClientJackson2Module;
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
@@ -19,6 +21,7 @@ import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.jackson2.OAuth2AuthorizationServerJackson2Module;
+import org.springframework.security.web.server.jackson2.WebServerJackson2Module;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -50,8 +53,14 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
         // 加载security提供的Modules
         List<Module> modules = SecurityJackson2Modules.getModules(classLoader);
         MAPPER.registerModules(modules);
+        // 加载Security提供的module
+        MAPPER.registerModule(new CoreJackson2Module());
         // 加载Authorization Server提供的Module
         MAPPER.registerModule(new OAuth2AuthorizationServerJackson2Module());
+        // 加载Security Web提供的module
+        MAPPER.registerModule(new WebServerJackson2Module());
+        // 加载OAuth2 Client提供的Module
+        MAPPER.registerModule(new OAuth2ClientJackson2Module());
     }
 
     @Override

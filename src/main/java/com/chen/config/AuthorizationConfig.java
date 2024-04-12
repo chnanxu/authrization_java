@@ -4,9 +4,7 @@ import com.chen.authorization.FederatedIdentityIdTokenCustomizer;
 import com.chen.authorization.smsAuthentication.SmsCaptchaGrantAuthenticationConverter;
 import com.chen.authorization.smsAuthentication.SmsCaptchaGrantAuthenticationProvider;
 
-import com.chen.utils.util.CustomSecurityProperties;
-import com.chen.utils.util.SecurityConstants;
-import com.chen.utils.util.SecurityUtils;
+import com.chen.utils.util.*;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
@@ -39,6 +37,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.filter.CorsFilter;
 
 import java.security.KeyPair;
@@ -53,6 +52,7 @@ import java.util.*;
 public class AuthorizationConfig {
 
     private final CorsFilter corsFilter;
+    private final RedisCache redisCache;
     private final CustomSecurityProperties customSecurityProperties;
 
     @Bean
@@ -245,14 +245,25 @@ public class AuthorizationConfig {
     @Bean
     @SneakyThrows
     public JWKSource<SecurityContext> jwkSource(){
-        KeyPair keyPair=generateRsaKey();
-        RSAPublicKey publicKey=(RSAPublicKey) keyPair.getPublic();
-        RSAPrivateKey privateKey=(RSAPrivateKey) keyPair.getPrivate();
-        RSAKey rsaKey=new RSAKey.Builder(publicKey)
-                .privateKey(privateKey)
-                .keyID(UUID.randomUUID().toString())
-                .build();
-        JWKSet jwkSet=new JWKSet(rsaKey);
+        String jwkSetCache=redisCache.getCacheObject(RedisConstants.AUTHORIZATION_JWS_PREFIX_KEY);
+        if(ObjectUtils.isEmpty(jwkSetCache)){
+            KeyPair keyPair=generateRsaKey();
+            RSAPublicKey publicKey=(RSAPublicKey) keyPair.getPublic();
+            RSAPrivateKey privateKey=(RSAPrivateKey) keyPair.getPrivate();
+            RSAKey rsaKey=new RSAKey.Builder(publicKey)
+                    .privateKey(privateKey)
+                    .keyID(UUID.randomUUID().toString())
+                    .build();
+            //生成jws
+            JWKSet jwkSet=new JWKSet(rsaKey);
+            //转为json字符串
+            String jwkSetString= jwkSet.toString(Boolean.FALSE);
+            //存入redis
+            redisCache.setCacheObject(RedisConstants.AUTHORIZATION_JWS_PREFIX_KEY,jwkSetString);
+
+            return new ImmutableJWKSet<>(jwkSet);
+        }
+        JWKSet jwkSet=JWKSet.parse(jwkSetCache);
         return new ImmutableJWKSet<>(jwkSet);
     }
 

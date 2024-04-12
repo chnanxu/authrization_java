@@ -56,7 +56,7 @@ public class User implements UserDetails, Serializable {
     private String captcha;
 
     @Transient
-    private Collection<SimpleGrantedAuthority> authorities;
+    private Collection<GrantedAuthority> authorities;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

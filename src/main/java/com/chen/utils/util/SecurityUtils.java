@@ -213,7 +213,7 @@ public class SecurityUtils {
                             .providerConfigurationEndpoint(provider -> provider
                                     .providerConfigurationCustomizer(builder -> builder
                                             // 为OIDC端点添加密码认证的登录方式
-                                            .grantType(SecurityConstants.PASSWORD_LOGIN_TYPE)
+//                                            .grantType(SecurityConstants.PASSWORD_LOGIN_TYPE)
                                             // 为OIDC端点添加短信认证码的登录方式
                                             .grantType(SecurityConstants.GRANT_TYPE_SMS_CODE)
                                     )
@@ -221,7 +221,7 @@ public class SecurityUtils {
                     )
                     // 让认证服务器元数据中有自定义的认证方式
                     .authorizationServerMetadataEndpoint(metadata -> metadata.authorizationServerMetadataCustomizer(customizer -> customizer
-                            .grantType(SecurityConstants.PASSWORD_LOGIN_TYPE)
+//                            .grantType(SecurityConstants.PASSWORD_LOGIN_TYPE)
                             .grantType(SecurityConstants.GRANT_TYPE_SMS_CODE)));
         }
 

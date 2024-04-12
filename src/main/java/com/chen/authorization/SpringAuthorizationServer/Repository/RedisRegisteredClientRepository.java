@@ -1,7 +1,7 @@
 package com.chen.authorization.SpringAuthorizationServer.Repository;
 
 import com.chen.pojo.RedisRegisteredClient;
-import com.chen.service.RedisOAuth2AuthorizationService;
+import com.chen.service.Oauth2.RedisOAuth2AuthorizationService;
 import com.chen.utils.util.SecurityConstants;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.Module;
@@ -192,7 +192,7 @@ public class RedisRegisteredClientRepository implements RegisteredClientReposito
         log.info("Initialize client information to Redis.");
         // 默认需要授权确认
         ClientSettings.Builder builder = ClientSettings.builder()
-                .requireAuthorizationConsent(Boolean.FALSE);
+                .requireAuthorizationConsent(Boolean.TRUE);
 
         TokenSettings.Builder tokenSettingsBuilder = TokenSettings.builder()
                 // 自包含token(jwt)

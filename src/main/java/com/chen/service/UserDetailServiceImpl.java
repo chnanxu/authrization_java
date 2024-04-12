@@ -67,7 +67,7 @@ public class UserDetailServiceImpl extends ServiceImpl<Oauth2BasicUserMapper,Use
 //        }
 
         //权限列表
-        List<SimpleGrantedAuthority> permList=permissions.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        List<GrantedAuthority> permList=permissions.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 
         user.setAuthorities(permList);
 

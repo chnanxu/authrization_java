@@ -10,13 +10,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisKeyValueAdapter;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.*;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.jackson2.CoreJackson2Module;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @RequiredArgsConstructor
+@EnableRedisRepositories(enableKeyspaceEvents = RedisKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP)
 public class RedisConfig  {
 
     private final Jackson2ObjectMapperBuilder builder;
@@ -46,7 +49,8 @@ public class RedisConfig  {
         objectMapper.registerModule(new CoreJackson2Module());
 
         //存入redis时序列化值的序列化器
-        Jackson2JsonRedisSerializer<Object> valueSerializer=new Jackson2JsonRedisSerializer<>(objectMapper, Object.class);
+        Jackson2JsonRedisSerializer<Object> valueSerializer=
+                new Jackson2JsonRedisSerializer<>(objectMapper, Object.class);
 
 
         RedisTemplate<Object,Object> template=new RedisTemplate<>();
@@ -69,21 +73,6 @@ public class RedisConfig  {
 
 
     }
-
-    /**
-     * 操作hash的情况下使用
-     *
-     * @param connectionFactory redis链接工厂
-     * @return RedisTemplate
-     */
-    @Bean
-    public RedisTemplate<Object, Object> redisHashTemplate(RedisConnectionFactory connectionFactory) {
-
-        return redisTemplate(connectionFactory);
-    }
-
-
-
 
 
 

@@ -1,5 +1,6 @@
 package com.chen.config;
 
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -12,6 +13,7 @@ import java.util.Collections;
 
 // 请求跨域
 @Configuration
+@EnableConfigurationProperties
 public class CorsConfig  {
     @Bean
     public CorsFilter corsFilter() {

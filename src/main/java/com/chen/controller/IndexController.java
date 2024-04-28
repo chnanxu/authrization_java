@@ -10,17 +10,9 @@ import com.chen.utils.result.ResponseResult;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
-import org.springframework.security.oauth2.core.oidc.OidcScopes;
-import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsent;
-import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
-import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
+
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.*;
 
 
@@ -59,4 +51,11 @@ public class IndexController {
         return new ResponseResult(CommonCode.SUCCESS,leftItem);
     }
 
+    @GetMapping("/getSearchTempList/{text}")
+    public ResponseResult getSearchTempList(@PathVariable String text){
+
+        List<String> result=indexService.searchTempList(text);
+
+        return new ResponseResult(CommonCode.SUCCESS,result);
+    }
 }

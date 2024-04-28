@@ -28,4 +28,11 @@ public class IndexServiceImpl implements IndexService {
         return indexMapper.findCreateLeftItem();
     }
 
+    @Override
+    public List<String> searchTempList(String text){
+
+
+        return indexMapper.searchByText(text);
+    }
+
 }

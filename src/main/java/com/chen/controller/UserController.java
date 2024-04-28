@@ -8,6 +8,7 @@ import com.chen.pojo.page.Item_Details_Temp;
 
 import com.chen.pojo.user.Oauth2UserinfoResult;
 import com.chen.service.UserDetailService;
+import com.chen.service.UserService;
 import com.chen.utils.result.CommonCode;
 import com.chen.utils.util.RedisCache;
 import com.chen.utils.result.ResponseResult;
@@ -35,6 +36,8 @@ public class UserController {
 
     private final UserMapper userMapper;
 
+    private final UserService userService;
+
     private final UserDetailService userDetailService;
 
     private final RedisCache redisCache;
@@ -60,6 +63,7 @@ public class UserController {
 
     }
 
+    //社区访问日志
     @GetMapping("/updateUserSignTime/{id}/{uid}/{sign_time}")
     public ResponseResult updateUserSignTime(@PathVariable long id,@PathVariable String uid,@PathVariable String sign_time){
 
@@ -86,36 +90,11 @@ public class UserController {
     @ResponseBody
     public ResponseResult upload(@RequestParam("file") MultipartFile file,@RequestHeader String token) throws Exception{
 
-        String fileName=file.getOriginalFilename();
+        Oauth2UserinfoResult user=userDetailService.getLoginUserInfo();
 
+        String message= userService.updateHeadImg(file,user.getUid());
 
-        User user=redisCache.getCacheObject("userInfo:"+token);
-
-        String uid=user.getUid();
-
-        String path="D:\\Workspace\\img\\user_data\\"+uid;
-
-        String newFileName="user_headImg"+fileName.substring(fileName.lastIndexOf("."));
-
-        File f=new File(path);
-
-        if(!f.exists()){
-            f.mkdirs();
-        }
-
-        String url="http://localhost:9999/user_data/"+uid+"/"+newFileName;
-
-        userMapper.updateUserImg(uid,"images/user_data/"+uid+"/"+newFileName);
-
-        try {
-            file.transferTo(new File(path+"\\"+newFileName));
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            return new ResponseResult(CommonCode.FAIL,"异常情况");
-        }
-
-        return new ResponseResult(CommonCode.SUCCESS,url);
+        return new ResponseResult(CommonCode.SUCCESS,message);
 
     }
 
@@ -142,94 +121,33 @@ public class UserController {
     @PostMapping("/create/newCoverImg/{create_id}") //封面上传接口
     public ResponseResult newCoverImg(@PathVariable String create_id,@RequestParam("file") MultipartFile file,@RequestHeader String token){
 
-        User user=redisCache.getCacheObject("userInfo:"+token);
+        Oauth2UserinfoResult user=userDetailService.getLoginUserInfo();
 
-        String uid=user.getUid();
-        String id=redisCache.getCacheObject(uid+"create_id:");
+        String message= userService.newCoverImg(create_id,file,user.getUid());
 
-        if(id==null){
-            SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmssSSSS");
-            id=sdf.format(System.currentTimeMillis());
-            redisCache.setCacheObject(uid+"create_id:",id);
-        }
-        String fileName=file.getOriginalFilename();
-
-
-        String path="D:\\Workspace\\img\\user_data\\"+uid+"\\project_data\\"+create_id+"\\"+id;
-        String newFileName="cover_img"+fileName.substring(fileName.lastIndexOf("."));
-
-        File f=new File(path);
-        if(!f.exists()){
-            f.mkdirs();
-        }
-
-        String coverImgUrl="images/user_data/"+uid+"/project_data/"+create_id+"/"+id+"/"+newFileName;
-
-        try {
-            file.transferTo(new File(path+"\\"+newFileName));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new ResponseResult(CommonCode.FAIL,"异常情况");
-        }
-
-        return new ResponseResult(CommonCode.SUCCESS,coverImgUrl);
+        return new ResponseResult(CommonCode.SUCCESS,message);
     }
 
 
     @PostMapping("/create/newProjectImg/{create_id}/{img_id}")  //内容图片上传接口
-    public ResponseResult newProjectImg(@PathVariable String create_id,@PathVariable String img_id,@RequestParam("file") MultipartFile file,@RequestHeader String token) throws Exception{
+    public ResponseResult newProjectImg(@PathVariable String create_id,@PathVariable String img_id,@RequestParam("file") MultipartFile file) throws Exception{
 
-        User user=redisCache.getCacheObject("userInfo:"+token);
+        Oauth2UserinfoResult user=userDetailService.getLoginUserInfo();
 
-        String uid=user.getUid();
-        String id=redisCache.getCacheObject(uid+"create_id:");
+        String message=userService.newProjectImg(create_id,img_id,file,user.getUid());
 
-        if(id==null){
-            SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmssSSSS");
-            id=sdf.format(System.currentTimeMillis());
-            redisCache.setCacheObject(uid+"create_id:",id);
-        }
-
-        String fileName=file.getOriginalFilename();
-
-
-
-        String path="D:\\Workspace\\img\\user_data\\"+uid+"\\project_data\\"+create_id+"\\"+id;
-
-        String newFileName="content_"+img_id+fileName.substring(fileName.lastIndexOf("."));
-
-        File f=new File(path);
-        if(!f.exists()){
-            f.mkdirs();
-        }
-
-        String url="images/user_data/"+uid+"/project_data/"+create_id+"/"+id+"/"+newFileName;
-
-        try {
-            file.transferTo(new File(path+"\\"+newFileName));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new ResponseResult(CommonCode.FAIL,"异常情况");
-        }
-        return new ResponseResult(CommonCode.SUCCESS,url);
+        return new ResponseResult(CommonCode.SUCCESS,message);
     }
 
 
     @PostMapping("/create/newProject/{create_id}")  //提交新作品接口
     public ResponseResult newProject(@PathVariable String create_id,@RequestBody Item_Details_Temp temp_item, @RequestHeader String token){
 
-        User user=redisCache.getCacheObject("userInfo:"+token);
-        String uid=user.getUid();
+        Oauth2UserinfoResult user=userDetailService.getLoginUserInfo();
 
-        String id=redisCache.getCacheObject(uid+"create_id:");
-        temp_item.setPid(id);
-        userMapper.createNewProject(temp_item);
+        String message=userService.newProject(temp_item,user.getUid());
 
-
-
-        redisCache.deleteObject(uid+"create_id:");
-
-        return new ResponseResult(CommonCode.SUCCESS,"success");
+        return new ResponseResult(CommonCode.SUCCESS,message);
     }
 
     @PostMapping("/create/getMyProject/{uid}")  //获取作品接口
@@ -243,17 +161,43 @@ public class UserController {
     @PostMapping("/likeCommunity/{gid}/{uid}")  //用户关注社区
     public ResponseResult likeCommunity(@PathVariable long gid,@PathVariable String uid){
 
-        userMapper.addLikeCommunity(uid,gid);
+        String message=userService.guanzhuCommunity(uid,gid);
 
-        return new ResponseResult(CommonCode.SUCCESS,"success");
+        return new ResponseResult(CommonCode.SUCCESS,message);
     }
 
-    @PostMapping("/removeCommunity/{gid}/{uid}")  //用户取消关注社区
-    public ResponseResult removeCommunity(@PathVariable long gid,@PathVariable String uid){
 
-        userMapper.removeCommunity(uid,gid);
+    @PostMapping("/likeUser/{uid}")  //用户关注作者
+    public ResponseResult likeUser(@PathVariable String uid){
 
-        return new ResponseResult(CommonCode.SUCCESS,"success");
+        Oauth2UserinfoResult loginUser=userDetailService.getLoginUserInfo();
+        String message= userService.guanzhuUser(loginUser.getUid(),uid);
+
+        return new ResponseResult(CommonCode.SUCCESS,message);
     }
 
+    @GetMapping("/isLikeUser/{uid}")  //用户是否关注作者
+    public ResponseResult isLikeUser(@PathVariable String uid){
+
+        Oauth2UserinfoResult loginUser=userDetailService.getLoginUserInfo();
+
+        if(userMapper.getUserLikeUser(loginUser.getUid(),uid)!=null){
+            return new ResponseResult(CommonCode.SUCCESS,"已关注");
+        }else{
+            return new ResponseResult(CommonCode.SUCCESS,"未关注");
+        }
+    }
+
+    @GetMapping("/isLikeProject/{pid}")  //用户是否喜欢作品
+    public ResponseResult isLikeProject(@PathVariable long pid){
+
+        Oauth2UserinfoResult loginUser=userDetailService.getLoginUserInfo();
+
+        if(userMapper.getUserLikeProject(loginUser.getUid(),pid)!=null){
+            return new ResponseResult(CommonCode.SUCCESS,"已点赞");
+        }else{
+            return new ResponseResult(CommonCode.SUCCESS,"未点赞");
+        }
+
+    }
 }

@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -31,6 +32,8 @@ public class ResourceConfig {
     private final CorsFilter corsFilter;
 
     private final CustomSecurityProperties customSecurityProperties;
+
+
 
     private final RedisCache redisCache;
     @Bean
@@ -52,13 +55,10 @@ public class ResourceConfig {
         }
         );
 
-
-        http.oauth2ResourceServer((resourceServer)->resourceServer
-                .jwt(Customizer.withDefaults())
-                .accessDeniedHandler(new AccessDeniedHandlerImpl())
-        );
-
-
+//        http.oauth2Login(oauth2Login->oauth2Login
+//                .loginPage(customSecurityProperties.getLoginUrl())
+//                .authorizationEndpoint(authorization->authorization
+//                        .authorizationRequestResolver(this.))
 
 
         return http.build();

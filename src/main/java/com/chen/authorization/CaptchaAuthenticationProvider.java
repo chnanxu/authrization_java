@@ -40,13 +40,13 @@ public class CaptchaAuthenticationProvider extends DaoAuthenticationProvider {
      * 注入UserDetailsService和passwordEncoder，然后
      * 设置调用父类关于这两个属性的set方法设置进去
      *
-     * @param userDetailService 用户服务，给框架提供用户信息
+     * @param userDetailsService 用户服务，给框架提供用户信息
      * @param passwordEncoder    密码解析器，用于加密和校验密码
      */
-    public CaptchaAuthenticationProvider(UserDetailService userDetailService, PasswordEncoder passwordEncoder, RedisCache redisCache) {
+    public CaptchaAuthenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, RedisCache redisCache) {
         this.redisCache = redisCache;
         super.setPasswordEncoder(passwordEncoder);
-        super.setUserDetailsService(userDetailService);
+        super.setUserDetailsService(userDetailsService);
     }
 
     @Override

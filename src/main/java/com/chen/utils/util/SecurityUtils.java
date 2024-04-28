@@ -2,7 +2,7 @@ package com.chen.utils.util;
 
 import com.chen.authorization.deviceAuthentication.DeviceClientAuthenticationConverter;
 import com.chen.authorization.deviceAuthentication.DeviceClientAuthenticationProvider;
-import com.chen.authorization.SpringAuthorizationServer.LoginTargetAuthenticationEntryPoint;
+import com.chen.exception.handler.LoginTargetAuthenticationEntryPoint;
 import com.chen.exception.handler.ConsentAuthenticationFailureHandler;
 import com.chen.exception.handler.ConsentAuthorizationResponseHandler;
 import com.chen.exception.handler.DeviceAuthorizationResponseHandler;
@@ -213,15 +213,16 @@ public class SecurityUtils {
                             .providerConfigurationEndpoint(provider -> provider
                                     .providerConfigurationCustomizer(builder -> builder
                                             // 为OIDC端点添加密码认证的登录方式
-//                                            .grantType(SecurityConstants.PASSWORD_LOGIN_TYPE)
+                                            .grantType(SecurityConstants.SMS_LOGIN_TYPE)
                                             // 为OIDC端点添加短信认证码的登录方式
                                             .grantType(SecurityConstants.GRANT_TYPE_SMS_CODE)
                                     )
                             )
                     )
+
                     // 让认证服务器元数据中有自定义的认证方式
                     .authorizationServerMetadataEndpoint(metadata -> metadata.authorizationServerMetadataCustomizer(customizer -> customizer
-//                            .grantType(SecurityConstants.PASSWORD_LOGIN_TYPE)
+                            .grantType(SecurityConstants.SMS_LOGIN_TYPE)
                             .grantType(SecurityConstants.GRANT_TYPE_SMS_CODE)));
         }
 

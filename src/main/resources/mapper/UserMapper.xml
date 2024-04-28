@@ -5,7 +5,7 @@
 <mapper namespace="com.chen.mapper.UserMapper">
 
     <select id="findByName" resultType="User">
-        select * from users where username=#{username}
+        select * from users where username=#{username} or phone=#{username}
     </select>  <!--根据username查找-->
 
     <select id="findUserInfo" resultType="User">
@@ -25,7 +25,7 @@
     </update>  <!--更新用户头像-->
 
     <update id="updateUserInfo" parameterType="User">
-        update users set uname=#{uname},sex=#{sex},email=#{email} where uid=#{uid};
+        update users set uname=#{uname},sex=#{sex},email=#{email},phone=#{phone} where uid=#{uid};
         update item_comments set uname=#{uname} where uid=#{uid};
         update item_details set uname=#{uname} where uid=#{uid}
     </update>   <!--更新用户信息-->
@@ -120,5 +120,18 @@
                              year_times=year_times+1 where gid=#{gid}
     </update>
 
+    <select id="getUserLikeUser">
+        select * from user_likeuser where uid=#{uid} and like_uid=#{like_uid}
+    </select>
+    <insert id="likeUser">
+        insert into user_likeuser values(#{uid},#{like_uid})
+    </insert>
+    <delete id="cancelLikeUser">
+        delete from user_likeuser where uid=#{uid} and like_uid=#{like_uid}
+    </delete>
+
+    <select id="getUserLikeProject">
+        select * from user_likedetails where uid=#{uid} and pid=#{pid}
+    </select>
 
 </mapper>

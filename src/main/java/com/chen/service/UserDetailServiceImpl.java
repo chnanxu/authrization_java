@@ -8,12 +8,12 @@ import com.chen.mapper.PermMapper;
 import com.chen.mapper.ThirdAccountMapper;
 import com.chen.mapper.UserMapper;
 
-import com.chen.pojo.Permissions;
 
 import com.chen.pojo.SysAuthority;
 import com.chen.pojo.SysRoleAuthority;
 import com.chen.pojo.User;
 
+import com.chen.pojo.user.CustomGrantedAuthority;
 import com.chen.pojo.user.Oauth2ThirdAccount;
 import com.chen.pojo.user.Oauth2UserinfoResult;
 import com.chen.utils.util.SecurityConstants;
@@ -67,7 +67,7 @@ public class UserDetailServiceImpl extends ServiceImpl<Oauth2BasicUserMapper,Use
 //        }
 
         //权限列表
-        List<GrantedAuthority> permList=permissions.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        Set<CustomGrantedAuthority> permList=Optional.ofNullable(permissions).orElse(Collections.emptyList()).stream().map(CustomGrantedAuthority::new).collect(Collectors.toSet());
 
         user.setAuthorities(permList);
 

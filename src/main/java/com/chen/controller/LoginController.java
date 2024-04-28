@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.chen.utils.util.RedisConstants.SMS_CAPTCHA_PREFIX_KEY;
+
 @PreAuthorize("permitAll()")
 @RestController
 public class LoginController {
@@ -62,12 +64,12 @@ public class LoginController {
 
     @ResponseBody
     @GetMapping("/getSmsCaptcha")
-    public ResponseResult getSmsCaptcha(String phone, HttpSession httpsession){
+    public ResponseResult getSmsCaptcha(@RequestParam("phone") String phone){
         Map<String,Object> result=new HashMap<>();
         result.put("code", HttpStatus.OK.value());
         result.put("message","获取短信验证码成功");
         result.put("data","1234");
-
+        redisCache.setCacheObject(SMS_CAPTCHA_PREFIX_KEY+phone,"1234");
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
 

@@ -1,7 +1,7 @@
 package com.chen.mapper;
 
 
-import com.chen.pojo.Permissions;
+
 import com.chen.pojo.SysRoleAuthority;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;

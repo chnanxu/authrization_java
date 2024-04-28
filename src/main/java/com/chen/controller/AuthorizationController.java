@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsent;
@@ -33,6 +34,7 @@ import java.util.*;
 
 import static com.chen.utils.util.SecurityConstants.*;
 
+@PreAuthorize("permitAll()")
 @RestController
 @RequiredArgsConstructor
 public class AuthorizationController {
@@ -55,7 +57,7 @@ public class AuthorizationController {
                           @RequestParam(OAuth2ParameterNames.SCOPE) String scope,
                           @RequestParam(OAuth2ParameterNames.STATE) String state,
                           @RequestParam(name = OAuth2ParameterNames.USER_CODE, required = false) String userCode) {
-        System.out.println(clientId);
+
         // 获取consent页面所需的参数
         Map<String, Object> consentParameters = getConsentParameters(scope, state, clientId, userCode, principal);
         // 转至model中，让框架渲染页面
@@ -95,8 +97,6 @@ public class AuthorizationController {
 
         OAuth2AuthorizationConsent currentAuthorizationConsent=
                 this.authorizationConsentService.findById(registeredClient.getId(), principal.getName());
-
-        System.out.println(currentAuthorizationConsent);
 
         Set<String> authorizedScopes;
         if(currentAuthorizationConsent!=null){

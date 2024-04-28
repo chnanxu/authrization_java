@@ -21,7 +21,7 @@ public interface PageService {
 
     void submitComment(Item_Comments commentData);
 
-    void onLikeComment(UserLikeComment userLikeComment);
+    String onLikeComment(UserLikeComment userLikeComment);
 
 
     List<String> getLeftNavbar();
@@ -34,5 +34,5 @@ public interface PageService {
 
     List<All_Type> getTypeList();
 
-    void onLikeDetails(String uid, long pid);
+    String onLikeDetails(String uid, long pid);
 }

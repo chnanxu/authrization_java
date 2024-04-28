@@ -12,6 +12,7 @@ public interface IndexService {
 
     List<String> findUserItem();
 
-
     List<String> finCreateLeftItem();
+
+    List<String> searchTempList(String text);
 }

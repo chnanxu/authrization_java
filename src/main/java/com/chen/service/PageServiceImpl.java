@@ -24,6 +24,7 @@ import java.util.List;
 public class PageServiceImpl implements PageService{
 
     private final SimpleDateFormat systemTime=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     private final PageMapper pageMapper;
 
     private final RedisCache redisCache;
@@ -84,7 +85,6 @@ public class PageServiceImpl implements PageService{
         pageMapper.addReadTimes(pid);
 
 
-
         return pageMapper.getPageDetails(pid);
     }
 
@@ -138,22 +138,26 @@ public class PageServiceImpl implements PageService{
 
 
     @Override
-    public void onLikeComment(UserLikeComment userLikeComment) {
+    public String onLikeComment(UserLikeComment userLikeComment) {
 
         if(pageMapper.getUserLikeComments(userLikeComment.getUid(),userLikeComment.getPid(),userLikeComment.getComment_id())!=null){
             userMapper.deleteUserLikeComment(userLikeComment.getUid(), userLikeComment.getPid(), userLikeComment.getComment_id());
+            return "已取消点赞";
         }else{
             userMapper.addUserLikeComment(userLikeComment.getUid(), userLikeComment.getPid(), userLikeComment.getComment_id());
+            return "已点赞";
         }
 
     }
 
     @Override
-    public void onLikeDetails(String uid, long pid) {
+    public String onLikeDetails(String uid, long pid) {
         if(userMapper.getUserLikeDetails(uid,pid)!=null){
             userMapper.deleteUserLikeDetails(uid,pid);
+            return "已取消喜欢";
         }else{
             userMapper.addUserLikeDetails(uid,pid,systemTime.format(new Date(System.currentTimeMillis())));
+            return "已喜欢";
         }
     }
 

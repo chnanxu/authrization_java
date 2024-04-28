@@ -27,6 +27,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RedisOAuth2AuthorizationConsentService implements OAuth2AuthorizationConsentService {
 
+
+
     private final RegisteredClientRepository registeredClientRepository;
 
     private final RedisAuthorizationConsentRepository authorizationConsentRepository;
@@ -36,21 +38,22 @@ public class RedisOAuth2AuthorizationConsentService implements OAuth2Authorizati
         Assert.notNull(authorizationConsent, "authorizationConsent cannot be null");
 
         // 如果存在就先删除
-        authorizationConsentRepository.findByRegisteredClientIdAndPrincipalName(
+        this.authorizationConsentRepository.findByRegisteredClientIdAndPrincipalName(
                         authorizationConsent.getRegisteredClientId(), authorizationConsent.getPrincipalName())
-                .ifPresent(existingConsent -> authorizationConsentRepository.deleteById(existingConsent.getId()));
+                .ifPresent(existingConsent -> this.authorizationConsentRepository.deleteById(existingConsent.getId()));
 
         // 保存
         RedisAuthorizationConsent entity = toEntity(authorizationConsent);
         entity.setId(UUID.randomUUID().toString());
-        authorizationConsentRepository.save(entity);
+
+        this.authorizationConsentRepository.save(entity);
     }
 
     @Override
     public void remove(OAuth2AuthorizationConsent authorizationConsent) {
         Assert.notNull(authorizationConsent, "authorizationConsent cannot be null");
         // 如果存在就删除
-        authorizationConsentRepository.findByRegisteredClientIdAndPrincipalName(
+        this.authorizationConsentRepository.findByRegisteredClientIdAndPrincipalName(
                         authorizationConsent.getRegisteredClientId(), authorizationConsent.getPrincipalName())
                 .ifPresent(existingConsent -> this.authorizationConsentRepository.deleteById(existingConsent.getId()));
     }
@@ -59,7 +62,7 @@ public class RedisOAuth2AuthorizationConsentService implements OAuth2Authorizati
     public OAuth2AuthorizationConsent findById(String registeredClientId, String principalName) {
         Assert.hasText(registeredClientId, "registeredClientId cannot be empty");
         Assert.hasText(principalName, "principalName cannot be empty");
-        return authorizationConsentRepository.findByRegisteredClientIdAndPrincipalName(
+        return this.authorizationConsentRepository.findByRegisteredClientIdAndPrincipalName(
                 registeredClientId, principalName).map(this::toObject).orElse(null);
     }
 

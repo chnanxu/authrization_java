@@ -12,6 +12,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
@@ -82,6 +83,7 @@ public class SmsCaptchaLoginAuthenticationProvider extends CaptchaAuthentication
             }
             // 删除缓存
             redisCache.deleteObject((SMS_CAPTCHA_PREFIX_KEY + authentication.getPrincipal()));
+
             // 在这里也可以拓展其它登录方式，比如邮箱登录什么的
         } else {
             log.info("Not sms captcha loginType, exit.");

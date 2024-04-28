@@ -15,4 +15,6 @@ public interface IndexMapper {
     List<String> findUserItem();
 
     List<String> findCreateLeftItem();
+
+    List<String> searchByText(String text);
 }

@@ -1,7 +1,8 @@
-package com.chen.authorization.SpringAuthorizationServer;
+package com.chen.exception.handler;
 
 import com.chen.utils.result.CommonCode;
 import com.chen.utils.result.ResponseResult;
+import com.chen.utils.result.UserCode;
 import com.chen.utils.util.JsonUtils;
 import com.chen.utils.util.SecurityConstants;
 import jakarta.servlet.ServletException;
@@ -66,6 +67,12 @@ public class LoginTargetAuthenticationEntryPoint extends LoginUrlAuthenticationE
         String targetParameter = URLEncoder.encode(requestUrl.toString(), StandardCharsets.UTF_8);
         String targetUrl = loginForm + "?target=" + targetParameter;
         log.debug("重定向至前后端分离的登录页面：{}", targetUrl);
-        this.redirectStrategy.sendRedirect(request, response, targetUrl);
+
+        ResponseResult result=new ResponseResult(UserCode.NOLOGIN,targetUrl);
+        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.getWriter().write(JsonUtils.objectCovertToJson(result));
+        response.getWriter().flush();
+
     }
 }

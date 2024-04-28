@@ -2,28 +2,21 @@ package com.chen.pojo;
 
 
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.chen.pojo.user.CustomGrantedAuthority;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Data
@@ -56,10 +49,10 @@ public class User implements UserDetails, Serializable {
     private String captcha;
 
     @Transient
-    private Collection<GrantedAuthority> authorities;
+    private Collection<CustomGrantedAuthority> authorities;
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Collection<CustomGrantedAuthority> getAuthorities() {
         return this.authorities;
     }
 

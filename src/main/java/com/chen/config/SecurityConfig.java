@@ -12,7 +12,7 @@ package com.chen.config;
 //@EnableWebSecurity//标识为spring security的配置类
 //@RequiredArgsConstructor
 //@EnableMethodSecurity(securedEnabled = true,jsr250Enabled = true)  //开启注解权限控制
-public class SecurityConfig{
+//public class SecurityConfig{
 
     /**
      * JWT Token 过滤器链
@@ -186,4 +186,4 @@ public class SecurityConfig{
 
 
 
-}
+//}

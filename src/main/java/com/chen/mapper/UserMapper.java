@@ -7,6 +7,7 @@ import com.chen.pojo.page.Group;
 import com.chen.pojo.page.Item_Details;
 import com.chen.pojo.page.Item_Details_Temp;
 import com.chen.pojo.user.UserLikeDetails;
+import com.chen.pojo.user.User_likeuser;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -63,5 +64,12 @@ public interface UserMapper extends IService<User> {
 
     void updateUserSignTime(String uid,long gid,String last_sign_time);
 
+
+
+    User_likeuser getUserLikeUser(String uid,String like_uid);
+    void likeUser(String uid,String like_uid);
+    void cancelLikeUser(String uid,String like_uid);
+
+    UserLikeDetails getUserLikeProject(String uid,long pid);
 
 }

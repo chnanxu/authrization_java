@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.security.jackson2.CoreJackson2Module;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
-import org.springframework.security.oauth2.client.jackson2.OAuth2ClientJackson2Module;
+
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
@@ -60,7 +60,7 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
         // 加载Security Web提供的module
         MAPPER.registerModule(new WebServerJackson2Module());
         // 加载OAuth2 Client提供的Module
-        MAPPER.registerModule(new OAuth2ClientJackson2Module());
+//        MAPPER.registerModule(new OAuth2ClientJackson2Module());
     }
 
     @Override

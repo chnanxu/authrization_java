@@ -14,17 +14,17 @@ public class SecurityConstants {
     /**
      * 授权确认页面地址
      */
-    public static final String DEVICE_ACTIVATED_URI = "http://127.0.0.1:3000/activated";
+    public static final String DEVICE_ACTIVATED_URI = "http://react.cx.com/page/activated";
 
     /**
      * 授权确认页面地址
      */
-    public static final String DEVICE_ACTIVATE_URI = "http://127.0.0.1:3000/activate";
+    public static final String DEVICE_ACTIVATE_URI = "http://react.cx.com/page/activate";
 
     /**
      * 授权确认页面地址
      */
-    public static final String CONSENT_PAGE_URI = "http://127.0.0.1:3000/consent";
+    public static final String CONSENT_PAGE_URI = "http://react.cx.com/page/consent";
 
     /**
      * 微信登录相关参数——openid：用户唯一id

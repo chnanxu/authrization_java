@@ -15,6 +15,8 @@ import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import org.springframework.core.annotation.Order;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,6 +25,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 
+import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationConsentService;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
@@ -46,9 +50,8 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.*;
 
-
+@Configuration
 @RequiredArgsConstructor
-@Configuration(proxyBeanMethods = false)
 public class AuthorizationConfig {
 
     private final CorsFilter corsFilter;
@@ -61,6 +64,7 @@ public class AuthorizationConfig {
                                                                       AuthorizationServerSettings authorizationServerSettings) throws Exception{
 
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+
 
         //基础认证配置
         SecurityUtils.applyBasicSecurity(http,corsFilter,customSecurityProperties);
@@ -78,6 +82,7 @@ public class AuthorizationConfig {
                 .tokenEndpoint(tokenEndpoint->tokenEndpoint
                         .accessTokenRequestConverter(converter)
                         .authenticationProvider(provider));
+
 
 //
         DefaultSecurityFilterChain build=http.build();
@@ -126,120 +131,7 @@ public class AuthorizationConfig {
 
     }
 
-    /**
-     * 配置客户端Repository
-     * @return
-     */
-//    @Bean
-//    public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate, PasswordEncoder passwordEncoder){
-//        RegisteredClient registeredClient=RegisteredClient.withId(UUID.randomUUID().toString())
-//                //客户端id
-//                .clientId("messaging-client")
-//                //客户端密钥
-//                .clientSecret(passwordEncoder.encode("123456"))
-//                //客户端认证方式，基于请求头的认证
-//                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-//                //配置资源服务器使用该客户端获取授权时支持的方式
-//                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-//                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-//                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-//                //客户端添加自定义认证
-////                .authorizationGrantType(new AuthorizationGrantType(SecurityConstants.GRANT_TYPE_SMS_CODE))
-//                //授权码模式回调地址，oauth2.1已改为精准匹配，不能只设置域名，并且屏蔽了localhost
-//                .redirectUri("http://127.0.0.1:3000/Oauth2Redirect")
-//                .redirectUri("http://127.0.0.1:8081/login/oauth2/code/messaging-client-oidc")
-//
-//                //该客户端的授权范围，OPENID与PROFILE是IdToken的scope
-//                .scope(OidcScopes.OPENID)
-//                .scope(OidcScopes.PROFILE)
-//
-//                .scope("message.read")
-//                .scope("message.write")
-//
-//                .clientSettings(ClientSettings.builder().requireAuthorizationConsent(false).build())
-//                .build();
-//
-//
-//
-//        //基于db存储客户端，还有一个基于内存的实现 InMemoryRegisteredClientRepository
-//        JdbcRegisteredClientRepository registeredClientRepository=new JdbcRegisteredClientRepository(jdbcTemplate);
-//
-//        //初始化客户端
-//        RegisteredClient repositoryByClientId=registeredClientRepository.findByClientId(registeredClient.getClientId());
-//        if(repositoryByClientId==null){
-//            registeredClientRepository.save(registeredClient);
-//        }
-//
-////        //设备授权客户端
-////        RegisteredClient deviceClient=RegisteredClient.withId(UUID.randomUUID().toString())
-////                .clientId("device-message-client")
-////
-////                //公共客户端
-////                .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
-////                //设备授权码
-////                .authorizationGrantType(AuthorizationGrantType.DEVICE_CODE)
-////                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-////
-////                .scope("message.read")
-////                .scope("message.write")
-////                .build();
-////        RegisteredClient byClientId=registeredClientRepository.findByClientId(deviceClient.getClientId());
-////        if(byClientId==null){
-////            registeredClientRepository.save(deviceClient);
-////        }
-////
-////        //PKCE客户端
-////        RegisteredClient pkceClient=RegisteredClient.withId(UUID.randomUUID().toString())
-////                .clientId("pkce-message-client")
-////                //公共客户端
-////                .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
-////                //授权码模式，因为是扩展授权码流程，所以流程还是授权码的流程，改变的只是参数
-////                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-////                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-////                //授权码模式回调地址，oauth2.1已改为精准匹配，不能只设置域名，并且屏蔽了localhost
-////                .redirectUri("http://127.0.0.1:8081/login/oauth2/code/messaging-client-oidc")
-////                .clientSettings(ClientSettings.builder().requireProofKey(Boolean.TRUE).build())
-////
-////                .scope("message.read")
-////                .scope("message.write")
-////
-////                .build();
-////
-////        RegisteredClient findPkceClient=registeredClientRepository.findByClientId(pkceClient.getClientId());
-////        if(findPkceClient==null){
-////            registeredClientRepository.save(pkceClient);
-////        }
-//
-//        return registeredClientRepository;
-//
-//    }
-//
-//
-//
-//
-//    /**
-//     * 基于db的oauth2的授权管理服务
-//     * @param jdbcTemplate
-//     * @param registeredClientRepository
-//     * @return
-//     */
-//    @Bean
-//    public OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate, RegisteredClientRepository registeredClientRepository){
-//
-//        return new JdbcOAuth2AuthorizationService(jdbcTemplate,registeredClientRepository);
-//    }
-//
-//    /**
-//     * 配置基于db的授权确认管理服务
-//     * @param jdbcTemplate
-//     * @param registeredClientRepository
-//     * @return
-//     */
-//    @Bean
-//    public OAuth2AuthorizationConsentService authorizationConsentService(JdbcTemplate jdbcTemplate, RegisteredClientRepository registeredClientRepository){
-//
-//        return new JdbcOAuth2AuthorizationConsentService(jdbcTemplate,registeredClientRepository);
-//    }
+
 
 
     @Bean

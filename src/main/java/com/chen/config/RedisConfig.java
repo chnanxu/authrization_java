@@ -17,14 +17,12 @@ import org.springframework.data.redis.serializer.*;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.jackson2.CoreJackson2Module;
 
-@Configuration(proxyBeanMethods = false)
+@Configuration()
 @RequiredArgsConstructor
 @EnableRedisRepositories(enableKeyspaceEvents = RedisKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP)
 public class RedisConfig  {
 
     private final Jackson2ObjectMapperBuilder builder;
-
-
 
     @Bean
     public RedisTemplate<Object,Object> redisTemplate(RedisConnectionFactory connectionFactory){

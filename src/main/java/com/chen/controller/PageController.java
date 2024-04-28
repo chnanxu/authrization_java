@@ -47,12 +47,6 @@ public class PageController {
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
 
-    @GetMapping("/getGroup")  //社区接口
-    public ResponseResult getGroup(){
-
-        List<Group> result=pageService.getGroup();
-        return new ResponseResult(CommonCode.SUCCESS,result);
-    }
 
     @RequestMapping("/getPageDetails/{typeid}/{pid}")  //详细页面数据接口
     public ResponseResult getPageDetails(@PathVariable int typeid,@PathVariable long pid){
@@ -66,6 +60,10 @@ public class PageController {
     public ResponseResult getPageDetailsComments(@PathVariable int typeid,@PathVariable long pid,@RequestHeader String token){
 
         List<Item_Comments> result=pageService.getPageDetailsComments(pid,token);
+
+        if(result==null){
+            return new ResponseResult(CommonCode.SUCCESS,"当前没有评论");
+        }
 
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
@@ -88,6 +86,14 @@ public class PageController {
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
 
+
+    //社区相关接口--------------------------------------------------------------------------------------------------------
+    @GetMapping("/getGroup")  //社区接口
+    public ResponseResult getGroup(){
+
+        List<Group> result=pageService.getGroup();
+        return new ResponseResult(CommonCode.SUCCESS,result);
+    }
     @GetMapping("/getTotalHotCommunity")  //获取热门社区
     public ResponseResult getTotalHotCommunity(){
 
@@ -95,15 +101,19 @@ public class PageController {
 
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
+    @PreAuthorize("hasAuthority('system:user')")
+    @PostMapping("/submitCommunityPost/{gid}")
+    public ResponseResult submitCommunityPost(@PathVariable String gid){
 
 
 
+        return new ResponseResult(CommonCode.SUCCESS,"success");
+    }
 
-    /**
-     * 用户相关接口
-     * @param commentData
-     * @return
-     */
+
+
+    //用户相关接口--------------------------------------------------------------------------------------------------------
+
     @PreAuthorize("hasAuthority('system:user')")
     @PostMapping("/submitComment")    //提交评论
     public ResponseResult submitComment(@RequestBody Item_Comments commentData){
@@ -136,18 +146,18 @@ public class PageController {
     @PostMapping("/onLikeComment")   //点赞评论
     public ResponseResult onLikeComment(@RequestBody UserLikeComment userLikeComment){
 
-        pageService.onLikeComment(userLikeComment);
+        String message= pageService.onLikeComment(userLikeComment);
 
-        return new ResponseResult(CommonCode.SUCCESS);
+        return new ResponseResult(CommonCode.SUCCESS,message);
     }
 
     @PreAuthorize("hasAuthority('system:user')")
     @PostMapping("/likeDetails/{uid}/{pid}")  //点赞作品
     public ResponseResult likeDetails(@PathVariable String uid,@PathVariable long pid){
 
-        pageService.onLikeDetails(uid,pid);
+        String message= pageService.onLikeDetails(uid,pid);
 
-        return new ResponseResult(CommonCode.SUCCESS);
+        return new ResponseResult(CommonCode.SUCCESS,message);
     }
 
 

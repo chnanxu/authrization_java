@@ -11,7 +11,6 @@ import com.chen.pojo.user.User_likeuser;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -24,6 +23,7 @@ public interface UserMapper extends IService<User> {
 
     User findByName(String username);  //
 
+    User findByUid(String uid);
 
 
 

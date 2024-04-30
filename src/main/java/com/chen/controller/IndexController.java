@@ -51,10 +51,14 @@ public class IndexController {
         return new ResponseResult(CommonCode.SUCCESS,leftItem);
     }
 
-    @GetMapping("/getSearchTempList/{text}")
-    public ResponseResult getSearchTempList(@PathVariable String text){
+    @GetMapping(value = {"/getSearchTempList/{text}","getSearchTempList/"})
+    public ResponseResult getSearchTempList(@PathVariable(required = false) String text){
+        List<String> result=new ArrayList<>();
+        if(text==null){
 
-        List<String> result=indexService.searchTempList(text);
+        }else{
+            result=indexService.searchTempList(text);
+        }
 
         return new ResponseResult(CommonCode.SUCCESS,result);
     }

@@ -2,23 +2,18 @@ package com.chen.exception.handler;
 
 import com.alibaba.fastjson.JSON;
 
-import com.chen.pojo.User;
 import com.chen.utils.result.*;
 import com.chen.utils.util.RedisCache;
-import com.nimbusds.jose.jwk.source.JWKSource;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {

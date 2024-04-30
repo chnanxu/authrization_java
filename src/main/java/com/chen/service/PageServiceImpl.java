@@ -12,7 +12,6 @@ import com.chen.pojo.user.Oauth2UserinfoResult;
 import com.chen.pojo.user.UserLikeComment;
 import com.chen.utils.util.RedisCache;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;

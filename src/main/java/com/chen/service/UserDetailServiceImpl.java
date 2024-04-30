@@ -9,8 +9,6 @@ import com.chen.mapper.ThirdAccountMapper;
 import com.chen.mapper.UserMapper;
 
 
-import com.chen.pojo.SysAuthority;
-import com.chen.pojo.SysRoleAuthority;
 import com.chen.pojo.User;
 
 import com.chen.pojo.user.CustomGrantedAuthority;
@@ -20,7 +18,6 @@ import com.chen.utils.util.SecurityConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -108,7 +105,7 @@ public class UserDetailServiceImpl extends ServiceImpl<Oauth2BasicUserMapper,Use
         // 获取用户唯一Id
         String uniqueId = token.getClaimAsString(TOKEN_UNIQUE_ID);
         // 基础用户信息id
-        Integer basicUserId = null;
+        String basicUserId = null;
 
         // 获取Token中的权限列表
         List<String> claimAsStringList = token.getClaimAsStringList(SecurityConstants.AUTHORITIES_KEY);
@@ -127,7 +124,7 @@ public class UserDetailServiceImpl extends ServiceImpl<Oauth2BasicUserMapper,Use
             }
         } else {
             // 为空则代表是使用当前框架提供的登录接口登录的，转为基础用户信息
-            basicUserId = Integer.parseInt(uniqueId);
+            basicUserId = uniqueId;
         }
 
         if (basicUserId == null) {
@@ -137,7 +134,7 @@ public class UserDetailServiceImpl extends ServiceImpl<Oauth2BasicUserMapper,Use
         }
 
         // 查询基础用户信息
-        User basicUser = this.getById(basicUserId);
+        User basicUser = userMapper.findByUid(basicUserId);
         if (basicUser != null) {
             BeanUtils.copyProperties(basicUser, result);
         }

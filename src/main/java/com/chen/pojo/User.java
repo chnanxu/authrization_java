@@ -44,7 +44,6 @@ public class User implements UserDetails, Serializable {
     private boolean enabled;
 
 
-
     @Transient
     private String captcha;
 

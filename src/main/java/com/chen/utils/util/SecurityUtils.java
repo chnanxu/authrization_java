@@ -2,10 +2,7 @@ package com.chen.utils.util;
 
 import com.chen.authorization.deviceAuthentication.DeviceClientAuthenticationConverter;
 import com.chen.authorization.deviceAuthentication.DeviceClientAuthenticationProvider;
-import com.chen.exception.handler.LoginTargetAuthenticationEntryPoint;
-import com.chen.exception.handler.ConsentAuthenticationFailureHandler;
-import com.chen.exception.handler.ConsentAuthorizationResponseHandler;
-import com.chen.exception.handler.DeviceAuthorizationResponseHandler;
+import com.chen.exception.handler.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
@@ -243,7 +240,9 @@ public class SecurityUtils {
                 .oauth2ResourceServer((resourceServer) -> resourceServer
                         .jwt(Customizer.withDefaults())
                         .accessDeniedHandler(SecurityUtils::exceptionHandler)
-                        .authenticationEntryPoint(SecurityUtils::exceptionHandler));
+                        .authenticationEntryPoint(SecurityUtils::exceptionHandler))
+
+                .logout(logout->logout.logoutSuccessHandler(new LogoutSuccessHandlerImpl()));
 
 //        http.logout(logout->logout.invalidateHttpSession(true).logoutSuccessHandler(new LogoutSuccessHandlerImpl(new RedisCache())));
 //

@@ -25,7 +25,7 @@ public class Oauth2ThirdAccount implements Serializable {
     /**
      * 用户表主键
      */
-    private Integer userId;
+    private String userId;
 
     /**
      * 三方登录唯一id

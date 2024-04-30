@@ -97,9 +97,6 @@ public class AuthorizationConfig {
         provider.setAuthenticationManager(authenticationManager);
 
 
-
-
-
         return build;
     }
 

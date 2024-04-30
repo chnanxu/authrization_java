@@ -5,12 +5,8 @@ import com.chen.mapper.UserMapper;
 import com.chen.pojo.User;
 
 import com.chen.pojo.page.Item_Details_Temp;
-import com.chen.pojo.user.Oauth2UserinfoResult;
-import com.chen.utils.result.CommonCode;
-import com.chen.utils.result.ResponseResult;
 import com.chen.utils.util.RedisCache;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 
 @Service

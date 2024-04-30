@@ -15,10 +15,8 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-@RequiredArgsConstructor
-public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 
-    private final RedisCache redisCache;
+public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -26,9 +24,7 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json;charset=utf-8");
-        String token=request.getHeader("token");
 
-        redisCache.deleteObject("userInfo:"+token);
 
         ResponseResult result=new ResponseResult(CommonCode.SUCCESS,"退出登录");
         response.getWriter().write(JSON.toJSONString(result));

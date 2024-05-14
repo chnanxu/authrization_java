@@ -63,6 +63,7 @@
         select uname from item_comments where comment_id=#{to_commentID}
     </select>
 
+
     <update id="deleteComment">
         update item_comments set isDelete=1 where comment_id=#{comment_id}
     </update>

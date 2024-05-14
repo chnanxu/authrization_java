@@ -39,12 +39,12 @@
     <insert id="registByEmail" parameterType="User" >
         insert into users
         values (#{uid},#{username},#{password},#{email},#{phone},#{sex},'/images/default_user_img.jpg',#{sign_time},0,1);
-    </insert>  <!--注册-->
+    </insert>  <!--邮箱注册-->
 
     <insert id="registByPhone" parameterType="User" >
         insert into users
         values (#{uid},#{username},#{password},#{email},#{phone},#{uname},#{sex},'/images/default_user_img.jpg',#{sign_time},0,1);
-    </insert>  <!--注册-->
+    </insert>  <!--手机号注册-->
 
 
     <insert id="addUserLikeComment" parameterType="UserLikeComment">
@@ -59,7 +59,7 @@
 
     <insert id="createNewProject" parameterType="Item_Details_Temp">
         insert into item_details_temp values (#{uid},#{uname},#{pid},#{type_id},#{type_name},#{title},#{simple_text},#{content},#{cover_img},#{href},0,#{create_time})
-    </insert>
+    </insert>   <!--创建新作品-->
 
     <select id="getMyProject">
         select * from item_details where uid=#{uid} order by create_time desc;

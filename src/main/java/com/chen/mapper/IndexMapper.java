@@ -17,4 +17,7 @@ public interface IndexMapper {
     List<String> findCreateLeftItem();
 
     List<String> searchByText(String text);
+
+    List<Item_Details> getSearchDetailsByKeywords(String keywords);
+
 }

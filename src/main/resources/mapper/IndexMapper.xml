@@ -31,5 +31,10 @@
         select title from item_details where title like '%'+#{text}+'%'
     </select>
 
+    <select id="getSearchDetailsByKeywords" >
+        select * from item_details where title like '%'+#{keywords}+'%'
+    </select>
+
+
 
 </mapper>

@@ -15,4 +15,6 @@ public interface IndexService {
     List<String> finCreateLeftItem();
 
     List<String> searchTempList(String text);
+
+    List<Item_Details> getSearchDetails(String keywords);
 }

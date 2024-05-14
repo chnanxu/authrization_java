@@ -7,6 +7,7 @@ import com.chen.pojo.user.UserLikeComment;
 import com.chen.service.PageService;
 import com.chen.utils.result.CommonCode;
 import com.chen.utils.result.ResponseResult;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -15,15 +16,14 @@ import java.util.List;
 
 @PreAuthorize("permitAll()")
 @RestController
+@RequiredArgsConstructor
 public class PageController {
 
-    @Autowired
-    private PageMapper pageMapper;
+    private final PageMapper pageMapper;
 
-    @Autowired
-    private PageService pageService;
+    private final PageService pageService;
 
-
+    //常规页面相关接口--------------------------------------------------------------------------------------------------------
 
     @GetMapping("/getHeaderItem")  //导航栏
     public ResponseResult getHeaderItem(){
@@ -87,6 +87,7 @@ public class PageController {
     }
 
 
+
     //社区相关接口--------------------------------------------------------------------------------------------------------
     @GetMapping("/getGroup")  //社区接口
     public ResponseResult getGroup(){
@@ -101,6 +102,12 @@ public class PageController {
 
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
+
+
+
+    //用户相关接口--------------------------------------------------------------------------------------------------------
+
+
     @PreAuthorize("hasAuthority('system:user')")
     @PostMapping("/submitCommunityPost/{gid}")
     public ResponseResult submitCommunityPost(@PathVariable String gid){
@@ -109,10 +116,6 @@ public class PageController {
 
         return new ResponseResult(CommonCode.SUCCESS,"success");
     }
-
-
-
-    //用户相关接口--------------------------------------------------------------------------------------------------------
 
     @PreAuthorize("hasAuthority('system:user')")
     @PostMapping("/submitComment")    //提交评论

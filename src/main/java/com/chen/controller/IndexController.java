@@ -62,4 +62,14 @@ public class IndexController {
 
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
+
+
+    @GetMapping(value={"/getSearchDetails/{keywords}","/getSearchDetails/"})
+    public ResponseResult getSearchDetails(@PathVariable(required = false) String keywords){
+
+        List<Item_Details>  result=indexService.getSearchDetails(keywords);
+
+        return new ResponseResult(CommonCode.SUCCESS,result);
+    }
+
 }

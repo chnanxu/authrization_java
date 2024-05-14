@@ -92,9 +92,9 @@ public class PageServiceImpl implements PageService{
 
         List<Item_Comments> rootComments= pageMapper.getPageDetailsComments(pid);   //获取顶级评论列表
 
-        User userInfo=redisCache.getCacheObject("userInfo:"+token);
+        Oauth2UserinfoResult userInfo=userDetailService.getLoginUserInfo();
 
-        if(token.equals("")){
+        if(userInfo==null){
             for (Item_Comments commentItem:rootComments   //获取顶级评论的前三条子评论列表
             ) {
                 commentItem.setSonList(pageMapper.getSonComments(commentItem.getComment_id()));
@@ -159,7 +159,5 @@ public class PageServiceImpl implements PageService{
             return "已喜欢";
         }
     }
-
-
 
 }

@@ -35,4 +35,6 @@ public interface PageService {
     List<All_Type> getTypeList();
 
     String onLikeDetails(String uid, long pid);
+
+
 }

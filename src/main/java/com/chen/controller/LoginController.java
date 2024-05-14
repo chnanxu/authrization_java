@@ -58,8 +58,8 @@ public class LoginController {
     }
 
     @ResponseBody
-    @GetMapping("/getSmsCaptcha")
-    public ResponseResult getSmsCaptcha(@RequestParam("phone") String phone){
+    @GetMapping("/getSmsCaptcha/{phone}")
+    public ResponseResult getSmsCaptcha(@PathVariable("phone") String phone){
         Map<String,Object> result=new HashMap<>();
         result.put("code", HttpStatus.OK.value());
         result.put("message","获取短信验证码成功");

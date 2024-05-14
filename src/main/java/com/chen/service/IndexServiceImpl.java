@@ -6,6 +6,7 @@ import com.chen.pojo.page.Item_Details;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -34,5 +35,19 @@ public class IndexServiceImpl implements IndexService {
 
         return indexMapper.searchByText(text);
     }
+
+
+    @Override
+    public List<Item_Details> getSearchDetails(String keywords) {
+
+        if(keywords==null){
+            return indexMapper.findIndex();
+        }else{
+            return indexMapper.getSearchDetailsByKeywords(keywords);
+        }
+
+    }
+
+
 
 }

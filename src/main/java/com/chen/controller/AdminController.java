@@ -39,7 +39,7 @@ public class AdminController {
 
         Item_Details_Temp temp_item=adminMapper.getTempProjectById(uid,pid);
 
-        temp_item.setHref("/details/"+temp_item.getType_id()+"/"+pid);
+        temp_item.setHref("/page/details/"+temp_item.getType_id()+"/"+pid);
 
         adminMapper.setProject(temp_item);
 

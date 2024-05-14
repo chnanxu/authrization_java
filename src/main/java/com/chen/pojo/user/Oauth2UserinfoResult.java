@@ -24,6 +24,11 @@ public class Oauth2UserinfoResult {
     private String uname;
 
     /**
+     * 性别
+     */
+    private String sex;
+
+    /**
      * 账号
      */
     private String account;

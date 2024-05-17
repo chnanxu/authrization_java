@@ -61,24 +61,6 @@ public class PageServiceImpl implements PageService{
 
 
     @Override
-    public List<Group> getGroup(){
-
-        List<Group> result=pageMapper.getGroup();
-        Oauth2UserinfoResult userInfo=userDetailService.getLoginUserInfo();
-        if(userInfo!=null){
-
-            for (Group item:result
-            ) {
-                if(userMapper.getUserLikeCommunity(userInfo.getUid(),item.getGid())!=null){
-                    item.setUserLike(true);
-                }
-            }
-        }
-
-        return result;
-    }
-
-    @Override
     public Item_Details getPageDetails(long pid) {
 
         pageMapper.addReadTimes(pid);

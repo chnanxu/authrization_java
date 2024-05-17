@@ -16,7 +16,6 @@ import java.util.List;
 @Repository
 public interface PageMapper {
     List<String> getHeaderItem();
-    List<Group> getGroup();
 
 
     void addReadTimes(long pid);
@@ -43,7 +42,6 @@ public interface PageMapper {
 
     List<Item_Comments> getAllSonComment(long comment_id);
 
-    List<Group> getTotalHotCommunity();
 
 
 }

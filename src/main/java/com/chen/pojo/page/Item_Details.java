@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class Item_Details {
     private String uid;
     private String uname;
-    private long pid;
+    private String pid;
     private String type_id;
     private String type_name;
     private String title;
@@ -24,4 +24,5 @@ public class Item_Details {
     private long comments_times;
     private long favorites;
     private long day_times;
+    private boolean isDeleted;
 }

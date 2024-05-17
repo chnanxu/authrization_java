@@ -13,8 +13,6 @@ import java.util.List;
 public interface PageService {
     List<String> getHeaderItem();
 
-    List<Group> getGroup();
-
     Item_Details getPageDetails(long pid);
 
     List<Item_Comments> getPageDetailsComments(long pid,String token);

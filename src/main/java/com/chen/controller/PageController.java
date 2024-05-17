@@ -88,20 +88,6 @@ public class PageController {
 
 
 
-    //社区相关接口--------------------------------------------------------------------------------------------------------
-    @GetMapping("/getGroup")  //社区接口
-    public ResponseResult getGroup(){
-
-        List<Group> result=pageService.getGroup();
-        return new ResponseResult(CommonCode.SUCCESS,result);
-    }
-    @GetMapping("/getTotalHotCommunity")  //获取热门社区
-    public ResponseResult getTotalHotCommunity(){
-
-        List<Group> result=pageMapper.getTotalHotCommunity();
-
-        return new ResponseResult(CommonCode.SUCCESS,result);
-    }
 
 
 

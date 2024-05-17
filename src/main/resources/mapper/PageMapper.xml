@@ -14,15 +14,6 @@
         select * from left_navbar_item
     </select>
 
-    <select id="getGroup" resultType="Group">
-        select * from community;
-    </select>
-
-    <select id="getTotalHotCommunity">
-        select gid,group_name,href from community order by total_times desc
-        OFFSET 0 ROW
-            FETCH NEXT 8 ROWS ONLY
-    </select>
 
     <update id="addReadTimes">
         update item_details set read_times=read_times+1 where pid=#{pid}

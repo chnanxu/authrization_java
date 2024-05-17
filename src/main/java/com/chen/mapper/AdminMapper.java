@@ -2,6 +2,7 @@ package com.chen.mapper;
 
 
 import com.chen.pojo.User;
+import com.chen.pojo.community.Community_Details;
 import com.chen.pojo.page.Group;
 import com.chen.pojo.page.Item_Details;
 import com.chen.pojo.page.Item_Details_Temp;
@@ -16,11 +17,19 @@ public interface AdminMapper {
     List<User> getUser(int pageNum);
     List<Item_Details_Temp> getTempProject(int pageNum);
 
-    Item_Details_Temp getTempProjectById(String uid,String pid);
+    Item_Details_Temp getTempProjectById(String uid,long pid);
 
     List<Item_Details> getProject(int pageNum);
 
+    List<Item_Details> getDeletedProject(int pageNum);
+
     void setProject(Item_Details_Temp temp_item);
 
+    int deleteProjectById(long pid);
+
     List<Group> getCommunity();
+
+    List<Community_Details> getCommunityDetails(long community_id);
+
+    List<Community_Details> getTempCommunityDetails();
 }

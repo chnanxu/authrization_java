@@ -103,7 +103,7 @@ public class UserController {
 
         userMapper.updateUserInfo(userInfo);
 
-        return new ResponseResult(CommonCode.SUCCESS,userDetailService.getLoginUserInfo());
+        return new ResponseResult(CommonCode.SUCCESS,userMapper.findByUid(userInfo.getUid()));
     }
 
 

@@ -6,6 +6,7 @@ import com.chen.utils.util.RedisCache;
 import com.google.code.kaptcha.Producer;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,13 @@ import static com.chen.utils.util.RedisConstants.*;
 
 @Slf4j
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/captcha")   //验证码接口
 public class CaptchaController {
-    @Autowired
-    private Producer producer;
 
-    @Autowired
-    private RedisCache redisCache;
+    private final Producer producer;
+
+    private final RedisCache redisCache;
     @SneakyThrows
     @RequestMapping ("/captcha")
     public void getCaptcha(HttpServletRequest request, HttpServletResponse response){

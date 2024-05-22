@@ -3,7 +3,7 @@ package com.chen.mapper;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.chen.pojo.User;
-import com.chen.pojo.page.Group;
+import com.chen.pojo.page.Community;
 import com.chen.pojo.page.Item_Details;
 import com.chen.pojo.page.Item_Details_Temp;
 import com.chen.pojo.user.UserLikeDetails;
@@ -44,7 +44,7 @@ public interface UserMapper extends IService<User> {
 
     void addLikeCommunity(String uid, long gid);
 
-    Group getUserLikeCommunity(String uid, long gid);
+    Community getUserLikeCommunity(String uid, long gid);
 
     void removeCommunity(String uid, long gid);
 
@@ -54,11 +54,11 @@ public interface UserMapper extends IService<User> {
 
     void addUserLikeDetails(String uid, long pid,String like_time);
 
-    List<Group> getUserLikeGroup(String uid);
+    List<Community> getUserLikeGroup(String uid);
 
-    List<Group> getUserRecentLookCommunity(String uid);
+    List<Community> getUserRecentLookCommunity(String uid);
 
-    Group getUserLookCommunity(String uid,long gid);
+    Community getUserLookCommunity(String uid, long gid);
 
     void insertUserLookCommunity(String uid,long gid,String last_sign_time);
 

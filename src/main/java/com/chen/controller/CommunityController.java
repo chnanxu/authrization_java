@@ -3,7 +3,7 @@ package com.chen.controller;
 
 import com.chen.mapper.CommunityMapper;
 import com.chen.pojo.community.Community_Details;
-import com.chen.pojo.page.Group;
+import com.chen.pojo.page.Community;
 import com.chen.service.CommunityService;
 import com.chen.utils.result.CommonCode;
 import com.chen.utils.result.ResponseResult;
@@ -25,13 +25,13 @@ public class CommunityController {
     @GetMapping("/getGroup")  //社区接口
     public ResponseResult getGroup(){
 
-        List<Group> result=communityService.getGroup();
+        List<Community> result=communityService.getGroup();
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
     @GetMapping("/getTotalHotCommunity")  //获取热门社区
     public ResponseResult getTotalHotCommunity(){
 
-        List<Group> result=communityMapper.getTotalHotCommunity();
+        List<Community> result=communityMapper.getTotalHotCommunity();
 
         return new ResponseResult(CommonCode.SUCCESS,result);
     }

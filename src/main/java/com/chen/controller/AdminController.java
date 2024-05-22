@@ -2,16 +2,15 @@ package com.chen.controller;
 
 
 import com.chen.mapper.AdminMapper;
+import com.chen.pojo.Role;
 import com.chen.pojo.User;
 import com.chen.pojo.community.Community_Details;
-import com.chen.pojo.page.Group;
+import com.chen.pojo.page.Community;
 import com.chen.pojo.page.Item_Details;
 import com.chen.pojo.page.Item_Details_Temp;
-import com.chen.service.AdminService;
 import com.chen.utils.result.CommonCode;
 import com.chen.utils.result.ResponseResult;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +26,7 @@ public class AdminController {
 
 
 
-    @GetMapping("/getUser/{pageNum}")
+    @GetMapping("/getUser/{pageNum}")   //批量获取用户进行管理
     public ResponseResult getUser(@PathVariable int pageNum){
 
         List<User> userData=adminMapper.getUser(pageNum*14-14);
@@ -37,8 +36,16 @@ public class AdminController {
         return new ResponseResult(CommonCode.SUCCESS,userData);
     }
 
+    @GetMapping("/getRole/{pageNum}")
+    public ResponseResult getRole(@PathVariable int pageNum){
 
-    @PostMapping("/agreeProject/{uid}/{pid}")
+        List<Role> result=adminMapper.getRole(pageNum*10-10);
+
+        return new ResponseResult(CommonCode.SUCCESS,result);
+    }
+
+
+    @PostMapping("/agreeProject/{uid}/{pid}")    //审核通过
     public ResponseResult agreeProject(@PathVariable String uid,@PathVariable long pid){
 
         Item_Details_Temp temp_item=adminMapper.getTempProjectById(uid,pid);
@@ -47,12 +54,11 @@ public class AdminController {
 
         adminMapper.setProject(temp_item);
 
-
         String result="sucess";
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
 
-    @PostMapping("/deleteProject/{pid}")
+    @PostMapping("/deleteProject/{pid}")     //删除作品
     public ResponseResult deleteProject(@PathVariable long pid){
         int code= adminMapper.deleteProjectById(pid);
         String message="";
@@ -66,14 +72,14 @@ public class AdminController {
 
 
 
-    @GetMapping("/getTempProject/{pageNum}")
+    @GetMapping("/getTempProject/{pageNum}")    //获取带审核作品
     public ResponseResult getTempProject(@PathVariable int pageNum){
 
         List<Item_Details_Temp> tempData=adminMapper.getTempProject(pageNum*10-10);
 
         return new ResponseResult(CommonCode.SUCCESS,tempData);
     }
-    @GetMapping("/getProject/{pageNum}")
+    @GetMapping("/getProject/{pageNum}")        //获取已发布作品
     public ResponseResult getProject(@PathVariable int pageNum){
 
         List<Item_Details> result= adminMapper.getProject(pageNum*10-10);
@@ -81,7 +87,7 @@ public class AdminController {
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
 
-    @GetMapping("/getDeletedProject/{pageNum}")
+    @GetMapping("/getDeletedProject/{pageNum}")     //获取已下架作品
     public ResponseResult getDeletedProject(@PathVariable int pageNum){
 
         List<Item_Details> result=adminMapper.getDeletedProject(pageNum*10-10);
@@ -89,15 +95,23 @@ public class AdminController {
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
 
-    @GetMapping("/getCommunity")
+    @PostMapping("/reCoverProject/{pid}")
+    public ResponseResult reCoverProject(@PathVariable long pid){
+
+        adminMapper.reCoverProject(pid);
+
+        return new ResponseResult(CommonCode.SUCCESS,"success");
+    }
+
+    @GetMapping("/getCommunity")    //获取社区
     public ResponseResult getCommunity(){
 
-        List<Group> result=adminMapper.getCommunity();
+        List<Community> result=adminMapper.getCommunity();
 
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
 
-    @GetMapping("/getCommunityDetails/{community_id}")
+    @GetMapping("/getCommunityDetails/{community_id}")  //获取社区帖子
     public ResponseResult getCommunityDetails(@PathVariable long community_id){
 
         List<Community_Details> result=adminMapper.getCommunityDetails(community_id);
@@ -105,7 +119,7 @@ public class AdminController {
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
 
-    @GetMapping("/getTempCommunityDetails")
+    @GetMapping("/getTempCommunityDetails")     //审核社区帖子
     public ResponseResult getTempCommunityDetails(){
 
         List<Community_Details> result=adminMapper.getTempCommunityDetails();

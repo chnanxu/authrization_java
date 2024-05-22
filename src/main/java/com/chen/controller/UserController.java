@@ -2,7 +2,7 @@ package com.chen.controller;
 
 import com.chen.mapper.UserMapper;
 import com.chen.pojo.User;
-import com.chen.pojo.page.Group;
+import com.chen.pojo.page.Community;
 import com.chen.pojo.page.Item_Details;
 import com.chen.pojo.page.Item_Details_Temp;
 
@@ -53,7 +53,7 @@ public class UserController {
 
         Oauth2UserinfoResult user=userDetailService.getLoginUserInfo();
 
-        List<Group> result=userMapper.getUserLikeGroup(user.getUid());
+        List<Community> result=userMapper.getUserLikeGroup(user.getUid());
 
         return new ResponseResult(CommonCode.SUCCESS,result);
 
@@ -76,7 +76,7 @@ public class UserController {
     @GetMapping("/getUserRecentLookCommunity/{uid}")  //获取用户最近访问社区接口
     public ResponseResult getUserRecentLookCommunity(@PathVariable String uid, @RequestHeader String token){
 
-        List<Group> result=userMapper.getUserRecentLookCommunity(uid);
+        List<Community> result=userMapper.getUserRecentLookCommunity(uid);
 
         return new ResponseResult(CommonCode.SUCCESS,result);
     }

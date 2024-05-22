@@ -93,6 +93,13 @@
             <artifactId>hutool-all</artifactId>
             <version>5.8.21</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+
         <!--kaptcha-->
         <dependency>
             <groupId>com.github.penggle</groupId>

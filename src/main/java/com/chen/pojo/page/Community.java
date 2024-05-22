@@ -9,9 +9,9 @@ import org.springframework.data.annotation.Transient;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Group {
+public class Community {
 
-    private int gid;
+    private int community_id;
     private String group_name;
     private String type_id;
     private String type_name;

@@ -71,7 +71,7 @@ public class CaptchaAuthenticationProvider extends DaoAuthenticationProvider {
         // 获取参数中的验证码
         String code = request.getParameter(SecurityConstants.CAPTCHA_CODE_NAME);
         if (ObjectUtils.isEmpty(code)) {
-            throw new InvalidCaptchaException("The captcha cannot be empty.");
+            throw new InvalidCaptchaException("验证码不能为空");
         }
 
         String captchaId = request.getParameter(SecurityConstants.CAPTCHA_ID_NAME);
@@ -79,10 +79,10 @@ public class CaptchaAuthenticationProvider extends DaoAuthenticationProvider {
         String captchaCode = redisCache.getCacheObject((IMAGE_CAPTCHA_PREFIX_KEY + captchaId));
         if (!ObjectUtils.isEmpty(captchaCode)) {
             if (!captchaCode.equalsIgnoreCase(code)) {
-                throw new InvalidCaptchaException("The captcha is incorrect.");
+                throw new InvalidCaptchaException("图形验证码无效");
             }
         } else {
-            throw new InvalidCaptchaException("The captcha is abnormal. Obtain it again.");
+            throw new InvalidCaptchaException("验证码过期，请再试一次");
         }
 
         // 删除缓存

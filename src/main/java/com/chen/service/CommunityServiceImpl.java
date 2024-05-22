@@ -4,7 +4,7 @@ package com.chen.service;
 import com.chen.mapper.CommunityMapper;
 import com.chen.mapper.UserMapper;
 import com.chen.pojo.community.Community_Details;
-import com.chen.pojo.page.Group;
+import com.chen.pojo.page.Community;
 import com.chen.pojo.user.Oauth2UserinfoResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,15 +20,15 @@ public class CommunityServiceImpl implements CommunityService{
     private final UserMapper userMapper;
 
     @Override
-    public List<Group> getGroup(){
+    public List<Community> getGroup(){
 
-        List<Group> result=communityMapper.getGroup();
+        List<Community> result=communityMapper.getGroup();
         Oauth2UserinfoResult userInfo=userDetailService.getLoginUserInfo();
 
         //用户是否登录
         if(userInfo!=null){
 
-            for (Group item:result
+            for (Community item:result
             ) {
                 if(userMapper.getUserLikeCommunity(userInfo.getUid(),item.getGid())!=null){
                     item.setUserLike(true);

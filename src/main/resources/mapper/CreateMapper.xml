@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.mapper.CreateMapper">
+    <select id="getCommunityList" >
+        select community_id,community_name from community
+        order by month_times desc
+        OFFSET 0 ROW
+        FETCH NEXT 10 ROWS ONLY
+    </select>
+
+    <select id="getCommunityListByType" >
+        select community_id,community_name from community
+        where type_name=#{type_name}
+        order by week_times desc
+        OFFSET 0 ROW
+        FETCH NEXT 10 ROWS ONLY
+    </select>
+</mapper>

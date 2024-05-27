@@ -11,6 +11,7 @@ public class Item_Details {
     private String uid;
     private String uname;
     private String pid;
+    private long community_id;
     private String type_id;
     private String type_name;
     private String title;

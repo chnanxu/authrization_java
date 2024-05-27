@@ -39,6 +39,7 @@ public class PageController {
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
 
+
     @GetMapping("/getLeftNavbar") //左侧边栏
     public ResponseResult getLeftNavbar(){
 
@@ -97,8 +98,6 @@ public class PageController {
     @PreAuthorize("hasAuthority('system:user')")
     @PostMapping("/submitCommunityPost/{gid}")
     public ResponseResult submitCommunityPost(@PathVariable String gid){
-
-
 
         return new ResponseResult(CommonCode.SUCCESS,"success");
     }

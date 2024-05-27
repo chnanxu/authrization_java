@@ -5,7 +5,7 @@ import com.chen.mapper.AdminMapper;
 import com.chen.pojo.Role;
 import com.chen.pojo.User;
 import com.chen.pojo.community.Community_Details;
-import com.chen.pojo.page.Community;
+import com.chen.pojo.community.Community;
 import com.chen.pojo.page.Item_Details;
 import com.chen.pojo.page.Item_Details_Temp;
 import com.chen.utils.result.CommonCode;

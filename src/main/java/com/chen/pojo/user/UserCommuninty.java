@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserCommuninty {
     private String uid;
-    private long gid;
+    private long community_id;
     private String last_sign_time;
 
 }

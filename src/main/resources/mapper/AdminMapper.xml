@@ -80,14 +80,14 @@
     </select>
 
     <select id="getCommunityDetails">
-        select * from community_details where community_id=#{community_id}
+        select * from item_details where community_id=#{community_id}
         order by update_time desc
         OFFSET 0 ROW
         FETCH NEXT 10 ROWS ONLY
     </select>  <!--获取社区帖子-->
 
     <select id="getTempCommunityDetails">
-        select * from community_details_temp order by update_time desc
+        select * from item_details_temp order by update_time desc
         OFFSET 0 ROW
         FETCH NEXT 10 ROWS ONLY
     </select>

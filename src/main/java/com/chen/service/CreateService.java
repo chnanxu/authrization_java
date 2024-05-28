@@ -1,12 +1,24 @@
 package com.chen.service;
 
+import com.chen.pojo.page.Item_Details;
+import com.chen.pojo.page.Item_Details_Temp;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Service
 public interface CreateService {
     List<Map> getCommunityListByQueryType(String queryType, int pageNum);
+
+
+    String newCoverImg(String create_id, MultipartFile file, String uid);
+
+    String newProjectImg(String create_id,String img_id,MultipartFile file,String uid);
+
+    String newProject(Item_Details_Temp temp_item, String uid);
+
+    List<Item_Details> getMyProject(String uid,String sortType);
+
 }

@@ -57,13 +57,6 @@
         update item_comments set likeTimes=likeTimes-1 where comment_id=#{comment_id}
     </delete>   <!--用户取消点赞的评论-->
 
-    <insert id="createNewProject" parameterType="Item_Details_Temp">
-        insert into item_details_temp values (#{uid},#{uname},#{pid},#{type_id},#{type_name},#{title},#{simple_text},#{content},#{cover_img},#{href},0,#{create_time})
-    </insert>   <!--创建新作品-->
-
-    <select id="getMyProject">
-        select * from item_details where uid=#{uid} order by create_time desc;
-    </select>
 
     <insert id="addLikeCommunity">
         insert into user_community values (#{uid},#{community_id},null);

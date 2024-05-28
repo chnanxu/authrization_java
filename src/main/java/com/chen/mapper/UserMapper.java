@@ -36,11 +36,6 @@ public interface UserMapper extends IService<User> {
 
     int deleteUserLikeComment(String uid,long pid,long comment_id);  //取消点赞
 
-
-    int createNewProject(Item_Details_Temp temp_item);  //新建作品
-
-    List<Item_Details> getMyProject(String uid);    //获取我的作品
-
     void addLikeCommunity(String uid, long community_id);   //关注社区
 
     Community getUserLikeCommunity(String uid, long community_id);  //单个查询社区是否关注
@@ -62,8 +57,6 @@ public interface UserMapper extends IService<User> {
     void insertUserLookCommunity(String uid,long community_id,String last_sign_time); //若之前没访问过该社区则插入表中
 
     void updateUserSignTime(String uid,long community_id,String last_sign_time);    //更新用户访问社区时间
-
-
 
     User_likeuser getUserLikeUser(String uid,String like_uid);
     void likeUser(String uid,String like_uid);

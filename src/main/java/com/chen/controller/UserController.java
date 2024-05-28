@@ -40,7 +40,7 @@ public class UserController {
 
 
 
-    @RequestMapping("/home")   //个人信息主页接口
+    @RequestMapping("/home")   //个人信息接口
     public ResponseResult<String> home(){
 
         Oauth2UserinfoResult user=userDetailService.getLoginUserInfo();
@@ -59,8 +59,8 @@ public class UserController {
 
     }
 
-    //社区访问日志
-    @GetMapping("/updateUserSignTime/{id}/{uid}/{sign_time}")
+
+    @GetMapping("/updateUserSignTime/{id}/{uid}/{sign_time}")    //社区访问日志
     public ResponseResult updateUserSignTime(@PathVariable long id,@PathVariable String uid,@PathVariable String sign_time){
 
         if(userMapper.getUserLookCommunity(uid,id)!=null){
@@ -94,9 +94,6 @@ public class UserController {
 
     }
 
-
-
-
     @RequestMapping("/updateUserInfo")  //更新用户个人信息
     @ResponseBody
     public ResponseResult updateUserInfo(@RequestBody User userInfo){
@@ -105,54 +102,6 @@ public class UserController {
 
         return new ResponseResult(CommonCode.SUCCESS,userMapper.findByUid(userInfo.getUid()));
     }
-
-
-    /**
-     * 创作中心
-     * @param create_id
-     * @param file
-     * @param token
-     * @return
-     */
-    @PostMapping("/create/newCoverImg/{create_id}") //封面上传接口
-    public ResponseResult newCoverImg(@PathVariable String create_id,@RequestParam("file") MultipartFile file,@RequestHeader String token){
-
-        Oauth2UserinfoResult user=userDetailService.getLoginUserInfo();
-
-        String message= userService.newCoverImg(create_id,file,user.getUid());
-
-        return new ResponseResult(CommonCode.SUCCESS,message);
-    }
-
-
-    @PostMapping("/create/newProjectImg/{create_id}/{img_id}")  //内容图片上传接口
-    public ResponseResult newProjectImg(@PathVariable String create_id,@PathVariable String img_id,@RequestParam("file") MultipartFile file) throws Exception{
-
-        Oauth2UserinfoResult user=userDetailService.getLoginUserInfo();
-
-        String message=userService.newProjectImg(create_id,img_id,file,user.getUid());
-
-        return new ResponseResult(CommonCode.SUCCESS,message);
-    }
-
-
-    @PostMapping("/create/newProject/{create_id}")  //提交新作品接口
-    public ResponseResult newProject(@PathVariable String create_id,@RequestBody Item_Details_Temp temp_item, @RequestHeader String token){
-
-        Oauth2UserinfoResult user=userDetailService.getLoginUserInfo();
-
-        String message=userService.newProject(temp_item,user.getUid());
-
-        return new ResponseResult(CommonCode.SUCCESS,message);
-    }
-
-    @PostMapping("/create/getMyProject/{uid}")  //获取作品接口
-    public ResponseResult newProject(@PathVariable String uid){
-
-        List<Item_Details> result= userMapper.getMyProject(uid);
-        return new ResponseResult(CommonCode.SUCCESS,result);
-    }
-
 
     @PostMapping("/likeCommunity/{gid}/{uid}")  //用户关注社区
     public ResponseResult likeCommunity(@PathVariable long gid,@PathVariable String uid){

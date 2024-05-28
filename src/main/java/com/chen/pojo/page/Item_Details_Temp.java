@@ -12,6 +12,8 @@ public class Item_Details_Temp {
     private String uid;
     private String uname;
     private String pid;
+    private long community_id;
+    private String community_name;
     private int type_id;
     private String type_name;
     private String title;

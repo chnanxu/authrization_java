@@ -31,6 +31,8 @@ public interface AdminMapper {
 
     void setProject(Item_Details_Temp temp_item);
 
+    int refuseProjectById(String uid,long pid);
+
     int deleteProjectById(long pid);
 
     List<Community> getCommunity();

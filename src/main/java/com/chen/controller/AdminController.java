@@ -8,6 +8,7 @@ import com.chen.pojo.community.Community_Details;
 import com.chen.pojo.community.Community;
 import com.chen.pojo.page.Item_Details;
 import com.chen.pojo.page.Item_Details_Temp;
+import com.chen.service.AdminService;
 import com.chen.utils.result.CommonCode;
 import com.chen.utils.result.ResponseResult;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class AdminController {
 
     private final AdminMapper adminMapper;
 
-
+    private final AdminService adminService;
 
     @GetMapping("/getUser/{pageNum}")   //批量获取用户进行管理
     public ResponseResult getUser(@PathVariable int pageNum){
@@ -56,6 +57,13 @@ public class AdminController {
 
         String result="sucess";
         return new ResponseResult(CommonCode.SUCCESS,result);
+    }
+
+    @PostMapping("/refuseProject/{uid}/{pid}")
+    public ResponseResult refuseProject(@PathVariable String uid,@PathVariable long pid){
+
+        return new ResponseResult(CommonCode.SUCCESS, adminService.refuseProject(uid,pid));
+
     }
 
     @PostMapping("/deleteProject/{pid}")     //删除作品

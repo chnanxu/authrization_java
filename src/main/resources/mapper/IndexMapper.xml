@@ -28,7 +28,7 @@
     </select>
 
     <select id="searchByText">
-        select title from item_details where title like '%'+#{text}+'%'
+        select distinct title from item_details where title like '%'+#{text}+'%'
     </select>
 
     <select id="getSearchDetailsByKeywords" >

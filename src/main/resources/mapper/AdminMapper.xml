@@ -33,13 +33,13 @@
     </select>
 
     <select id="getTempProject">
-        select * from item_details_temp order by create_time desc
+        select * from item_details_temp where isOK=0 order by create_time desc
         OFFSET ${pageNum} ROW
         FETCH NEXT 10 ROWS ONLY
     </select>
 
     <select id="getTempProjectById">
-        select * from item_details_temp where uid=#{uid} and pid=#{pid}
+        select * from item_details_temp where uid=#{uid} and pid=#{pid} and isOK=0
     </select>
 
     <select id="getProject">
@@ -65,9 +65,13 @@
     </update>
 
     <insert id="setProject" parameterType="Item_Details_Temp">
-        insert into item_details values (#{uid},#{uname},#{pid},#{type_id},#{type_name},#{title},#{simple_text},#{content},#{cover_img},#{href},#{create_time},0,0,0,0,0,0)
+        insert into item_details values (#{uid},#{uname},#{pid},#{community_id},#{community_name},#{type_id},#{type_name},#{title},#{simple_text},#{content},#{cover_img},#{href},#{create_time},0,0,0,0,0,0)
         delete from item_details_temp where uid=#{uid} and pid=#{pid}
     </insert>
+
+    <update id="refuseProjectById">
+        update item_details_temp set isOK=-1 where uid=#{uid} and pid=#{pid}
+    </update>
 
     <update id="deleteProjectById">
         update item_details set isDeleted=1 where pid=#{pid}

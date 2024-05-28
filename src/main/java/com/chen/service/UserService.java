@@ -18,10 +18,4 @@ public interface UserService {
 
     String updateHeadImg(MultipartFile file,String uid);
 
-    String newCoverImg(String create_id,MultipartFile file,String uid);
-
-    String newProjectImg(String create_id,String img_id,MultipartFile file,String uid);
-
-    String newProject(Item_Details_Temp temp_item,String uid);
-
 }

@@ -3,6 +3,7 @@ package com.chen.pojo.page;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Transient;
 
 @Data
 @NoArgsConstructor
@@ -12,6 +13,7 @@ public class Item_Details {
     private String uname;
     private String pid;
     private long community_id;
+    private String community_name;
     private String type_id;
     private String type_name;
     private String title;
@@ -26,4 +28,7 @@ public class Item_Details {
     private long favorites;
     private long day_times;
     private boolean isDeleted;
+
+    @Transient
+    private int isOK;
 }

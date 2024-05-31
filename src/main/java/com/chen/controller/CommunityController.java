@@ -1,7 +1,6 @@
 package com.chen.controller;
 
 
-import com.chen.pojo.community.Community_Details;
 import com.chen.pojo.community.Community;
 import com.chen.pojo.page.Item_Details;
 import com.chen.service.CommunityService;
@@ -37,17 +36,7 @@ public class CommunityController {
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
 
-    @PostMapping("/submitCommunityPost")
-    public ResponseResult createProject(@RequestBody Community_Details item){
 
-        String message="";
-
-        communityService.createProject(item);
-
-
-        return new ResponseResult(CommonCode.SUCCESS,message);
-
-    }
 
     @GetMapping("/getCommunityDetails/{id}/{pageNum}/{sortType}")
     public ResponseResult getCommunityDetails(@PathVariable long id,@PathVariable int pageNum,@PathVariable String sortType){

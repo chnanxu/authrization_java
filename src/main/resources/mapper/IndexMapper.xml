@@ -21,9 +21,9 @@
     </select>
 
     <select id="findIndex" parameterType="int" resultType= "Item_Details">
-        select uid,pid,type_name,title,simple_text,content,cover_img,href,read_times,like_times,comments_times,favorites,day_times
+        select uid,pid,type_name,title,simple_text,content,cover_img,href,create_time,read_times,like_times,comments_times,favorites,day_times
         from item_details
-        where isDeleted=0
+        where isDeleted=0 and isTakeoff=0
         order by favorites desc
     </select>
 

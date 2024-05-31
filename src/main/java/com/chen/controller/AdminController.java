@@ -4,7 +4,6 @@ package com.chen.controller;
 import com.chen.mapper.AdminMapper;
 import com.chen.pojo.Role;
 import com.chen.pojo.User;
-import com.chen.pojo.community.Community_Details;
 import com.chen.pojo.community.Community;
 import com.chen.pojo.page.Item_Details;
 import com.chen.pojo.page.Item_Details_Temp;
@@ -49,21 +48,29 @@ public class AdminController {
     @PostMapping("/agreeProject/{uid}/{pid}")    //审核通过
     public ResponseResult agreeProject(@PathVariable String uid,@PathVariable long pid){
 
-        Item_Details_Temp temp_item=adminMapper.getTempProjectById(uid,pid);
+        String message=adminService.agreeProject(uid,pid);
 
-        temp_item.setHref("/page/details/"+temp_item.getType_id()+"/"+pid);
-
-        adminMapper.setProject(temp_item);
-
-        String result="sucess";
-        return new ResponseResult(CommonCode.SUCCESS,result);
+        return new ResponseResult(CommonCode.SUCCESS,message);
     }
 
     @PostMapping("/refuseProject/{uid}/{pid}")
     public ResponseResult refuseProject(@PathVariable String uid,@PathVariable long pid){
 
         return new ResponseResult(CommonCode.SUCCESS, adminService.refuseProject(uid,pid));
+    }
 
+    @PostMapping("/takeoffProject/{pid}")   //下架作品
+    public ResponseResult takeoffProject(@PathVariable long pid){
+
+        int code=adminService.takeoffProject(pid);
+        String message="";
+        if(code==0){
+            message="下架成功";
+        }else{
+            message="下架失败";
+        }
+
+        return new ResponseResult(CommonCode.SUCCESS,message);
     }
 
     @PostMapping("/deleteProject/{pid}")     //删除作品
@@ -80,25 +87,33 @@ public class AdminController {
 
 
 
-    @GetMapping("/getTempProject/{pageNum}")    //获取带审核作品
+    @GetMapping("/getTempProject/{pageNum}")    //获取待审核作品
     public ResponseResult getTempProject(@PathVariable int pageNum){
 
-        List<Item_Details_Temp> tempData=adminMapper.getTempProject(pageNum*10-10);
+        List<Item_Details_Temp> tempData=adminService.getTempProject(pageNum);
 
         return new ResponseResult(CommonCode.SUCCESS,tempData);
     }
     @GetMapping("/getProject/{pageNum}")        //获取已发布作品
     public ResponseResult getProject(@PathVariable int pageNum){
 
-        List<Item_Details> result= adminMapper.getProject(pageNum*10-10);
+        List<Item_Details> result= adminService.getProject(pageNum);
 
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
 
-    @GetMapping("/getDeletedProject/{pageNum}")     //获取已下架作品
+    @GetMapping("/getDeletedProject/{pageNum}")     //获取已删除作品
     public ResponseResult getDeletedProject(@PathVariable int pageNum){
 
-        List<Item_Details> result=adminMapper.getDeletedProject(pageNum*10-10);
+        List<Item_Details> result=adminService.getDeletedProject(pageNum);
+
+        return new ResponseResult(CommonCode.SUCCESS,result);
+    }
+
+    @GetMapping("/getTakeoffProject/{pageNum}") //获取已下架作品
+    public ResponseResult getTakeoffProject(@PathVariable int pageNum){
+
+        List<Item_Details> result=adminService.getTakeoffProject(pageNum);
 
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
@@ -115,22 +130,6 @@ public class AdminController {
     public ResponseResult getCommunity(){
 
         List<Community> result=adminMapper.getCommunity();
-
-        return new ResponseResult(CommonCode.SUCCESS,result);
-    }
-
-    @GetMapping("/getCommunityDetails/{community_id}")  //获取社区帖子
-    public ResponseResult getCommunityDetails(@PathVariable long community_id){
-
-        List<Community_Details> result=adminMapper.getCommunityDetails(community_id);
-
-        return new ResponseResult(CommonCode.SUCCESS,result);
-    }
-
-    @GetMapping("/getTempCommunityDetails")     //审核社区帖子
-    public ResponseResult getTempCommunityDetails(){
-
-        List<Community_Details> result=adminMapper.getTempCommunityDetails();
 
         return new ResponseResult(CommonCode.SUCCESS,result);
     }

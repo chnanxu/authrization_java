@@ -2,7 +2,6 @@ package com.chen.mapper;
 
 
 import cn.hutool.core.date.DateTime;
-import com.chen.pojo.community.Community_Details;
 import com.chen.pojo.community.Community;
 import com.chen.pojo.page.Item_Details;
 import org.apache.ibatis.annotations.Mapper;
@@ -18,7 +17,6 @@ public interface CommunityMapper {
 
     List<Map> getTotalHotCommunity();
 
-    int insertCommunity_Details(Community_Details item);
 
     List<Item_Details> getCommunityDetails(long community_id, int pageNum, DateTime queryType);
 

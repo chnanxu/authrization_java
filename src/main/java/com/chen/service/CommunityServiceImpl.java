@@ -4,7 +4,6 @@ package com.chen.service;
 import cn.hutool.core.date.DateTime;
 import com.chen.mapper.CommunityMapper;
 import com.chen.mapper.UserMapper;
-import com.chen.pojo.community.Community_Details;
 import com.chen.pojo.community.Community;
 import com.chen.pojo.page.Item_Details;
 import com.chen.pojo.user.Oauth2UserinfoResult;
@@ -50,16 +49,7 @@ public class CommunityServiceImpl implements CommunityService{
         return communityMapper.getTotalHotCommunity();
     }
 
-    @Override
-    public Community_Details createProject(Community_Details item) {
 
-        if(communityMapper.insertCommunity_Details(item)==0){
-
-            return item;
-        }else{
-            return null;
-        }
-    }
 
     @Override
     public List<Item_Details> getCommunityDetailsBySortType(long community_id, int pageNum, String sortType) {

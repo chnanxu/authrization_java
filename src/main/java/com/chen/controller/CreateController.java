@@ -50,7 +50,7 @@ public class CreateController {
 
 
     @PostMapping("/create/newProjectImg/{create_id}/{img_id}")  //内容图片上传接口
-    public ResponseResult newProjectImg(@PathVariable String create_id,@PathVariable String img_id,@RequestParam("file") MultipartFile file) throws Exception{
+    public ResponseResult newProjectImg(@PathVariable String create_id,@PathVariable String img_id,@RequestParam("file") MultipartFile file){
 
         Oauth2UserinfoResult user=userDetailService.getLoginUserInfo();
 
@@ -63,6 +63,15 @@ public class CreateController {
     @PostMapping("/create/newProject/{create_id}")  //提交新作品接口
     public ResponseResult newProject(@PathVariable String create_id, @RequestBody Item_Details_Temp temp_item, @RequestHeader String token){
 
+        Oauth2UserinfoResult user=userDetailService.getLoginUserInfo();
+
+        String message=createService.newProject(temp_item,user.getUid());
+
+        return new ResponseResult(CommonCode.SUCCESS,message);
+    }
+
+    @PostMapping("/create/saveTempProject")   //保存草稿
+    public ResponseResult saveTempProject(@RequestBody Item_Details_Temp temp_item){
         Oauth2UserinfoResult user=userDetailService.getLoginUserInfo();
 
         String message=createService.newProject(temp_item,user.getUid());

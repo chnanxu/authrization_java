@@ -126,12 +126,18 @@ public class AdminController {
         return new ResponseResult(CommonCode.SUCCESS,"success");
     }
 
-    @GetMapping("/getCommunity")    //获取社区
-    public ResponseResult getCommunity(){
+    @GetMapping("/getCommunity/{pageNum}")    //获取社区
+    public ResponseResult getCommunity(@PathVariable int pageNum){
 
-        List<Community> result=adminMapper.getCommunity();
+        List<Community> result=adminMapper.getCommunity(pageNum*10-10);
 
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
 
+    @PostMapping("/createCommunity")
+    public ResponseResult createCommunity(@RequestBody Community community){
+        String message= adminService.createCommunity(community);
+
+        return new ResponseResult(CommonCode.SUCCESS,message);
+    }
 }

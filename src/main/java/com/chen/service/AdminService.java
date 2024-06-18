@@ -1,6 +1,7 @@
 package com.chen.service;
 
 
+import com.chen.pojo.community.Community;
 import com.chen.pojo.page.Item_Details;
 import com.chen.pojo.page.Item_Details_Temp;
 import org.springframework.stereotype.Service;
@@ -17,4 +18,6 @@ public interface AdminService {
     List<Item_Details> getProject(int pageNum);
     List<Item_Details> getDeletedProject(int pageNum);
     List<Item_Details> getTakeoffProject(int pageNum);
+
+    String createCommunity(Community community);
 }

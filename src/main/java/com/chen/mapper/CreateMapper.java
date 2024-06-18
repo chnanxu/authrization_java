@@ -22,4 +22,6 @@ public interface CreateMapper {
     List<Item_Details> getMyProjectByHot(String uid);    //获取我的作品按热度排序
 
     List<Item_Details> getMyProjectByNoAgree(String uid);    //获取我的待审核作品
+
+    List<Item_Details> getMyProjectByDraft(String uid); //获取我的草稿
 }

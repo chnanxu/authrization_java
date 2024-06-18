@@ -1,6 +1,7 @@
 package com.chen.service;
 
 import com.chen.mapper.AdminMapper;
+import com.chen.pojo.community.Community;
 import com.chen.pojo.page.Item_Details;
 import com.chen.pojo.page.Item_Details_Temp;
 import lombok.RequiredArgsConstructor;
@@ -65,6 +66,14 @@ public class AdminServiceImpl implements AdminService{
     @Override
     public List<Item_Details> getTakeoffProject(int pageNum) {
         return adminMapper.getTakeoffProjectList(pageNum*10-10);
+    }
+
+    @Override
+    public String createCommunity(Community community) {
+
+        System.out.println(community.getCover_file());
+
+        return null;
     }
 
 

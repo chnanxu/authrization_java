@@ -36,7 +36,7 @@ public interface AdminMapper {
 
     int takeoffProjectById(long pid);
 
-    List<Community> getCommunity();
+    List<Community> getCommunity(int pageNum);
 
     List<Item_Details> getTakeoffProjectList(int pageNum);
 }

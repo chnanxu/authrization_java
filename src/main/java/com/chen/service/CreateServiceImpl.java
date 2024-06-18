@@ -125,6 +125,8 @@ public class CreateServiceImpl implements CreateService{
             return createMapper.getMyProjectByHot(uid);
         } else if (sortType.equals("waitAgree")) {
             return createMapper.getMyProjectByNoAgree(uid);
+        } else if(sortType.equals("draft")){
+            return createMapper.getMyProjectByDraft(uid);
         }
         return null;
     }

@@ -19,7 +19,7 @@
 
 
     <insert id="createNewProject" parameterType="Item_Details_Temp">
-        insert into item_details_temp values (#{uid},#{uname},#{pid},#{community_id},#{community_name},#{type_id},#{type_name},#{title},#{simple_text},#{content},#{cover_img},#{href},0,#{create_time})
+        insert into item_details_temp values (#{uid},#{uname},#{pid},#{community_id},#{community_name},#{type_id},#{type_name},#{title},#{simple_text},#{content},#{cover_img},#{href},#{isOK},#{create_time})
     </insert>   <!--创建新作品-->
 
 
@@ -31,5 +31,8 @@
     </select>
     <select id="getMyProjectByNoAgree">
         select * from item_details_temp where uid=#{uid} and isOK=-1 order by create_time desc;
+    </select>
+    <select id="getMyProjectByDraft">
+        select * from item_details_temp where uid=#{uid} and isOK=0 order by create_time desc;
     </select>
 </mapper>

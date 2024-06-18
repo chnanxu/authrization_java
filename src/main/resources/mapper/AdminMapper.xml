@@ -34,11 +34,11 @@
 
 
     <select id="getTempProjectById">
-        select * from item_details_temp where uid=#{uid} and pid=#{pid} and isOK=0
+        select * from item_details_temp where uid=#{uid} and pid=#{pid} and isOK=1
     </select>
 
     <select id="getTempProjectList">
-        select * from item_details_temp where isOK=0 order by create_time desc
+        select * from item_details_temp where isOK=1 order by create_time desc
         OFFSET ${pageNum} ROW
             FETCH NEXT 10 ROWS ONLY
     </select>
@@ -93,7 +93,7 @@
     
     <select id="getCommunity">
         select * from community order by create_time desc
-        OFFSET 0 ROW
+        OFFSET ${pageNum} ROW
         FETCH NEXT 10 ROWS ONLY
     </select>
 

@@ -118,15 +118,30 @@ public class CreateServiceImpl implements CreateService{
     }
 
     @Override
-    public List<Item_Details> getMyProject(String uid,String sortType) {
+    public int getMyProjectCount(String uid,String sortType){
+        if(sortType.equals("time")||sortType.equals("hot")){
+          return  createMapper.getMyProjectCount(uid);
+        }else{
+          return  createMapper.getMyTempProjectCount(uid,sortType.equals("waitAgree") ? -1 : 0);
+        }
+    }
+
+    @Override
+    public List<Item_Details> getMyProject(String uid,String sortType,int pageNumber) {
         if(sortType.equals("time")){
-            return createMapper.getMyProjectByTime(uid);
+            return createMapper.getMyProjectByTime(uid,pageNumber);
         } else if (sortType.equals("hot")) {
-            return createMapper.getMyProjectByHot(uid);
-        } else if (sortType.equals("waitAgree")) {
-            return createMapper.getMyProjectByNoAgree(uid);
-        } else if(sortType.equals("draft")){
-            return createMapper.getMyProjectByDraft(uid);
+            return createMapper.getMyProjectByHot(uid,pageNumber);
+        }
+        return null;
+    }
+
+    @Override
+    public List<Item_Details_Temp> getMyProjectTemp(String uid,String sortType,int pageNumber){
+        if(sortType.equals("waitAgree")){
+            return createMapper.getMyProjectByNoAgree(uid,pageNumber);
+        }else if(sortType.equals("draft")){
+            return createMapper.getMyProjectByDraft(uid,pageNumber);
         }
         return null;
     }

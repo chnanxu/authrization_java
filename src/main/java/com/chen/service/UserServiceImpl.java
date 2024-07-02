@@ -4,6 +4,7 @@ package com.chen.service;
 import com.chen.mapper.UserMapper;
 import com.chen.pojo.User;
 
+import com.chen.pojo.community.Community;
 import com.chen.pojo.page.Item_Details_Temp;
 import com.chen.utils.util.RedisCache;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 
 @Service
@@ -102,6 +104,11 @@ public class UserServiceImpl implements UserService {
         }
 
         return url;
+    }
+
+    @Override
+    public List<Community> getUserLikeCommunity(String uid) {
+        return userMapper.getUserLikeCommunityList(uid);
     }
 
 

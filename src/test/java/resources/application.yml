@@ -15,7 +15,7 @@ server:
     session:
       cookie:
         domain: cx.com
-      timeout: 24h
+      timeout: 144h
 
 
 spring:

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 public interface AdminService {
-    String refuseProject(String uid,long pid);
+    String refuseProject(String uid,long pid,String refuse_reason);
     String agreeProject(String uid,long pid);
 
     int takeoffProject(long pid);

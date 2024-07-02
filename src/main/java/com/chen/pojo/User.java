@@ -42,7 +42,7 @@ public class User implements UserDetails, Serializable {
     private byte deleted;
     private String sourceFrom;
     private boolean enabled;
-
+    private String location;
 
     @Transient
     private String captcha;

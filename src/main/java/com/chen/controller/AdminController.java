@@ -53,10 +53,10 @@ public class AdminController {
         return new ResponseResult(CommonCode.SUCCESS,message);
     }
 
-    @PostMapping("/refuseProject/{uid}/{pid}")
-    public ResponseResult refuseProject(@PathVariable String uid,@PathVariable long pid){
+    @PostMapping("/refuseProject/{uid}/{pid}/{refuse_reason}") //回退作品
+    public ResponseResult refuseProject(@PathVariable String uid,@PathVariable long pid,@PathVariable String refuse_reason){
 
-        return new ResponseResult(CommonCode.SUCCESS, adminService.refuseProject(uid,pid));
+        return new ResponseResult(CommonCode.SUCCESS, adminService.refuseProject(uid,pid,refuse_reason));
     }
 
     @PostMapping("/takeoffProject/{pid}")   //下架作品

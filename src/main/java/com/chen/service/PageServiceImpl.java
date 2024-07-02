@@ -100,6 +100,36 @@ public class PageServiceImpl implements PageService{
     }
 
     @Override
+    public List<Item_Comments> getAllSonComment(long pid,long comment_id){
+
+        List<Item_Comments> rootComments= pageMapper.getAllSonComment(comment_id);
+
+        Oauth2UserinfoResult userInfo=userDetailService.getLoginUserInfo();
+
+        if(userInfo==null){
+            for (Item_Comments commentItem:rootComments
+            ) {
+                commentItem.setSonList(pageMapper.getSonComments(commentItem.getComment_id()));
+            }
+        }else{
+            for (Item_Comments commentItem:rootComments
+            ) {
+                if(pageMapper.getUserLikeComments(userInfo.getUid(),pid,commentItem.getComment_id())!=null){    //用户是否点赞
+                    commentItem.setUserLike(true);
+                }
+                commentItem.setSonList(pageMapper.getSonComments(commentItem.getComment_id()));
+                for (Item_Comments sonCommentItem:commentItem.getSonList()
+                ) {
+                    if(pageMapper.getUserLikeComments(userInfo.getUid(),pid,sonCommentItem.getComment_id())!=null){  //用户是否点赞
+                        sonCommentItem.setUserLike(true);
+                    }
+                }
+            }
+        }
+        return rootComments;
+    }
+
+    @Override
     public void submitComment(Item_Comments commentData) {
 
         pageMapper.submitComment(commentData);

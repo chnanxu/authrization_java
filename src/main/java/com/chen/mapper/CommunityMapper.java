@@ -15,6 +15,8 @@ import java.util.Map;
 public interface CommunityMapper {
     List<Community> getCommunity();
 
+    long getCommunityIdByName(String community_name);
+
     List<Map> getTotalHotCommunity();
 
 

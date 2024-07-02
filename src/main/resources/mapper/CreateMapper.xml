@@ -19,20 +19,44 @@
 
 
     <insert id="createNewProject" parameterType="Item_Details_Temp">
-        insert into item_details_temp values (#{uid},#{uname},#{pid},#{community_id},#{community_name},#{type_id},#{type_name},#{title},#{simple_text},#{content},#{cover_img},#{href},#{isOK},#{create_time})
+        insert into item_details_temp values (#{uid},#{uname},#{pid},#{community_id},#{community_name},#{type_id},#{type_name},#{title},#{simple_text},#{content},#{cover_img},#{href},#{isOK},#{create_time},'')
     </insert>   <!--创建新作品-->
 
+    <select id="getMyProjectCount">
+        select count(*) from item_Details where uid=#{uid}
+    </select>
+
+    <select id="getMyTempProjectCount">
+        select count(*) from item_details_temp where uid=#{uid} and (isOK=#{isOK} or isOK=-#{isOK})
+    </select>
 
     <select id="getMyProjectByTime">
-        select * from item_details where uid=#{uid} order by create_time desc;
+        select * from item_details
+                 where uid=#{uid}
+                 order by create_time desc
+        OFFSET ${pageNumber} ROW
+        FETCH NEXT 10 ROWS ONLY
+        ;
     </select>
     <select id="getMyProjectByHot">
-        select * from item_details where uid=#{uid} order by read_times desc;
+        select * from item_details
+                 where uid=#{uid}
+                 order by read_times desc
+        OFFSET ${pageNumber} ROW
+            FETCH NEXT 10 ROWS ONLY;
     </select>
     <select id="getMyProjectByNoAgree">
-        select * from item_details_temp where uid=#{uid} and isOK=-1 order by create_time desc;
+        select * from item_details_temp
+                 where uid=#{uid} and (isOK=-1 or isOK=1 )
+                 order by create_time desc
+        OFFSET ${pageNumber} ROW
+            FETCH NEXT 10 ROWS ONLY;
     </select>
     <select id="getMyProjectByDraft">
-        select * from item_details_temp where uid=#{uid} and isOK=0 order by create_time desc;
+        select * from item_details_temp
+                 where uid=#{uid} and isOK=0
+                 order by create_time desc
+        OFFSET ${pageNumber} ROW
+            FETCH NEXT 10 ROWS ONLY;
     </select>
 </mapper>

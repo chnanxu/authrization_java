@@ -30,7 +30,7 @@ public interface AdminMapper {
 
     int setProject(Item_Details_Temp temp_item);
 
-    int refuseProjectById(String uid,long pid);
+    int refuseProjectById(String uid,long pid,String refuse_reason);
 
     int deleteProjectById(long pid);
 

@@ -18,6 +18,7 @@
 
     <select id="getUserLikeCommunityList">
         select * from community where community_id in (select community_id from user_community where uid=#{uid})
+
     </select>
 
     <select id="findByUnameAndPwd" parameterType="java.lang.String" resultType="User">

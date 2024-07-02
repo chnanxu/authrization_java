@@ -70,11 +70,11 @@ public class PageController {
     }
 
 
-    @PostMapping("/getAllSonComment")   //获取所有子评论
-    public ResponseResult getAllSonComment(@RequestBody long comment_id){
+    @PostMapping("/getAllSonComment/{pid}")   //获取所有子评论
+    public ResponseResult getAllSonComment(@PathVariable long pid, @RequestBody long comment_id){
 
 
-        List<Item_Comments> result=pageMapper.getAllSonComment(comment_id);
+        List<Item_Comments> result=pageService.getAllSonComment(pid,comment_id);
 
         return new ResponseResult(CommonCode.SUCCESS,result);
     }

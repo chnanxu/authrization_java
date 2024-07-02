@@ -2,12 +2,14 @@ package com.chen.controller;
 
 
 import com.chen.pojo.page.Item_Details;
+import com.chen.service.IndexService;
 import com.chen.service.IndexServiceImpl;
 
 import com.chen.utils.result.CommonCode;
 import com.chen.utils.util.RedisCache;
 import com.chen.utils.result.ResponseResult;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -17,13 +19,10 @@ import java.util.*;
 
 
 @RestController
+@RequiredArgsConstructor
 public class IndexController {
 
-
-    @Autowired
-    private IndexServiceImpl indexService;
-
-
+    private final IndexService indexService;
 
     @GetMapping({"/","/index"})
     @ResponseBody
@@ -36,6 +35,22 @@ public class IndexController {
 
     }
 
+    @GetMapping(value={"/getAnnouncement/{announcementCommunitySortType}/{announcementSortType}"})
+    public ResponseResult getAnnouncement(@PathVariable(required = false) String announcementCommunitySortType,@PathVariable(required = false) String announcementSortType){
+
+        Map<String,List<Item_Details>> result=indexService.getAnnouncement(announcementCommunitySortType,announcementSortType);
+
+        return new ResponseResult(CommonCode.SUCCESS,result);
+    }
+
+    @GetMapping("/getAnnouncementByCommunityId/{community_name}/{announcementSortType}")
+    public ResponseResult getAnnouncementByCommunityName(@PathVariable String community_name,@PathVariable String announcementSortType){
+
+        List<Item_Details> result=indexService.getAnnouncementByCommunityName(community_name,announcementSortType);
+
+        return new ResponseResult(CommonCode.SUCCESS,result);
+    }
+
     @GetMapping("/user/item")  //用户主页列表项接口
     public ResponseResult<String> userItem(){
         List<String> userItem=indexService.findUserItem();
@@ -43,7 +58,7 @@ public class IndexController {
         return new ResponseResult(CommonCode.SUCCESS,userItem);
     }
 
-    @GetMapping("/create/leftItem")
+    @GetMapping("/create/leftItem")  //
     public ResponseResult createLeftItem(){
 
         List<String> leftItem=indexService.finCreateLeftItem();

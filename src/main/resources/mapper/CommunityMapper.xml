@@ -13,6 +13,10 @@
         select * from community;
     </select>
 
+    <select id="getCommunityIdByName">
+        select community_id from community where community_name=#{community_name}
+    </select>
+
     <select id="getCommunityDetails">
         select * from item_details
         where community_id=#{community_id}

@@ -16,8 +16,8 @@ public class AdminServiceImpl implements AdminService{
     private final AdminMapper adminMapper;
 
     @Override
-    public String refuseProject(String uid, long pid) {
-        if(adminMapper.refuseProjectById(uid,pid)==1){
+    public String refuseProject(String uid, long pid,String refuse_reason) {
+        if(adminMapper.refuseProjectById(uid,pid,refuse_reason)==1){
             return "操作成功";
         }else{
             return "操作失败";
@@ -33,8 +33,9 @@ public class AdminServiceImpl implements AdminService{
         }
 
         temp_item.setHref("/page/details/"+temp_item.getType_id()+"/"+pid);
+        int result=adminMapper.setProject(temp_item);
 
-        if(adminMapper.setProject(temp_item)==0){
+        if(result==1){
             return "审核通过";
         }else{
             return "异常,请联系管理员";

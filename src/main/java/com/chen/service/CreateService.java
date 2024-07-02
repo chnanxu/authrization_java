@@ -19,6 +19,10 @@ public interface CreateService {
 
     String newProject(Item_Details_Temp temp_item, String uid);
 
-    List<Item_Details> getMyProject(String uid,String sortType);
+    int getMyProjectCount(String uid,String sortType);
+
+    List<Item_Details> getMyProject(String uid,String sortType,int PageNumber);
+
+    List<Item_Details_Temp> getMyProjectTemp(String uid,String sortType,int pageNumber);
 
 }

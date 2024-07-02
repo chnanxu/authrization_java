@@ -79,11 +79,18 @@ public class CreateController {
         return new ResponseResult(CommonCode.SUCCESS,message);
     }
 
+    @GetMapping("/create/getMyProjectCount/{uid}/{sortType}")
+    public ResponseResult getMyProjectCount(@PathVariable String uid,@PathVariable String sortType){
+        return new ResponseResult(CommonCode.SUCCESS,createService.getMyProjectCount(uid,sortType));
+    }
 
-    @PostMapping("/create/getMyProject/{uid}/{sortType}")  //获取作品接口
-    public ResponseResult newProject(@PathVariable String uid,@PathVariable String sortType){
+    @PostMapping("/create/getMyProject/{uid}/{sortType}/{pageNumber}")  //获取作品接口
+    public ResponseResult getMyProject(@PathVariable String uid,@PathVariable String sortType,@PathVariable int pageNumber){
 
-        List<Item_Details> result= createService.getMyProject(uid,sortType);
+        if(sortType.equals("waitAgree") || sortType.equals("draft")){
+            return new ResponseResult(CommonCode.SUCCESS,createService.getMyProjectTemp(uid,sortType,pageNumber*10-10));
+        }
+        List<Item_Details> result= createService.getMyProject(uid,sortType,pageNumber*10-10);
 
         return new ResponseResult(CommonCode.SUCCESS,result);
     }

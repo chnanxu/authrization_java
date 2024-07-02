@@ -16,6 +16,8 @@ public interface PageService {
 
     List<Item_Comments> getPageDetailsComments(long pid,String token);
 
+    List<Item_Comments> getAllSonComment(long pid,long comment_id);
+
     void submitComment(Item_Comments commentData);
 
     String onLikeComment(UserLikeComment userLikeComment);

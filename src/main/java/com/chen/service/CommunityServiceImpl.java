@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -55,24 +56,36 @@ public class CommunityServiceImpl implements CommunityService{
     public List<Item_Details> getCommunityDetailsBySortType(long community_id, int pageNum, String sortType) {
         List<Item_Details> result;
 
-        SimpleDateFormat fd=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        DateTime queryTimeParameters=DateTime.now();
+        LocalDate queryTimeParameters=LocalDate.now();
 
         switch (sortType){
-            case "day":{
 
-            }
             case "week":{
-                queryTimeParameters= DateTime.now();
+                String dayOfWeek=queryTimeParameters.getDayOfWeek().toString();
 
+                switch (dayOfWeek) {
+                    case "MONDAY" -> queryTimeParameters=queryTimeParameters.minusDays(0);
+                    case "TUESDAY" -> queryTimeParameters=queryTimeParameters.minusDays(1);
+                    case "WEDNESDAY" -> queryTimeParameters=queryTimeParameters.minusDays(2);
+                    case "THURSDAY" -> queryTimeParameters=queryTimeParameters.minusDays(3);
+                    case "FRIDAY" -> queryTimeParameters=queryTimeParameters.minusDays(4);
+                    case "SATURDAY" -> queryTimeParameters=queryTimeParameters.minusDays(5);
+                    case "SUNDAY" -> queryTimeParameters=queryTimeParameters.minusDays(6);
+                }
+
+                break;
             }
             case "month":{
-
+                queryTimeParameters=queryTimeParameters.minusDays(queryTimeParameters.getDayOfMonth()-1);
+                break;
             }
             case "year":{
-
+                queryTimeParameters=queryTimeParameters.minusMonths(queryTimeParameters.getMonthValue()-1);
+                queryTimeParameters=queryTimeParameters.minusDays(queryTimeParameters.getDayOfMonth()-1);
+                break;
             }
         }
+
         result= communityMapper.getCommunityDetails(community_id,pageNum*10-10,queryTimeParameters);
         return result;
     }

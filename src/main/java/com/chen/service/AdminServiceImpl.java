@@ -6,7 +6,10 @@ import com.chen.pojo.page.Item_Details;
 import com.chen.pojo.page.Item_Details_Temp;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -32,7 +35,7 @@ public class AdminServiceImpl implements AdminService{
             return "作品不存在";
         }
 
-        temp_item.setHref("/page/details/"+temp_item.getType_id()+"/"+pid);
+        temp_item.setHref("/details/"+pid);
         int result=adminMapper.setProject(temp_item);
 
         if(result==1){
@@ -73,6 +76,29 @@ public class AdminServiceImpl implements AdminService{
     public String createCommunity(Community community) {
 
         System.out.println(community.getCover_file());
+
+        return null;
+    }
+
+    @Override
+    public Community updateCommunity(MultipartFile cover_file,Community community) {
+
+        String file_name=cover_file.getOriginalFilename();
+
+        String path="D:\\Workspace\\static\\images\\web_data\\community\\cover_img";
+
+        String newCoverFileName=community.getCommunity_id()+file_name.substring(file_name.indexOf("."));
+
+        File file=new File(path);
+        if(!file.exists()){
+            file.mkdirs();
+        }
+
+
+
+        String newCover_url="images/web_data/community/cover_img/"+newCoverFileName;
+        community.setCover_img(newCover_url);
+        adminMapper.updateCommunity(community);
 
         return null;
     }

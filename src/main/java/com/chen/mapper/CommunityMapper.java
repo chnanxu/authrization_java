@@ -7,6 +7,7 @@ import com.chen.pojo.page.Item_Details;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,6 @@ public interface CommunityMapper {
     List<Map> getTotalHotCommunity();
 
 
-    List<Item_Details> getCommunityDetails(long community_id, int pageNum, DateTime queryType);
+    List<Item_Details> getCommunityDetails(long community_id, int pageNum, LocalDate queryTimeParameters);
 
 }

@@ -68,9 +68,16 @@ public class PageServiceImpl implements PageService{
     }
 
     @Override
-    public List<Item_Comments> getPageDetailsComments(long pid,String token) {
+    public List<Item_Comments> getPageDetailsComments(long pid) {
+        List<Item_Comments> rootComments;
+        String queryType;
+//        if(commentsType.equals("hot")){
+//            queryType="likeTimes";
+//        }else{
+//            queryType="updateTimes";
+//        }
+        rootComments= pageMapper.getPageDetailsComments(pid);   //获取顶级评论列表
 
-        List<Item_Comments> rootComments= pageMapper.getPageDetailsComments(pid);   //获取顶级评论列表
 
         Oauth2UserinfoResult userInfo=userDetailService.getLoginUserInfo();
 
@@ -140,6 +147,7 @@ public class PageServiceImpl implements PageService{
 
     @Override
     public void submitReComment(Item_Comments commentData) {
+
         pageMapper.submitComment(commentData);
         pageMapper.updateItemCommentSize(commentData.getPid());
     }

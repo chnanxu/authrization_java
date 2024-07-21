@@ -39,4 +39,6 @@ public interface AdminMapper {
     List<Community> getCommunity(int pageNum);
 
     List<Item_Details> getTakeoffProjectList(int pageNum);
+
+    Community updateCommunity(Community community);
 }

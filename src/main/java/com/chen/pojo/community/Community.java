@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Transient;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 
@@ -20,7 +21,7 @@ public class Community {
     private String cover_img;
 
     @Transient
-    private File cover_file;
+    private MultipartFile cover_file;
 
     private String href;
     private String create_time;

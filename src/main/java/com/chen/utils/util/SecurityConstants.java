@@ -14,17 +14,17 @@ public class SecurityConstants {
     /**
      * 授权确认页面地址
      */
-    public static final String DEVICE_ACTIVATED_URI = "http://react.cx.com/page/activated";
+    public static final String DEVICE_ACTIVATED_URI = "http://firefly.cx.com/activated";
 
     /**
      * 授权确认页面地址
      */
-    public static final String DEVICE_ACTIVATE_URI = "http://react.cx.com/page/activate";
+    public static final String DEVICE_ACTIVATE_URI = "http://firefly.cx.com/activate";
 
     /**
      * 授权确认页面地址
      */
-    public static final String CONSENT_PAGE_URI = "http://react.cx.com/page/consent";
+    public static final String CONSENT_PAGE_URI = "http://firefly.cx.com/consent";
 
     /**
      * 微信登录相关参数——openid：用户唯一id

@@ -14,7 +14,7 @@ public interface PageService {
 
     Item_Details getPageDetails(long pid);
 
-    List<Item_Comments> getPageDetailsComments(long pid,String token);
+    List<Item_Comments> getPageDetailsComments(long pid);
 
     List<Item_Comments> getAllSonComment(long pid,long comment_id);
 

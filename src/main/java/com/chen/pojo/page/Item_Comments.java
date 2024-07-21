@@ -25,6 +25,7 @@ public class Item_Comments {
     private long root_commentID;
     private long to_commentID;
     private String updateTime;
+    private String location;
 
     @Transient
     private int sonCommentCount;

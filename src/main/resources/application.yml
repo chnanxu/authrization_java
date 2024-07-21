@@ -43,11 +43,11 @@ spring:
 custom:
   security:
     ignore-uri-list: assets/**, /webjars/**, /login, /getCaptcha, /getSmsCaptcha, /error, /oauth2/consent/parameters, /favicon.ico, /qrCode/login/**
-    login-url: http://react.cx.com/page/login
-    consent-page-uri: http://react.cx.com/page/consent
-    device-activate-uri: http://react.cx.com/page/activate
-    device-activated-uri: http://react.cx.com/page/activated
-    issuer-url: http://java.cx.com/api
+    login-url: http://firefly.cx.com/login
+    consent-page-uri: http://firefly.cx.com/consent
+    device-activate-uri: http://firefly.cx.com/activate
+    device-activated-uri: http://firefly.cx.com/activated
+    issuer-url: http://firefly.cx.com
 
 server:
   port: 8081

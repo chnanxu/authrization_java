@@ -13,7 +13,9 @@ import com.chen.utils.result.ResponseResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 @PreAuthorize("hasAuthority('system:admin')")
@@ -140,4 +142,13 @@ public class AdminController {
 
         return new ResponseResult(CommonCode.SUCCESS,message);
     }
+
+    @PostMapping("/updateCommunity")
+    public ResponseResult updateCommunity(@RequestParam("cover_file") MultipartFile cover_file,@RequestParam("community_id") String community_id, @RequestParam("community_name") String community_name){
+
+//        community=adminService.updateCommunity(cover_file,community);
+        System.out.println(community_id+community_name);
+        return new ResponseResult(CommonCode.SUCCESS,"success");
+    }
+
 }

@@ -31,6 +31,9 @@ public class CreateController {
         return new ResponseResult(CommonCode.SUCCESS,createService.getCommunityListByQueryType(queryType,pageNum));
     }
 
+
+
+
     /**
      * 创作中心
      * @param create_id
@@ -60,14 +63,24 @@ public class CreateController {
     }
 
 
-    @PostMapping("/create/newProject/{create_id}")  //提交新作品接口
-    public ResponseResult newProject(@PathVariable String create_id, @RequestBody Item_Details_Temp temp_item, @RequestHeader String token){
+    @PostMapping("/create/newProject")  //提交新作品接口
+    public ResponseResult newProject( @RequestBody Item_Details_Temp temp_item){
 
         Oauth2UserinfoResult user=userDetailService.getLoginUserInfo();
 
         String message=createService.newProject(temp_item,user.getUid());
 
         return new ResponseResult(CommonCode.SUCCESS,message);
+    }
+
+    @PostMapping("/create/uploadVideo/{create_id}")
+    public ResponseResult uploadVideo(@PathVariable String create_id,@RequestParam("file") MultipartFile video){
+
+        Oauth2UserinfoResult user=userDetailService.getLoginUserInfo();
+
+        String url=createService.uploadVideo(create_id,video,user.getUid());
+
+        return new ResponseResult(CommonCode.SUCCESS,url);
     }
 
     @PostMapping("/create/saveTempProject")   //保存草稿

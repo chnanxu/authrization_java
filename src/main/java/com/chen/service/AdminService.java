@@ -5,7 +5,9 @@ import com.chen.pojo.community.Community;
 import com.chen.pojo.page.Item_Details;
 import com.chen.pojo.page.Item_Details_Temp;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 @Service
@@ -20,4 +22,6 @@ public interface AdminService {
     List<Item_Details> getTakeoffProject(int pageNum);
 
     String createCommunity(Community community);
+
+    Community updateCommunity(MultipartFile cover_file,Community community);
 }

@@ -24,17 +24,17 @@
     </select>
 
     <select id="getPageDetailsComments" resultType="Item_Comments">
-        select A.comment_id,A.content,A.createTime,A.likeTimes,A.uid,A.uname,A.isDelete,A.updateTime,count(B.comment_id)-3 as sonCommentCount
+        select A.comment_id,A.content,A.createTime,A.likeTimes,A.uid,A.uname,A.isDelete,A.updateTime,A.location,count(B.comment_id)-3 as sonCommentCount
         from item_comments A left join item_comments B
-        on A.comment_id=B.root_commentID
+        on A.comment_id=B.root_commentID and A.isDelete=B.isDelete
         where A.root_commentID=0 and A.pid=#{pid} and A.isDelete=0
-        group by A.comment_id,A.content,A.createTime,A.likeTimes,A.uid,A.uname,A.isDelete,A.updateTime
+        group by A.comment_id,A.content,A.createTime,A.likeTimes,A.uid,A.uname,A.isDelete,A.updateTime,A.location
+
     </select>
 
-    
 
     <select id="getSonComments" resultType="Item_Comments">
-        select comment_id,content,createTime,likeTimes,uid,uname,isDelete,root_commentID,to_commentID,updateTime
+        select comment_id,content,createTime,likeTimes,uid,uname,isDelete,root_commentID,to_commentID,updateTime,location
         from item_comments
         where root_commentID=#{comment_id} and isDelete=0
         order by updateTime desc
@@ -43,7 +43,7 @@
     </select>
     
     <select id="getAllSonComment" resultType="Item_Comments">
-        select comment_id,content,createTime,likeTimes,uid,uname,isDelete,root_commentID,to_commentID,updateTime
+        select comment_id,content,createTime,likeTimes,uid,uname,isDelete,root_commentID,to_commentID,updateTime,location
         from item_comments
         where root_commentID=#{comment_id} and isDelete=0
         order by updateTime desc
@@ -64,7 +64,7 @@
     </select>
 
     <insert id="submitComment" >
-        insert into item_comments values(#{content},#{createTime},0,#{uid},#{uname},0,#{pid},#{root_commentID},#{to_commentID},#{updateTime})
+        insert into item_comments values(#{content},#{createTime},0,#{uid},#{uname},0,#{pid},#{root_commentID},#{to_commentID},#{updateTime},#{location})
     </insert>
 
     <update id="updateItemCommentSize">

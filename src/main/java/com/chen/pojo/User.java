@@ -43,6 +43,7 @@ public class User implements UserDetails, Serializable {
     private String sourceFrom;
     private boolean enabled;
     private String location;
+    private long level;
 
     @Transient
     private String captcha;

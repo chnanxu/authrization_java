@@ -49,18 +49,18 @@ public class PageController {
     }
 
 
-    @RequestMapping("/getPageDetails/{typeid}/{pid}")  //详细页面数据接口
-    public ResponseResult getPageDetails(@PathVariable int typeid,@PathVariable long pid){
+    @RequestMapping("/getPageDetails/{pid}")  //详细页面数据接口
+    public ResponseResult getPageDetails(@PathVariable long pid){
 
 
         Item_Details result=pageService.getPageDetails(pid);
         return new ResponseResult(CommonCode.SUCCESS,result);
     }
 
-    @PostMapping("/getPageDetailsComments/{typeid}/{pid}")  //评论数据接口
-    public ResponseResult getPageDetailsComments(@PathVariable int typeid,@PathVariable long pid,@RequestHeader String token){
+    @PostMapping("/getPageDetailsComments/{pid}")  //评论数据接口
+    public ResponseResult getPageDetailsComments(@PathVariable long pid){
 
-        List<Item_Comments> result=pageService.getPageDetailsComments(pid,token);
+        List<Item_Comments> result=pageService.getPageDetailsComments(pid);
 
         if(result==null){
             return new ResponseResult(CommonCode.SUCCESS,"当前没有评论");
@@ -80,8 +80,8 @@ public class PageController {
     }
 
 
-    @PostMapping("/getReCommentUname/{typeid}/{to_commentID}")  //获取回复用户昵称
-    public ResponseResult getReCommentUname(@PathVariable int typeid,@PathVariable long to_commentID){
+    @PostMapping("/getReCommentUname/{to_commentID}")  //获取回复用户昵称
+    public ResponseResult getReCommentUname(@PathVariable long to_commentID){
 
         String result= pageService.getReCommentUname(to_commentID);
         return new ResponseResult(CommonCode.SUCCESS,result);
@@ -108,7 +108,7 @@ public class PageController {
 
         pageService.submitComment(commentData);
 
-        return new ResponseResult(CommonCode.SUCCESS,"1");
+        return new ResponseResult(CommonCode.SUCCESS,"success");
     }
 
     @PreAuthorize("hasAuthority('system:user')")
@@ -117,7 +117,7 @@ public class PageController {
 
         pageService.submitReComment(commentData);
 
-        return new ResponseResult(CommonCode.SUCCESS,"");
+        return new ResponseResult(CommonCode.SUCCESS,"success");
     }
 
     @PreAuthorize("hasAuthority('system:user')")

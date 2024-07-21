@@ -97,4 +97,11 @@
         FETCH NEXT 10 ROWS ONLY
     </select>
 
+    <update id="updateCommunity">
+        update community
+        set community_name =#{community_name},type_id=#{type_id},type_name=#{type_name},cover_img=#{cover_img},href=#{href}
+        where community_id=#{community_id};
+        select * from community where community_id=#{community_id}
+    </update>
+
 </mapper>

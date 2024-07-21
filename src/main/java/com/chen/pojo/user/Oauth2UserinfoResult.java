@@ -63,6 +63,8 @@ public class Oauth2UserinfoResult {
      */
     private String location;
 
+    private long level;
+
     /**
      * 三方登录用户名
      */

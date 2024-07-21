@@ -19,6 +19,8 @@ public interface CreateService {
 
     String newProject(Item_Details_Temp temp_item, String uid);
 
+    String uploadVideo(String create_id,MultipartFile video,String uid);
+
     int getMyProjectCount(String uid,String sortType);
 
     List<Item_Details> getMyProject(String uid,String sortType,int PageNumber);

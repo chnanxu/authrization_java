@@ -80,25 +80,25 @@ public class IndexServiceImpl implements IndexService {
                     String dayOfWeek=query_date.getDayOfWeek().toString();
                     switch (dayOfWeek){
                         case "MONDAY":
-                            query_date.minusDays(0);
+                            query_date=query_date.minusDays(0);
                             break;
                         case "TUESDAY":
-                            query_date.minusDays(1);
+                            query_date=query_date.minusDays(1);
                             break;
                         case "WEDNESDAY":
-                            query_date.minusDays(2);
+                            query_date=query_date.minusDays(2);
                             break;
                         case "THURSDAY":
-                            query_date.minusDays(3);
+                            query_date=query_date.minusDays(3);
                             break;
                         case "FRIDAY":
-                            query_date.minusDays(4);
+                            query_date=query_date.minusDays(4);
                             break;
                         case "SATURDAY":
-                            query_date.minusDays(5);
+                            query_date=query_date.minusDays(5);
                             break;
                         case "SUNDAY":
-                            query_date.minusDays(6);
+                            query_date=query_date.minusDays(6);
                             break;
                     }
                     break;

@@ -17,7 +17,7 @@
     </select>  <!--获取登录用户信息-->
 
     <select id="getUserLikeCommunityList">
-        select * from community where community_id in (select community_id from user_community where uid=#{uid})
+        select * from community where community_id in (select community_id from user_likecommunity where uid=#{uid})
 
     </select>
 
@@ -60,15 +60,15 @@
 
 
     <insert id="addLikeCommunity">
-        insert into user_community values (#{uid},#{community_id},null);
+        insert into user_likecommunity values (#{uid},#{community_id},null);
     </insert>
 
     <select id="getUserLikeCommunity">
-        select * from user_community where uid=#{uid} and community_id=#{community_id}
+        select * from user_likecommunity where uid=#{uid} and community_id=#{community_id}
     </select>
 
     <delete id="removeCommunity">
-        delete from user_community where uid=#{uid} and community_id=#{community_id}
+        delete from user_likecommunity where uid=#{uid} and community_id=#{community_id}
     </delete>
 
     <select id="getUserLikeDetails">

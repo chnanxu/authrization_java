@@ -49,7 +49,7 @@ public class CreateServiceImpl implements CreateService{
         String fileName=file.getOriginalFilename();
 
 
-        String path="D:\\Workspace\\img\\user_data\\"+uid+"\\project_data\\"+create_id+"\\"+id;
+        String path="D:\\Workspace\\static\\images\\user_data\\"+uid+"\\project_data\\"+create_id+"\\"+id;
         String newFileName="cover_img"+fileName.substring(fileName.lastIndexOf("."));
 
         return getString(create_id, file, uid, id, path, newFileName);
@@ -69,9 +69,7 @@ public class CreateServiceImpl implements CreateService{
 
         String fileName=file.getOriginalFilename();
 
-
-
-        String path="D:\\Workspace\\img\\user_data\\"+uid+"\\project_data\\"+create_id+"\\"+id;
+        String path="D:\\Workspace\\static\\images\\user_data\\"+uid+"\\project_data\\"+create_id+"\\"+id;
 
         String newFileName="content_"+img_id+fileName.substring(fileName.lastIndexOf("."));
 
@@ -97,7 +95,6 @@ public class CreateServiceImpl implements CreateService{
         return url;
     }
 
-
     @Override   //上传新作品实现
     public String newProject(Item_Details_Temp temp_item, String uid) {
 
@@ -115,6 +112,25 @@ public class CreateServiceImpl implements CreateService{
 
         return "success";
 
+    }
+
+    @Override
+    public String uploadVideo(String create_id, MultipartFile video, String uid) {
+
+        String id=redisCache.getCacheObject(uid+"create_id:");
+
+        if(id==null){
+            SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmssSSSS");
+            id=sdf.format(System.currentTimeMillis());
+            redisCache.setCacheObject(uid+"create_id:",id);
+        }
+        String fileName=video.getOriginalFilename();
+
+        String path="D:\\Workspace\\static\\videos\\user_data\\"+uid+"\\project_data\\"+create_id+"\\"+id;
+
+        String newFileName="content_video"+fileName.substring(fileName.indexOf("."));
+
+        return getString(create_id,video,uid,id,path,newFileName);
     }
 
     @Override
